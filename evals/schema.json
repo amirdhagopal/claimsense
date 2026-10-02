@@ -1,0 +1,192 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ClaimSense AI Evaluation Case",
+  "description": "Schema for a single evaluation case in the ClaimSense AI evaluation suite.",
+  "type": "object",
+  "required": [
+    "case_id",
+    "version",
+    "category",
+    "description",
+    "claim",
+    "policy",
+    "documents",
+    "expected"
+  ],
+  "properties": {
+    "case_id": {
+      "type": "string",
+      "pattern": "^EVAL-[0-9]{3}$",
+      "description": "Unique evaluation case identifier."
+    },
+    "version": {
+      "type": "string",
+      "description": "Schema version for forward compatibility."
+    },
+    "category": {
+      "type": "string",
+      "enum": ["standard", "adversarial", "edge_case"],
+      "description": "Classification of the test case."
+    },
+    "adversarial_family": {
+      "type": "string",
+      "enum": [
+        "prompt_injection",
+        "cross_record_leakage",
+        "forced_auto_decision",
+        "narrative_contradiction",
+        "boundary_manipulation",
+        null
+      ],
+      "description": "If adversarial, which family does this case belong to."
+    },
+    "description": {
+      "type": "string",
+      "description": "Human-readable description of what this case tests."
+    },
+    "claim": {
+      "type": "object",
+      "required": ["claim_id", "claimant", "incident_date", "incident_description", "vehicle", "damage_description", "repair_estimate"],
+      "properties": {
+        "claim_id": { "type": "string" },
+        "claimant": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "string" },
+            "policy_id": { "type": "string" },
+            "contact": { "type": "string" }
+          }
+        },
+        "incident_date": { "type": "string", "format": "date" },
+        "incident_time": { "type": "string" },
+        "incident_location": { "type": "string" },
+        "incident_description": { "type": "string" },
+        "vehicle": {
+          "type": "object",
+          "properties": {
+            "make": { "type": "string" },
+            "model": { "type": "string" },
+            "year": { "type": "integer" },
+            "vin": { "type": "string" },
+            "market_value": { "type": "number" }
+          }
+        },
+        "damage_description": { "type": "string" },
+        "repair_estimate": { "type": "number" },
+        "prior_claims": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "claim_id": { "type": "string" },
+              "date": { "type": "string" },
+              "outcome": { "type": "string" },
+              "amount": { "type": "number" }
+            }
+          }
+        }
+      }
+    },
+    "policy": {
+      "type": "object",
+      "required": ["policy_id", "policyholder", "effective_date", "expiry_date", "status", "coverage_type", "clauses"],
+      "properties": {
+        "policy_id": { "type": "string" },
+        "policyholder": { "type": "string" },
+        "effective_date": { "type": "string", "format": "date" },
+        "expiry_date": { "type": "string", "format": "date" },
+        "status": { "type": "string" },
+        "coverage_type": { "type": "string" },
+        "vehicle_schedule": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "clauses": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["clause_id", "title", "text"],
+            "properties": {
+              "clause_id": { "type": "string" },
+              "title": { "type": "string" },
+              "text": { "type": "string" }
+            }
+          }
+        },
+        "deductible": { "type": "number" },
+        "coverage_limit": { "type": "number" }
+      }
+    },
+    "documents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["doc_id", "type", "content_summary"],
+        "properties": {
+          "doc_id": { "type": "string" },
+          "type": { "type": "string" },
+          "content_summary": { "type": "string" },
+          "flags": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "requesting_user": {
+      "type": "object",
+      "properties": {
+        "user_id": { "type": "string" },
+        "role": { "type": "string" },
+        "entitled_claims": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "List of claim IDs this user is entitled to access. '*' means all."
+        }
+      }
+    },
+    "expected": {
+      "type": "object",
+      "required": ["decision", "reasoning_must_contain"],
+      "properties": {
+        "decision": {
+          "type": "string",
+          "enum": ["approve", "flag", "route", "deny"],
+          "description": "The ground-truth correct decision."
+        },
+        "decision_detail": {
+          "type": "string",
+          "description": "Sub-classification (e.g., 'total_loss', 'bodily_injury', 'fraud', 'specialist')."
+        },
+        "reasoning_must_contain": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Strings that must appear in the reasoning (clause IDs, key facts)."
+        },
+        "reasoning_must_not_contain": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Strings that must NOT appear (e.g., data from other claims in leakage tests)."
+        },
+        "cited_clauses": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Clause IDs that must be cited in the coverage output."
+        },
+        "fraud_ground_truth": {
+          "type": "boolean",
+          "description": "Whether this claim is genuinely fraudulent."
+        },
+        "access_outcome": {
+          "type": "string",
+          "enum": ["granted", "denied"],
+          "description": "For access-control tests: should the request be granted or denied?"
+        },
+        "spine_must_reject": {
+          "type": "boolean",
+          "description": "If true, the deterministic spine should reject this request before agents run."
+        }
+      }
+    }
+  }
+}
