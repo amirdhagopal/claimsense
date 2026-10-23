@@ -11,7 +11,7 @@
 
 * **Repository Name:** `claimsense`
 * **Local Git Branch:** `main` (Commits: `3b4e914` [Milestone 1], `f23555f` [Milestone 2])
-* **GitHub Repository URL:** `https://github.com/[YOUR_GITHUB_USERNAME]/claimsense` *(Replace with your GitHub repo URL after pushing)*
+* **GitHub Repository URL:** https://github.com/amirdhagopal/claimsense
 
 ---
 

@@ -2,7 +2,8 @@
 
 A claims adjudication co-pilot that compresses first-pass claim decisions from hours to minutes — with reasoning recorded, evidence cited, and a licensed adjuster accountable for every outcome.
 
-**Engagement:** Five-week FDE capstone · AWS + OpenAI Agents SDK
+**Engagement:** Five-week FDE capstone · AWS + OpenAI Agents SDK  
+**Repository:** https://github.com/amirdhagopal/claimsense  
 **Data:** 100% synthetic — no production or personally identifiable data at any stage.
 
 ---

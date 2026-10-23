@@ -93,7 +93,7 @@ Success! The configuration is valid.
 
 In accordance with Section 7 of the Capstone Brief ("Submission 1 — Checkpoint"):
 
-1. **Capstone Repository:** Local git repository initialized on branch `main` with complete commit history.
+1. **Capstone Repository:** https://github.com/amirdhagopal/claimsense (Git branch `main`)
 2. **Completed Deliverables:**
    - **Milestone 1 (Week 1):** Engagement Charter, Stakeholder Map & RACI, 4 Success Criteria, `DECISIONS.md` (ADRs 1–5), 20 Evaluation Cases with Runner.
    - **Milestone 2 (Week 2):** Statement of Work (2 pages), System Architecture & Boundary Justification, Pricing & Unit Economics Model, 6-Risk Register, Typed Client Contracts (CMS, DocStore, PolicyAdmin) with Idempotency Rules, Synthetic Data Shapes & Canonical Fixtures, and Terraform Cloud Infrastructure Templates.
