@@ -87,6 +87,12 @@ Market Value: ${claim.vehicle.market_value}
 Repair Estimate: ${claim.repair_estimate}
 </claim_metadata>
 
+<policy_status>
+Policy In Force: {spine_context.policy_in_force} (Effective: {policy.effective_date} to {policy.expiry_date})
+Vehicle Scheduled on Policy: {spine_context.vehicle_scheduled}
+Deductible: ${spine_context.deductible}
+</policy_status>
+
 <spine_financials>
 Repair to Value Ratio: {spine_context.repair_to_value_ratio:.1%}
 Is Total Loss Ratio Exceeded: {spine_context.is_constructive_total_loss}
@@ -125,9 +131,14 @@ Synthesize findings into a final first-pass recommendation.
             response_model=DraftDecisionOutput,
         )
 
+        valid_exclusions = [
+            e for e in coverage_output.exclusions_triggered
+            if e and e.lower() not in ["none", "null", "n/a", "na", "no", "no exclusions", "[]", "none."]
+        ]
+
         # Invariant 1: Policy Exclusions override approval/routing
-        if coverage_output.exclusions_triggered and decision.decision != DecisionOutcome.DENY:
-            exc = coverage_output.exclusions_triggered[0]
+        if valid_exclusions and decision.decision != DecisionOutcome.DENY:
+            exc = valid_exclusions[0]
             decision = DraftDecisionOutput(
                 claim_id=decision.claim_id,
                 decision=DecisionOutcome.DENY,
@@ -140,7 +151,7 @@ Synthesize findings into a final first-pass recommendation.
             )
 
         # Invariant 2: Fraud Referral Precedence (Contradictions & red flags override approve/route)
-        elif (risk_output.is_fraud_flagged or len(file_reader_output.identified_contradictions) > 0) and decision.decision not in (DecisionOutcome.DENY, DecisionOutcome.FLAG):
+        elif ((risk_output.is_fraud_flagged and risk_output.fraud_risk_score >= 0.65) or len(file_reader_output.identified_contradictions) > 0) and decision.decision not in (DecisionOutcome.DENY, DecisionOutcome.FLAG):
             reasons = file_reader_output.identified_contradictions or risk_output.fraud_indicators
             decision = DraftDecisionOutput(
                 claim_id=decision.claim_id,

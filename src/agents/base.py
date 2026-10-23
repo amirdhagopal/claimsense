@@ -72,4 +72,19 @@ class BaseAgent:
             response_format={"type": "json_object"},
         )
         content = completion.choices[0].message.content or "{}"
-        return response_model.model_validate_json(content)
+        content = content.strip()
+        if content.startswith("```"):
+            lines = content.splitlines()
+            if lines and lines[0].startswith("```"):
+                lines = lines[1:]
+            if lines and lines[-1].strip() == "```":
+                lines = lines[:-1]
+            content = "\n".join(lines).strip()
+        try:
+            return response_model.model_validate_json(content)
+        except Exception:
+            start = content.find("{")
+            end = content.rfind("}")
+            if start != -1 and end != -1:
+                return response_model.model_validate_json(content[start:end + 1])
+            raise

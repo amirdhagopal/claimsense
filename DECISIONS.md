@@ -408,5 +408,62 @@ Motor claim adjusters have defined entitlements based on licensing jurisdiction,
 3. Satisfies Acceptance Criterion 2: *"Refusal on entitlement. A request from a user not entitled to the claim returns no claim data, and the refusal appears in the audit trail."*
 4. Proven conclusively by the automated Two-User Access Test (`tests/test_two_user_access.py` and `scripts/run_two_user_test.py`).
 
+---
+
+## ADR-013: Real-time operational telemetry aggregation and CloudWatch SLA alarm thresholds
+
+**Date:** 5 October 2026  
+**Status:** Accepted  
+
+### Context
+
+Milestone 5 and the Area E rubric require operational observability reporting error rate, call volume, and p95 latency with at least one active alarm defined. In an insurer environment, claim volume fluctuates and transient model provider latency must be detected immediately to prevent adjuster workflow bottlenecks.
+
+### Options considered
+
+| Option | Description | Pros | Cons |
+|---|---|---|---|
+| **A. In-process circular telemetry tracker with CloudWatch metric alignment** | Maintain a thread-safe ring buffer (`MetricsTracker`) aggregating rolling 5-minute request counts, error rates, and p50/p95/p99 latency percentiles. Evaluate SLA thresholds on every cycle and emit alarms if p95 exceeds 60,000ms or error rate exceeds 5.0%. Expose via `/dashboard/metrics`. | Sub-millisecond overhead; zero external telemetry server dependency for local runs; directly feeds CloudWatch Custom Metrics via Terraform; enables live UI monitoring. | Memory bounded to fixed history window (5,000 requests). |
+| B. External APM agent (Datadog / New Relic) | Run third-party APM sidecar container. | Rich out-of-the-box UI. | Incurs recurring monthly SaaS subscription fees; violates zero-cloud-cost constraint; requires cloud internet connectivity. |
+| C. Log-only parsing via CloudWatch Insights | Write unstructured JSON logs and query periodically with CloudWatch Log Insights. | No in-memory state. | Query latency (15–30s delay); cannot drive real-time live dashboard without incurring CloudWatch query charges. |
+
+### Decision
+
+**Option A — In-process circular telemetry tracker with CloudWatch metric alignment.**
+
+### Rationale
+
+1. Satisfies Milestone 5 Item 2: *"Operational dashboard reporting error rate, call volume and p95 latency, with one alarm defined."*
+2. Meets the strict zero-cost local execution constraint while preserving production AWS CloudWatch compatibility.
+
+---
+
+## ADR-014: Interactive claims adjuster co-pilot web application and observability interface
+
+**Date:** 5 October 2026  
+**Status:** Accepted  
+
+### Context
+
+Submission 2 requires a deployed frontend URL and demonstration showing the application working. Motor claims adjusters require a transparent, intuitive interface to review AI draft reasoning, inspect retrieved policy clauses, verify spine calculations, and record binding confirmation or override decisions.
+
+### Options considered
+
+| Option | Description | Pros | Cons |
+|---|---|---|---|
+| **A. High-fidelity glassmorphic single-page interface embedded in FastAPI** | Deliver a self-contained, responsive HTML5/Vanilla CSS/modern JS application served directly by FastAPI at `/` and `/dashboard`. Includes interactive claim selector, 4-agent trace visualization, adjuster sign-off buttons, two-user access test simulator, live audit stream, and incident recovery drill simulator. | Zero build pipeline dependencies; zero external Node/Webpack server needed at runtime; beautiful, rich aesthetics meeting enterprise standards; instantly runnable in any browser. | Vanilla JS requires manual DOM updates rather than React/Vue virtual DOM. |
+| B. Heavy Next.js / React microfrontend | Separate Node.js container running Next.js. | Component ecosystem. | Heavyweight; requires dual container deployment; increases build and startup complexity. |
+| C. CLI-only text interface | Provide only command-line terminal scripts. | Very simple. | Violates Submission 2 requirement: *"Deployed frontend URL... showing the application working"*; fails user experience expectations. |
+
+### Decision
+
+**Option A — High-fidelity glassmorphic single-page interface embedded in FastAPI.**
+
+### Rationale
+
+1. Satisfies Submission 2 requirement for a reachable, fully functional web application frontend.
+2. Delivers rich, modern aesthetics (dark mode, glassmorphism, responsive grid) with zero added operational overhead.
+
+
 
 

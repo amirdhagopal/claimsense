@@ -256,3 +256,27 @@ def test_audit_trail_endpoint(client):
         assert "action" in event
         assert "resource" in event
         assert "outcome" in event
+
+
+# ---------------------------------------------------------------------------
+# 7. DASHBOARD & OPERATIONAL METRICS ENDPOINTS
+# ---------------------------------------------------------------------------
+
+def test_dashboard_ui_endpoint(client):
+    response = client.get("/dashboard")
+    assert response.status_code == 200
+    assert "ClaimSense AI" in response.text
+    assert "Adjudication Workbench" in response.text
+
+
+def test_dashboard_metrics_telemetry(client):
+    response = client.get("/dashboard/metrics")
+    assert response.status_code == 200
+    data = response.json()
+    assert "total_calls" in data
+    assert "error_rate_pct" in data
+    assert "p50_latency_ms" in data
+    assert "p95_latency_ms" in data
+    assert "alarm_status" in data
+    assert data["alarm_status"] in ["OK", "ALARM"]
+    assert "decisions_breakdown" in data

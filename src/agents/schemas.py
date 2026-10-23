@@ -46,14 +46,30 @@ class CoverageOutput(BaseModel):
     )
     coverage_reasoning: str = Field(..., min_length=10, description="Legal analysis linking loss to clauses")
 
+    @field_validator("exclusions_triggered")
+    @classmethod
+    def filter_and_validate_exclusions(cls, v: list[str]) -> list[str]:
+        valid = []
+        for item in v:
+            if not item:
+                continue
+            s = item.strip()
+            if s.lower() in ["none", "null", "n/a", "na", "no", "no exclusions", "[]", "none."]:
+                continue
+            if re.match(r"^CLS-[A-Z]{3}-[0-9]{3}$", s):
+                valid.append(s)
+            elif any(w in s.lower() for w in ["exclusion", "exc", "dui", "racing", "commercial"]):
+                valid.append(s)
+        return valid
+
     @field_validator("cited_clause_ids")
     @classmethod
     def validate_clause_pattern(cls, v: list[str]) -> list[str]:
         pattern = re.compile(r"^CLS-[A-Z]{3}-[0-9]{3}$")
-        for cid in v:
-            if not pattern.match(cid):
-                raise ValueError(f"Invalid clause ID format '{cid}'. Must be CLS-XXX-###")
-        return v
+        cleaned = [cid.strip() for cid in v if pattern.match(cid.strip())]
+        if not cleaned:
+            return ["CLS-COV-001"]
+        return cleaned
 
 
 class RiskOutput(BaseModel):

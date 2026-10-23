@@ -36,7 +36,7 @@ class PolicyClause(BaseModel):
         description="Immutable hierarchical clause identifier"
     )
     title: str = Field(..., min_length=3, max_length=120)
-    section: str = Field(..., description="Taxonomy section (e.g. Period, Coverage, Exclusion, Deductible)")
+    section: str = Field(default="General", description="Taxonomy section (e.g. Period, Coverage, Exclusion, Deductible)")
     text: str = Field(..., min_length=10, description="Full authoritative clause wording")
     applies_to_coverage: list[PolicyCoverageType] = Field(
         default_factory=list,

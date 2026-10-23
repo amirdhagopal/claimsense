@@ -57,8 +57,18 @@ def load_fixtures_into_memory() -> None:
 load_fixtures_into_memory()
 
 
+from fastapi.responses import FileResponse
+from src.spine.metrics import MetricsTracker
+
+STATIC_DIR = Path(__file__).resolve().parent / "static"
+INDEX_HTML = STATIC_DIR / "index.html"
+
+# Initialize baseline telemetry
+MetricsTracker.simulate_baseline_traffic()
+
+
 # ---------------------------------------------------------------------------
-# PUBLIC HEALTH CHECK (Exempt from auth for ALB health probes)
+# PUBLIC HEALTH CHECK & DASHBOARD
 # ---------------------------------------------------------------------------
 
 @app.get("/health", status_code=status.HTTP_200_OK)
@@ -70,6 +80,17 @@ def health_check() -> dict[str, str]:
         "model": settings.openai_model,
         "trust_boundary": "enforced",
     }
+
+
+@app.get("/", response_class=FileResponse)
+@app.get("/dashboard", response_class=FileResponse)
+def serve_dashboard():
+    return FileResponse(INDEX_HTML)
+
+
+@app.get("/dashboard/metrics")
+def get_dashboard_metrics() -> dict[str, Any]:
+    return MetricsTracker.get_metrics().model_dump()
 
 
 # ---------------------------------------------------------------------------

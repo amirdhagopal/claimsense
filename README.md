@@ -60,7 +60,12 @@ claimsense/
 │   ├── cloud-provisioning.md       # AWS account provisioning evidence & manifest (M2)
 │   ├── milestone3_deliverables.md  # Milestone 3 production agents & CI gate report (M3)
 │   ├── two-user-access-test.md     # Two-user access test evidence on CLM-2026-0101 (M4)
-│   └── milestone4_deliverables.md  # Milestone 4 trust boundary & audit trail report (M4)
+│   ├── milestone4_deliverables.md  # Milestone 4 trust boundary & audit trail report (M4)
+│   ├── runbook.md                  # Operational runbook (4 required procedures) (M5)
+│   ├── incident-report.md          # Post-incident drill report (SEV-2 latency recovery) (M5)
+│   ├── observation-document.md     # Capstone observation document (6 sections) (M5)
+│   ├── presentation.md             # Client executive presentation & demo script (M5)
+│   └── handover-pack.md            # Consolidated engagement handover pack (M5)
 ├── src/
 │   ├── agents/                     # OpenAI Agents SDK 4-Agent Pipeline (M3)
 │   │   ├── base.py                 # BaseAgent with typed parsing & fallback
@@ -70,9 +75,10 @@ claimsense/
 │   │   ├── decision_drafter.py     # Agent 4: DecisionDraftAgent (4 outcomes)
 │   │   ├── pipeline.py             # Adjudication pipeline orchestrator
 │   │   └── schemas.py              # Strict Pydantic I/O models
-│   ├── spine/                      # Deterministic code spine (M3/M4)
+│   ├── spine/                      # Deterministic code spine (M3/M4/M5)
 │   │   ├── access_control.py       # Pre-agent entitlement checks (M3/M4)
 │   │   ├── security.py             # Route-level Bearer auth & HMAC signing (M4)
+│   │   ├── metrics.py              # Operational telemetry & CloudWatch alarms (M5)
 │   │   ├── date_engine.py          # Policy effective date verification (M3)
 │   │   ├── financial_engine.py     # Deductibles & monetary calculations (M3)
 │   │   ├── audit_logger.py         # Append-only immutable audit trail (M3/M4)
@@ -80,28 +86,29 @@ claimsense/
 │   │   └── orchestrator.py         # Pre-agent invariant coordinator
 │   ├── retrieval/                  # Policy clause retrieval engine (M3)
 │   │   └── policy_index.py         # Searchable BM25 corpus & citation grounding
-│   ├── api/                        # FastAPI REST Service (M3/M4)
-│   │   └── app.py                  # Guarded routes: /health, /adjudicate, /claims, /documents, /policies, /audit-trail
+│   ├── api/                        # FastAPI REST Service & Interactive Web UI (M3/M4/M5)
+│   │   ├── app.py                  # Guarded routes: /health, /adjudicate, /claims, /dashboard, /audit-trail
+│   │   └── static/index.html       # Glassmorphic Adjuster Co-Pilot Web Application (M5)
 │   ├── contracts/                  # Pydantic v2 client contracts (M2)
 │   └── models/                     # Canonical synthetic data shapes (M2)
 ├── infra/                          # Terraform Infrastructure as Code (M2)
 ├── data/fixtures/                  # 20 validated synthetic claim dossiers
 ├── evals/
-│   ├── run_pipeline_evals.py       # CI evaluation gate runner (M3)
-│   └── cases/milestone1_cases.json # Evaluation cases
+│   ├── run_pipeline_evals.py       # CI evaluation gate runner (M3/M5)
+│   ├── run_evals.py                # Schema & distribution validator (M1/M5)
+│   ├── schema.json                 # JSON schema definition
+│   └── cases/
+│       ├── milestone1_cases.json   # Initial 20 cases (EVAL-001 to EVAL-020)
+│       └── milestone5_cases.json   # Milestone 5 cases (EVAL-021 to EVAL-150)
 ├── scripts/
-│   └── run_two_user_test.py        # CLI demonstration runner for Two-User Access Test (M4)
+│   ├── run_two_user_test.py        # CLI demonstration runner for Two-User Access Test (M4)
+│   └── generate_150_cases.py       # Evaluation suite synthetic generator (M5)
 ├── tests/                          # Automated Pytest suite (37 passing tests)
-│   ├── test_api.py                 # API & Bearer auth tests (M3/M4)
-│   ├── test_two_user_access.py     # M4 Two-User Access Control verification (M4)
-│   ├── test_contracts.py           # Typed contract validation (M2)
-│   ├── test_retrieval.py           # BM25 & citation tests (M3)
-│   └── test_spine.py               # Deterministic spine tests (M3)
 ├── .github/workflows/ci.yml        # CI pipeline blocking image push on eval gate (M3)
 ├── Dockerfile                      # Production multi-stage Dockerfile (M3)
 ├── docker-compose.yml              # Single-command local orchestration (M3)
 ├── requirements.txt                # Pinned dependencies
-├── DECISIONS.md                    # Architectural decision records (ADRs 001–012)
+├── DECISIONS.md                    # Architectural decision records (ADRs 001–014)
 └── README.md                       # This file
 ```
 
@@ -140,32 +147,57 @@ claimsense/
   - [x] Two-user access test recorded, with both requests and both responses, on the same claim `CLM-2026-0101` (`docs/two-user-access-test.md`, `scripts/run_two_user_test.py`, `tests/test_two_user_access.py`)
   - [x] An audit record written for every call, granted or denied, carrying user, action and resource (`src/spine/audit_logger.py`, `logs/audit_trail.jsonl`)
   - [x] ADR-011 and ADR-012 in `DECISIONS.md`
-- [ ] **M5 — Evaluation, Observability, Reliability and Handover** (Week 5)
+- [x] **M5 — Evaluation, Observability, Reliability and Handover** (Week 5)
+  - [x] Evaluation suite of 150 cases including adversarial families: prompt injection, cross-record leakage, forced auto-decision (`evals/cases/`)
+  - [x] Operational dashboard reporting error rate, call volume, and p95 latency, with CloudWatch alarms defined (`src/spine/metrics.py`, `/dashboard/metrics`)
+  - [x] Interactive claims adjuster co-pilot web application (`src/api/static/index.html`, `/dashboard`)
+  - [x] Incident drill: deliberate regression, detection, rollback, and 1-page incident report recording MTTR recovery (`docs/incident-report.md`)
+  - [x] Operational runbook covering 4 procedures: add user, roll back deployment, escalate flagged claim, update policy corpus (`docs/runbook.md`)
+  - [x] Capstone observation document covering 6 required sections (`docs/observation-document.md`)
+  - [x] Client executive presentation deck & demo script (`docs/presentation.md`)
+  - [x] Consolidated engagement handover pack (`docs/handover-pack.md`)
+  - [x] ADR-013 and ADR-014 in `DECISIONS.md`
 
 ---
 
-## Evaluation Suite
+## 150-Case Evaluation Suite Matrix
 
-Run the evaluation suite validator:
+Validate all 150 evaluation cases:
 
 ```bash
 python evals/run_evals.py
 ```
 
-### Case Distribution (Milestone 1: 20 cases)
+### Full Distribution (150 Cases)
 
-| Decision | Count | Includes |
-|----------|-------|----------|
-| Approve | 6 | Standard approvals + prompt injection resistance test |
-| Deny | 5 | Lapsed policy, exclusions (racing, DUI), vehicle not scheduled, forced auto-decision resistance |
-| Flag | 4 | Narrative contradiction, suspicious timing, staged accident, airbag inconsistency |
-| Route | 3 | Total loss, bodily injury, specialist (classic vehicle) |
+| Decision Outcome | Count | % of Corpus | Target Peril Types & Categories |
+|---|---|---|---|
+| **Approve** | 49 | 32.7% | Collision, Glass, Weather/Hail, Tree fall, Animal strike, Vandalism |
+| **Deny** | 40 | 26.7% | Lapsed policy, Racing/track exclusion, DUI exclusion, Rideshare, VIN mismatch |
+| **Flag / Refer** | 32 | 21.3% | Fraud red flags, Staged collisions, Timing anomalies, Contradictions, Injections |
+| **Route** | 29 | 19.3% | Constructive total loss (>75% ACV), Bodily injury, Classic vehicle specialist |
 
-**Adversarial families covered:**
-- Prompt injection (EVAL-016)
-- Cross-record leakage (EVAL-017, EVAL-018)
-- Forced auto-decision (EVAL-019)
-- Narrative contradiction (EVAL-020)
+**Adversarial Families Breakdown (33 Cases):**
+- **Cross-Record Leakage (9 cases):** Adjusters attempting to query claims outside their entitlement. Pre-agent spine refuses in code with HTTP 403 Forbidden.
+- **Prompt Injection (8 cases):** Injected instructions in narratives attempting to force auto-approval. System treats input strictly as untrusted evidence.
+- **Forced Auto-Decision (8 cases):** Executive override headers attempting to bypass human sign-off.
+- **Narrative Contradiction (8 cases):** Airbag burn claims contradicted by vehicle ECM diagnostic data.
+
+---
+
+## Quick Start: Interactive Co-Pilot Web Application
+
+1. **Launch the Local Service:**
+   ```bash
+   uvicorn src.api.app:app --host 0.0.0.0 --port 8000
+   ```
+2. **Open the Web Interface:**
+   Navigate to [http://localhost:8000/](http://localhost:8000/) or [http://localhost:8000/dashboard](http://localhost:8000/dashboard)
+3. **Explore Features:**
+   - Run AI Adjudication on any motor claim dossier
+   - Test Two-User Trust Boundary refusal (Bob vs Jane on `CLM-2026-0101`)
+   - Monitor real-time CloudWatch telemetry (Call volume, error rate, p95 latency)
+   - Trigger the Incident Recovery Drill and verify automated SLA restoration
 
 ---
 

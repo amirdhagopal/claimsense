@@ -22,22 +22,40 @@ from src.agents.pipeline import AdjudicationPipeline
 from src.contracts.cms import ClaimRecord, DecisionOutcome
 from src.contracts.docstore import DocumentContentResponse
 from src.contracts.policyadmin import PolicyRecord
+import argparse
 from src.retrieval.policy_index import PolicyClauseIndex
 from src.spine.access_control import UserIdentity
 from src.spine.orchestrator import AccessDeniedException
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-EVALS_FILE = BASE_DIR / "evals" / "cases" / "milestone1_cases.json"
+CASES_DIR = BASE_DIR / "evals" / "cases"
+DEFAULT_EVALS_FILE = CASES_DIR / "milestone1_cases.json"
 
 
-def run_pipeline_evaluations() -> int:
+def load_eval_cases(cases_path: Optional[str] = None, run_all: bool = False, limit: Optional[int] = None) -> list[dict]:
+    cases = []
+    if run_all:
+        for f in sorted(CASES_DIR.glob("*.json")):
+            with open(f, "r") as fp:
+                cases.extend(json.load(fp))
+    elif cases_path:
+        with open(cases_path, "r") as fp:
+            cases = json.load(fp)
+    else:
+        with open(DEFAULT_EVALS_FILE, "r") as fp:
+            cases = json.load(fp)
+
+    if limit and limit > 0:
+        cases = cases[:limit]
+    return cases
+
+
+def run_pipeline_evaluations(cases_path: Optional[str] = None, run_all: bool = False, limit: Optional[int] = None) -> int:
     print("=" * 70)
     print("CLAIMSENSE AI — CI EVALUATION GATE")
     print("=" * 70)
 
-    with open(EVALS_FILE, "r") as f:
-        cases = json.load(f)
-
+    cases = load_eval_cases(cases_path=cases_path, run_all=run_all, limit=limit)
     pipeline = AdjudicationPipeline()
     clause_index = PolicyClauseIndex()
 
@@ -70,7 +88,25 @@ def run_pipeline_evaluations() -> int:
 
         claim = ClaimRecord.model_validate(case["claim"])
         policy = PolicyRecord.model_validate(case["policy"])
-        documents = [DocumentContentResponse.model_validate(d) for d in case["documents"]]
+        documents = []
+        for d in case["documents"]:
+            dtype_val = d.get("document_type") or d.get("type", "incident_report")
+            # Map legacy types if needed
+            if dtype_val in ["estimate", "body_shop_appraisal", "specialty_appraisal"]:
+                dtype_val = "repair_estimate"
+            elif dtype_val in ["telematics_report", "investigation_report"]:
+                dtype_val = "vehicle_diagnostic"
+            elif dtype_val == "medical_intake":
+                dtype_val = "medical_report"
+            documents.append(
+                DocumentContentResponse(
+                    doc_id=d["doc_id"],
+                    claim_id=claim.claim_id,
+                    document_type=dtype_val,
+                    content_summary=d.get("content_summary", ""),
+                    structured_data={},
+                )
+            )
 
         per_outcome_totals[exp_decision] += 1
         is_adversarial = case.get("category") == "adversarial"
@@ -170,4 +206,10 @@ def run_pipeline_evaluations() -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(run_pipeline_evaluations())
+    parser = argparse.ArgumentParser(description="ClaimSense AI — CI Pipeline Evaluation Gate")
+    parser.add_argument("--all", action="store_true", help="Run across all 150 cases in evals/cases/")
+    parser.add_argument("--cases", type=str, default=None, help="Path to specific cases JSON file")
+    parser.add_argument("--limit", type=int, default=None, help="Limit number of cases to evaluate")
+    args = parser.parse_args()
+
+    sys.exit(run_pipeline_evaluations(cases_path=args.cases, run_all=args.all, limit=args.limit))

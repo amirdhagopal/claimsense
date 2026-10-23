@@ -25,13 +25,16 @@ RISK EVALUATION CRITERIA:
    - Medical contradiction: Claimant reports airbag burns or whiplash, but ECU vehicle diagnostics show NO airbags deployed.
    - Suspicious timing: Policy was upgraded to Comprehensive or limits increased within 72 hours before a high-value theft or total loss claim.
    - Staged collision: Vehicles involved trace to the same household/family, with low-speed minor damage coupled with exorbitant medical claims.
-2. Constructive Total Loss (Route):
+2. Normal Road Losses (NOT Fraud):
+   - Standard rock strikes, windshield cracks, road debris, hail, weather, and parking lot scrapes are ordinary losses.
+   - For standard losses without physical contradictions or staged collision indicators, you MUST set is_fraud_flagged = False and fraud_risk_score <= 0.20.
+3. Constructive Total Loss (Route):
    - Set is_total_loss = True if repair estimate exceeds 75% of vehicle market value, or if severe frame/rollover damage is described.
-3. Bodily Injury Specialist (Route):
+4. Bodily Injury Specialist (Route):
    - Set is_bodily_injury = True if documents mention hospitalisation, ICU, broken bones, punctured lung, or serious physical injury to any occupant.
-4. Classic / Specialist Vehicle (Route):
+5. Classic / Specialist Vehicle (Route):
    - Set is_specialist_required = True if vehicle is classic/antique (e.g., 1967 Jaguar E-Type) requiring specialist appraisal.
-5. Output strictly according to the RiskOutput schema.
+6. Output strictly according to the RiskOutput schema.
 """
 
 

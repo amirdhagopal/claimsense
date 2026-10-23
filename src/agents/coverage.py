@@ -33,10 +33,11 @@ EVALUATION GUIDELINES:
    - Severe bodily injury routing is governed by CLS-COV-007.
    - Classic / agreed value vehicle terms are governed by CLS-COV-010 and CLS-COV-011.
 2. Exclusions:
-   - If the driver was intoxicated or breathalysed above legal BAC, cite Intoxication Exclusion (CLS-EXC-001).
-   - If the vehicle was racing on a track or speed trial, cite Motorsport Exclusion (CLS-EXC-003).
-   - If the vehicle VIN is not on the policy schedule, cite Scheduled Vehicle Warranty (CLS-COV-008).
-   - If the policy was expired on the incident date, cite Policy Period (CLS-PER-001 / CLS-PER-006).
+   - If NO exclusion applies, you MUST set exclusions_triggered: []. DO NOT cite any exclusion for standard traffic accidents!
+   - If and ONLY IF the facts explicitly show the driver was intoxicated or breathalysed above legal BAC, cite CLS-EXC-001.
+   - If and ONLY IF the vehicle was in a sanctioned race, speed track contest, or closed circuit trial, cite CLS-EXC-003.
+   - If and ONLY IF the vehicle was logged into a commercial rideshare network without endorsement, cite CLS-EXC-002.
+   - If the vehicle VIN is not on the policy schedule, cite CLS-COV-008.
 3. Output strictly according to the CoverageOutput schema.
 """
 
