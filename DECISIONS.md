@@ -349,4 +349,64 @@ Model providers can experience transient timeouts, rate limits, or context error
 1. Meets the strict Capstone requirement (Milestone 3 item 5): *"All four decision outcomes produced correctly, with model-generated verdicts distinguishable from deterministic fallback output."*
 2. Guarantees zero unhandled crashes while maintaining complete auditability.
 
+---
+
+## ADR-011: Uniform Bearer token authentication and trust perimeter enforcement
+
+**Date:** 4 October 2026  
+**Status:** Accepted  
+
+### Context
+
+Under Milestone 4 requirements and enterprise motor insurance compliance standards, the API boundary must establish a strictly guarded trust perimeter. Every API endpoint exposing claim dossiers, policy records, document stores, adjudication pipelines, decision write-backs, or audit logs must refuse unauthenticated access. Unauthenticated or malformed requests must be rejected immediately at the HTTP transport boundary with standard status codes.
+
+### Options considered
+
+| Option | Description | Pros | Cons |
+|---|---|---|---|
+| **A. Uniform Bearer token authentication via route-level dependency injection** | Use HMAC-SHA256 cryptographically signed Bearer tokens with payload validation (subject, role, expiration, claims) enforced via FastAPI's `Depends(authenticate_request)` on all protected routes. Exempt only the ALB `/health` probe. | Standards-compliant (RFC 6750); zero external IAM server needed for local/testing execution; fails fast before any handler logic; emits audit trail on failures. | Requires distributing or provisioning signing keys and tokens. |
+| B. IP whitelist / network perimeter only | Rely solely on VPC private subnets and security groups without application-level authentication. | Simpler service code. | Violates zero-trust principles; internal lateral movement or compromised subnets can read all claims unauthenticated. |
+| C. Model-evaluated authentication in prompt | Pass caller credentials into the agent prompt and ask LLM to confirm identity. | None. | Catastrophically insecure; vulnerable to prompt injection; leaks data before refusal; violates Area D rubric ("access control expressed as a model instruction = Weak"). |
+
+### Decision
+
+**Option A — Uniform Bearer token authentication via route-level dependency injection.**
+
+### Rationale
+
+1. Strictly satisfies Milestone 4 Requirement 2: *"Authorisation enforced on every route; requests without a valid token are refused."*
+2. Rejection occurs deterministically at the edge, returning HTTP 401 Unauthorized with standard `WWW-Authenticate: Bearer` headers.
+3. Every rejected authentication attempt writes an audit record documenting the refusal.
+
+---
+
+## ADR-012: Pre-agent entitlement verification with zero-leakage refusal and immutable audit logging
+
+**Date:** 4 October 2026  
+**Status:** Accepted  
+
+### Context
+
+Motor claim adjusters have defined entitlements based on licensing jurisdiction, lines of business, and active caseload allocations. Allowing unauthorized adjusters to inspect or adjudicate unassigned claims violates data privacy statutes and insurer underwriting protocols. Furthermore, access control checks must NEVER be delegated to model prompts, where prompt injection attacks (`EVAL-016`) could bypass restrictions.
+
+### Options considered
+
+| Option | Description | Pros | Cons |
+|---|---|---|---|
+| **A. Deterministic code gate preceding all agent invocation with zero-leakage refusal** | Enforce claim entitlement in Python code (`AccessControlEngine.verify_entitlement`) before any claim fixture is parsed, before any agent is instantiated, and before any LLM API is called. On refusal, return HTTP 403 Forbidden with zero claim data leaked, and log an immutable audit event (`outcome: "denied"`). | Eliminates prompt injection risk entirely; zero LLM token consumption on unauthorized requests; provable zero data leakage; satisfies Area D Strong rubric. | Requires maintaining deterministic entitlement mappings in the CMS/identity layer. |
+| B. Agent-level access control (filter claims after agent runs) | Run the agent pipeline first, then check if the user is authorized before returning the JSON payload. | Allows agent to log what it would have done. | Wasteful token spend; risks leaking intermediate states in agent tool calls or logs; violates principle of least privilege. |
+| C. Prompt instruction ("Refuse if adjuster is not assigned") | Instruct the agent in its system prompt to verify adjuster assignment. | Easy to write in prompt. | Easily bypassed via prompt injection; non-deterministic; explicitly graded as "Weak" in Area D rubric. |
+
+### Decision
+
+**Option A — Deterministic code gate preceding all agent invocation with zero-leakage refusal.**
+
+### Rationale
+
+1. Satisfies Milestone 4 Requirement 3: *"Access control implemented in code and executed before any agent is invoked."*
+2. Satisfies Milestone 4 Requirement 5: *"An audit record written for every call, granted or denied, carrying user, action and resource."*
+3. Satisfies Acceptance Criterion 2: *"Refusal on entitlement. A request from a user not entitled to the claim returns no claim data, and the refusal appears in the audit trail."*
+4. Proven conclusively by the automated Two-User Access Test (`tests/test_two_user_access.py` and `scripts/run_two_user_test.py`).
+
+
 
