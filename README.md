@@ -47,16 +47,42 @@ A claims adjudication co-pilot that compresses first-pass claim decisions from h
 ```
 claimsense/
 ├── docs/
-│   ├── charter.md              # Engagement charter (M1)
-│   ├── raci.md                 # Stakeholder map & RACI (M1)
-│   └── success-criteria.md     # Four quantified success criteria (M1)
+│   ├── charter.md                  # Engagement charter (M1)
+│   ├── raci.md                     # Stakeholder map & RACI (M1)
+│   ├── success-criteria.md         # Four quantified success criteria (M1)
+│   ├── sow.md                      # Statement of Work (2 pages) (M2)
+│   ├── architecture.md             # System architecture & boundary specification (M2)
+│   ├── pricing.md                  # Commercial pricing & unit economics model (M2)
+│   ├── risk-register.md            # Risk register (6 risks) & mitigations (M2)
+│   ├── contracts.md                # Typed client system contracts & idempotency rules (M2)
+│   ├── synthetic-data-shapes.md    # Synthetic data shapes & clause taxonomy (M2)
+│   └── cloud-provisioning.md       # AWS account provisioning evidence & manifest (M2)
+├── src/
+│   ├── contracts/                  # Pydantic v2 typed contracts (M2)
+│   │   ├── __init__.py
+│   │   ├── cms.py                  # Claims Management System contract + Idempotency
+│   │   ├── docstore.py             # Document Store contract
+│   │   └── policyadmin.py          # Policy Administration contract
+│   └── models/
+│       └── synthetic_shapes.py     # Canonical clause catalog & dossier schema (M2)
+├── infra/                          # Terraform Infrastructure as Code (M2)
+│   ├── main.tf                     # ECS Fargate, ALB, CloudWatch Dashboard & Alarms
+│   ├── variables.tf
+│   └── outputs.tf
+├── data/
+│   └── fixtures/
+│       └── synthetic_dossiers.json # 20 validated synthetic claim dossiers (M2)
 ├── evals/
-│   ├── schema.json             # Evaluation case JSON schema
-│   ├── run_evals.py            # Evaluation suite runner
+│   ├── schema.json                 # Evaluation case JSON schema
+│   ├── run_evals.py                # Evaluation suite runner
 │   └── cases/
-│       └── milestone1_cases.json  # 20 initial evaluation cases (M1)
-├── DECISIONS.md                # Architectural decision records (M1)
-└── README.md                   # This file
+│       └── milestone1_cases.json   # 20 initial evaluation cases (M1)
+├── tests/
+│   └── test_contracts.py           # Contract validation & idempotency tests (M2)
+├── scripts/
+│   └── generate_fixtures.py        # Fixture generator & contract validator (M2)
+├── DECISIONS.md                    # Architectural decision records (ADRs 001–008)
+└── README.md                       # This file
 ```
 
 ---
@@ -69,7 +95,14 @@ claimsense/
   - [x] Four quantified success criteria (`docs/success-criteria.md`)
   - [x] DECISIONS.md with 5 dated ADRs
   - [x] 20 evaluation cases including adversarial families (`evals/cases/`)
-- [ ] **M2 — Design & SoW** (Week 2)
+- [x] **M2 — Design, Pricing & Architecture** (Week 2)
+  - [x] Statement of Work (2-page contract) (`docs/sow.md`)
+  - [x] Labeled architecture diagram & boundary justification (`docs/architecture.md`)
+  - [x] Pricing model with assumptions stated (`docs/pricing.md`)
+  - [x] Risk register of 6 risks anticipating later failures (`docs/risk-register.md`)
+  - [x] Typed client contracts with idempotency rules (`src/contracts/`, `docs/contracts.md`)
+  - [x] Synthetic data shapes & canonical fixtures (`src/models/`, `data/fixtures/`)
+  - [x] Cloud provisioning evidence & Terraform IaC (`infra/`, `docs/cloud-provisioning.md`)
 - [ ] **M3 — Build Agents** (Week 3)
 - [ ] **M4 — Integrate & Guard** (Week 4)
 - [ ] **M5 — Handover** (Week 5)

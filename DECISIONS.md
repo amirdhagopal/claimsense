@@ -205,3 +205,91 @@ Every call — granted or denied — must produce an audit record carrying `{use
 - The `AuditLogger` class is part of the deterministic spine and writes before and after agent invocation.
 - Denied requests (access control failures) produce audit records with `outcome: "denied"` and no claim data in the details.
 - CloudWatch Logs are configured with a 90-day retention policy.
+
+---
+
+## ADR-006: Idempotency pattern for Claims Management System write-backs
+
+**Date:** 2 October 2026  
+**Status:** Accepted  
+
+### Context
+
+The write operation `POST /claims/{claim_id}/decisions` commits an adjuster-confirmed adjudication and authorizes financial reserves. In distributed systems, retries due to transient network timeouts or repeated UI clicks could duplicate writes or produce race conditions.
+
+### Options considered
+
+| Option | Description | Pros | Cons |
+|---|---|---|---|
+| **A. Client-supplied UUIDv4 with payload fingerprinting and 24-hr TTL** | Each request supplies `idempotency_key`. The server computes a SHA-256 fingerprint of the payload, returns cached responses on exact matches, and errors on conflicting payloads (409 Conflict). | Industry standard (IETF draft / Stripe pattern); safe across retries; detects accidental key reuse with conflicting data. | Requires in-memory or Redis key-value store with TTL. |
+| B. Database unique constraint on `claim_id` alone | Prevent more than one decision record per claim. | Simple database enforcement. | Cannot handle safe retries (returns database error); cannot distinguish between an identical retry and a conflicting update. |
+| C. Blind optimistic locking | Version numbers on claim record. | Standard ORM pattern. | Does not return cached response payload on network drops; client receives 409 and does not know if decision was committed. |
+
+### Decision
+
+**Option A — Client-supplied UUIDv4 with payload fingerprinting and 24-hour TTL.**
+
+### Rationale
+
+1. Allows client apps and adjusters to retry failed HTTP requests safely without double-committing claims.
+2. Distinguishes between legitimate idempotent retries (replays identical response) and dangerous mutations (returns 409 Conflict).
+3. Conforms to the typed contract specified in `src/contracts/cms.py`.
+
+---
+
+## ADR-007: Typed system contracts via Pydantic v2 with runtime validation
+
+**Date:** 2 October 2026  
+**Status:** Accepted  
+
+### Context
+
+ClaimSense AI integrates across three systems (CMS, DocStore, PolicyAdmin) and feeds structured context into an agent pipeline. We must decide how data schemas are enforced at the trust boundary.
+
+### Options considered
+
+| Option | Description | Pros | Cons |
+|---|---|---|---|
+| **A. Pydantic v2 models with `extra="forbid"` and strict regex validators** | Python classes inheriting from `pydantic.BaseModel` validate all inbound and outbound payloads at the boundary. | High performance (compiled Rust core); strict schema enforcement; prevents prompt injection via unexpected fields (`extra="forbid"`); seamlessly generates JSON Schema. | Requires Python runtime dependency (`pydantic>=2.0`). |
+| B. Raw Python dictionaries with manual assertions | Inspect dict keys manually in handlers. | Zero external dependencies. | Verbose, brittle, easy to overlook validation gaps, lacks automatic serialization. |
+| C. Protobuf / gRPC schemas | Define schemas in `.proto` files and compile stubs. | Binary efficiency; multi-language support. | Overkill for REST JSON integration; complicates document inspection and debugging. |
+
+### Decision
+
+**Option A — Pydantic v2 models with strict constraints.**
+
+### Rationale
+
+1. Pydantic v2 validates inputs in microseconds via its Rust core (`pydantic-core`), keeping pipeline overhead negligible.
+2. Setting `extra="forbid"` actively defends against malicious payloads attempting to smuggle adversarial instructions (e.g., `auto_approve: true` in EVAL-019).
+3. Direct compatibility with OpenAI Agents SDK typed tool outputs.
+
+---
+
+## ADR-008: AWS serverless container architecture via Terraform (ECS Fargate + CloudWatch)
+
+**Date:** 2 October 2026  
+**Status:** Accepted  
+
+### Context
+
+The system must run in containers, start cleanly, scale horizontally, deploy to AWS, and provide CloudWatch dashboards with p95 latency alarms and error metrics.
+
+### Options considered
+
+| Option | Description | Pros | Cons |
+|---|---|---|---|
+| **A. AWS ECS Fargate + ALB + CloudWatch via Terraform** | Serverless containers managed by AWS ECS; infrastructure fully declared in declarative Terraform modules. | Zero EC2 patching; native CloudWatch logs and metrics integration; Multi-AZ high availability; reproducible IaC. | Fargate cold start slightly slower than EC2 (mitigated by maintaining minimum 2 warm tasks). |
+| B. Kubernetes (AWS EKS) | Deploy stack onto an EKS cluster. | Cloud agnostic; rich container ecosystem. | Extreme operational complexity, high baseline cost (~$70/mo for control plane alone), excessive for a 5-week engagement. |
+| C. AWS Lambda with container images | Serverless function invocations. | Pay only per millisecond. | 15-minute execution limit; cold starts; awkward long-lived WebSocket / streaming connections; complex local testing. |
+
+### Decision
+
+**Option A — AWS ECS Fargate + ALB + CloudWatch via Terraform.**
+
+### Rationale
+
+1. Delivers true containerized execution meeting all cohort standards while eliminating server management.
+2. Seamless integration with CloudWatch dashboards and alarms required for Milestone 5 handover.
+3. Declarative Terraform modules in `infra/` ensure fully reproducible environment setup.
+
