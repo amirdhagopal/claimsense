@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+  claimsense-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: claimsense-api
+    ports:
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=local
+      - PORT=8000
+      - LOG_LEVEL=INFO
+      # Connects directly to local Ollama on host machine without cloud keys
+      - OPENAI_BASE_URL=http://host.docker.internal:11434/v1
+      - OPENAI_API_KEY=ollama
+      - OPENAI_MODEL=llama3.2:3b
+      # LocalStack mock AWS endpoint
+      - AWS_ENDPOINT_URL=http://localstack:4566
+      - AWS_REGION=us-east-1
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+    depends_on:
+      - localstack
+
+  localstack:
+    image: localstack/localstack:3.7.2
+    container_name: claimsense-localstack
+    ports:
+      - "4566:4566"
+    environment:
+      - SERVICES=cloudwatch,logs,s3,iam
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - AWS_DEFAULT_REGION=us-east-1
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    restart: unless-stopped

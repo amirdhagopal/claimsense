@@ -57,32 +57,41 @@ claimsense/
 │   ├── risk-register.md            # Risk register (6 risks) & mitigations (M2)
 │   ├── contracts.md                # Typed client system contracts & idempotency rules (M2)
 │   ├── synthetic-data-shapes.md    # Synthetic data shapes & clause taxonomy (M2)
-│   └── cloud-provisioning.md       # AWS account provisioning evidence & manifest (M2)
+│   ├── cloud-provisioning.md       # AWS account provisioning evidence & manifest (M2)
+│   └── milestone3_deliverables.md  # Milestone 3 production agents & CI gate report (M3)
 ├── src/
-│   ├── contracts/                  # Pydantic v2 typed contracts (M2)
-│   │   ├── __init__.py
-│   │   ├── cms.py                  # Claims Management System contract + Idempotency
-│   │   ├── docstore.py             # Document Store contract
-│   │   └── policyadmin.py          # Policy Administration contract
-│   └── models/
-│       └── synthetic_shapes.py     # Canonical clause catalog & dossier schema (M2)
+│   ├── agents/                     # OpenAI Agents SDK 4-Agent Pipeline (M3)
+│   │   ├── base.py                 # BaseAgent with typed parsing & fallback
+│   │   ├── file_reader.py          # Agent 1: FileReaderAgent
+│   │   ├── coverage.py             # Agent 2: CoverageAgent (RAG + citations)
+│   │   ├── risk_assessment.py      # Agent 3: RiskAssessmentAgent (fraud/total loss/BI)
+│   │   ├── decision_drafter.py     # Agent 4: DecisionDraftAgent (4 outcomes)
+│   │   ├── pipeline.py             # Adjudication pipeline orchestrator
+│   │   └── schemas.py              # Strict Pydantic I/O models
+│   ├── spine/                      # Deterministic code spine (M3)
+│   │   ├── access_control.py       # Pre-agent entitlement checks
+│   │   ├── date_engine.py          # Policy effective date verification
+│   │   ├── financial_engine.py     # Deductibles & monetary calculations
+│   │   ├── audit_logger.py         # Append-only immutable audit trail
+│   │   ├── context.py              # SpineContext struct
+│   │   └── orchestrator.py         # Pre-agent invariant coordinator
+│   ├── retrieval/                  # Policy clause retrieval engine (M3)
+│   │   └── policy_index.py         # Searchable BM25 corpus & citation grounding
+│   ├── api/                        # FastAPI REST Service (M3)
+│   │   └── app.py                  # Endpoints: /health, /adjudicate, /claims
+│   ├── contracts/                  # Pydantic v2 client contracts (M2)
+│   └── models/                     # Canonical synthetic data shapes (M2)
 ├── infra/                          # Terraform Infrastructure as Code (M2)
-│   ├── main.tf                     # ECS Fargate, ALB, CloudWatch Dashboard & Alarms
-│   ├── variables.tf
-│   └── outputs.tf
-├── data/
-│   └── fixtures/
-│       └── synthetic_dossiers.json # 20 validated synthetic claim dossiers (M2)
+├── data/fixtures/                  # 20 validated synthetic claim dossiers
 ├── evals/
-│   ├── schema.json                 # Evaluation case JSON schema
-│   ├── run_evals.py                # Evaluation suite runner
-│   └── cases/
-│       └── milestone1_cases.json   # 20 initial evaluation cases (M1)
-├── tests/
-│   └── test_contracts.py           # Contract validation & idempotency tests (M2)
-├── scripts/
-│   └── generate_fixtures.py        # Fixture generator & contract validator (M2)
-├── DECISIONS.md                    # Architectural decision records (ADRs 001–008)
+│   ├── run_pipeline_evals.py       # CI evaluation gate runner (M3)
+│   └── cases/milestone1_cases.json # Evaluation cases
+├── tests/                          # Automated Pytest suite (21 passing tests)
+├── .github/workflows/ci.yml        # CI pipeline blocking image push on eval gate (M3)
+├── Dockerfile                      # Production multi-stage Dockerfile (M3)
+├── docker-compose.yml              # Single-command local orchestration (M3)
+├── requirements.txt                # Pinned dependencies
+├── DECISIONS.md                    # Architectural decision records (ADRs 001–010)
 └── README.md                       # This file
 ```
 
@@ -104,7 +113,14 @@ claimsense/
   - [x] Typed client contracts with idempotency rules (`src/contracts/`, `docs/contracts.md`)
   - [x] Synthetic data shapes & canonical fixtures (`src/models/`, `data/fixtures/`)
   - [x] Cloud provisioning evidence & Terraform IaC (`infra/`, `docs/cloud-provisioning.md`)
-- [ ] **M3 — Build Agents** (Week 3)
+- [x] **M3 — Production Agents & CI Gate** (Week 3)
+  - [x] 4-Agent adjudication set on OpenAI Agents SDK (`src/agents/`) with strict Pydantic schemas
+  - [x] Searchable policy clause corpus with BM25 ranking & citation grounding (`src/retrieval/`)
+  - [x] Deterministic spine pre-agent guards & financial engine (`src/spine/`)
+  - [x] FastAPI REST service (`/health`, `/adjudicate`, `/claims/{id}/decisions`)
+  - [x] Multi-stage Dockerfile & single-command local orchestration (`docker compose up`)
+  - [x] GitHub Actions CI pipeline (`.github/workflows/ci.yml`) with automated evaluation gate
+  - [x] All 4 decision outcomes correctly produced with explicit model vs fallback attribution
 - [ ] **M4 — Integrate & Guard** (Week 4)
 - [ ] **M5 — Handover** (Week 5)
 

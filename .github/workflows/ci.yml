@@ -1,0 +1,66 @@
+name: ClaimSense AI — CI Pipeline & Evaluation Gate
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test-and-evaluate:
+    name: Unit Tests & Evaluation Gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Contract & Spine Unit Tests
+        run: |
+          PYTHONPATH=. pytest tests/ -v
+
+      - name: Validate Evaluation Case Schemas
+        run: |
+          python evals/run_evals.py
+
+      - name: Run CI Evaluation Gate (Blocks Push on Failure)
+        id: eval_gate
+        run: |
+          PYTHONPATH=. python evals/run_pipeline_evals.py
+
+  build-and-push:
+    name: Build & Push Docker Image
+    needs: test-and-evaluate
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Container Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false
+          tags: claimsense-ai:latest,claimsense-ai:${{ github.sha }}
+          load: true
+
+      - name: Verify Container Health Check Locally
+        run: |
+          docker run -d --name test-container -p 8000:8000 claimsense-ai:${{ github.sha }}
+          sleep 5
+          curl -f http://localhost:8000/health || exit 1
+          docker stop test-container
