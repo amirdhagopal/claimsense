@@ -1,10 +1,11 @@
 # ClaimSense AI — Checkpoint 2 (Final Capstone) Submission Document
 
 **Participant Name:** Amirdha Gopal Rajendran  
+**Cohort Name:** Forward Deployed Engineering LevelUp Program - Mid-August 2026  
 **Tech Stack:** AWS + OpenAI Agents SDK / Ollama + Python 3.12 (FastAPI) + Docker + Terraform + Vanilla Web UI  
 **Submission Type:** Checkpoint - 2 (Final Submission: Milestones 1 through 5)  
 **Date:** 23 October 2026  
-**Final Release Tag:** `v1.0.0` (Git commit `bcffc18`)  
+**Final Release Tag:** `v1.0.0`  
 **Repository URL:** https://github.com/amirdhagopal/claimsense  
 
 ---
@@ -93,8 +94,8 @@ The complete observation document is checked into [`docs/observation-document.md
 
 Use these values when completing the Google Form:
 
-* **Name:** `Amirdha Gopal`
-* **Cohort Name:** *(Enter your cohort name, e.g. FDE Spine Capstone)*
+* **Name:** `Amirdha Gopal Rajendran`
+* **Cohort Name:** `Forward Deployed Engineering LevelUp Program - Mid-August 2026`
 * **Tech Stack Used:** `AWS + OpenAI Agents SDK / Ollama + Python 3.12 (FastAPI) + Docker + Terraform + Vanilla Web UI`
 * **Select the Checkpoint submission:** `Checkpoint - 2`
 * **Submission Link (Upload File):** Upload `docs/ClaimSense_AI_Checkpoint_2_Final_Submission.pdf` (compiled from this document).
