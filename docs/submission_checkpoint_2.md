@@ -1,6 +1,6 @@
 # ClaimSense AI — Checkpoint 2 (Final Capstone) Submission Document
 
-**Participant Name:** Amirdha Gopal  
+**Participant Name:** Amirdha Gopal Rajendran  
 **Tech Stack:** AWS + OpenAI Agents SDK / Ollama + Python 3.12 (FastAPI) + Docker + Terraform + Vanilla Web UI  
 **Submission Type:** Checkpoint - 2 (Final Submission: Milestones 1 through 5)  
 **Date:** 23 October 2026  

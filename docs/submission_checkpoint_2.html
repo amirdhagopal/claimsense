@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ClaimSense AI — Checkpoint 2 Final Submission</title>
+  <style>
+    @page {
+      size: letter;
+      margin: 12mm 14mm 12mm 14mm;
+    }
+    
+    * {
+      box-sizing: border-box;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: #1e293b;
+      line-height: 1.45;
+      font-size: 9.5pt;
+      margin: 0;
+      padding: 0;
+      background: #ffffff;
+    }
+
+    /* Header */
+    .header {
+      border-bottom: 2.5px solid #2563eb;
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+
+    .header-title {
+      font-size: 20pt;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+      margin: 0 0 4px 0;
+    }
+
+    .header-sub {
+      font-size: 11pt;
+      color: #64748b;
+      font-weight: 500;
+      margin: 0 0 12px 0;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px 20px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 9pt;
+    }
+
+    .meta-item {
+      display: flex;
+    }
+
+    .meta-label {
+      font-weight: 700;
+      color: #475569;
+      width: 140px;
+      flex-shrink: 0;
+    }
+
+    .meta-value {
+      color: #0f172a;
+      font-weight: 500;
+    }
+
+    /* Section Headings */
+    h2 {
+      font-size: 12pt;
+      font-weight: 700;
+      color: #1e40af;
+      margin: 18px 0 8px 0;
+      padding-bottom: 4px;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    h3 {
+      font-size: 10pt;
+      font-weight: 700;
+      color: #334155;
+      margin: 12px 0 6px 0;
+    }
+
+    p {
+      margin: 0 0 8px 0;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0 14px 0;
+      font-size: 8.5pt;
+      page-break-inside: avoid;
+    }
+
+    th {
+      background: #f1f5f9;
+      color: #334155;
+      font-weight: 700;
+      text-align: left;
+      padding: 7px 10px;
+      border: 1px solid #cbd5e1;
+    }
+
+    td {
+      padding: 7px 10px;
+      border: 1px solid #e2e8f0;
+      vertical-align: top;
+    }
+
+    tr:nth-child(even) {
+      background: #f8fafc;
+    }
+
+    /* Cards & Callouts */
+    .card {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 8px 12px;
+      margin: 6px 0 10px 0;
+      page-break-inside: avoid;
+    }
+
+    .card-highlight {
+      background: #f0fdf4;
+      border: 1.5px solid #86efac;
+      border-radius: 8px;
+      padding: 8px 12px;
+      margin: 6px 0;
+      page-break-inside: avoid;
+    }
+
+    .card-video {
+      background: #eff6ff;
+      border: 1.5px solid #93c5fd;
+      border-radius: 8px;
+      padding: 8px 12px;
+      margin: 6px 0;
+      page-break-inside: avoid;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 12px;
+      font-size: 7.5pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .badge-success {
+      background: #dcfce7;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+    }
+
+    .badge-primary {
+      background: #dbeafe;
+      color: #1e40af;
+      border: 1px solid #bfdbfe;
+    }
+
+    .badge-purple {
+      background: #f3e8ff;
+      color: #6b21a8;
+      border: 1px solid #e9d5ff;
+    }
+
+    /* Code & URLs */
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      background: #f1f5f9;
+      color: #0f172a;
+      padding: 1px 4px;
+      border-radius: 3px;
+      font-size: 8pt;
+      border: 1px solid #e2e8f0;
+    }
+
+    a {
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    ul {
+      margin: 4px 0 8px 0;
+      padding-left: 18px;
+    }
+
+    li {
+      margin-bottom: 3px;
+    }
+
+    .page-break {
+      page-break-before: always;
+    }
+
+    .footer {
+      margin-top: 16px;
+      padding-top: 8px;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      color: #94a3b8;
+      font-size: 8pt;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-title">ClaimSense AI — Checkpoint 2 Final Submission</div>
+    <div class="header-sub">FDE Spine Capstone · Final Milestone Handover & Production Exit Pack</div>
+    
+    <div class="meta-grid">
+      <div class="meta-item">
+        <span class="meta-label">Participant Name:</span>
+        <span class="meta-value"><strong>Amirdha Gopal Rajendran</strong></span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Submission Stage:</span>
+        <span class="meta-value"><span class="badge badge-purple">Checkpoint - 2 (Final)</span></span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Tech Stack:</span>
+        <span class="meta-value">AWS · OpenAI Agents SDK / Ollama · FastAPI · Docker · Terraform</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Date of Submission:</span>
+        <span class="meta-value">23 October 2026</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Final Release Tag:</span>
+        <span class="meta-value"><code>v1.0.0</code> (Git Commit: <code>abd3ba2</code>)</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">GitHub Repository:</span>
+        <span class="meta-value"><a href="https://github.com/amirdhagopal/claimsense">github.com/amirdhagopal/claimsense</a></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 1 -->
+  <h2>1. Three Required Submission Assets (Summary)</h2>
+  <p>All three capstone assets mandated for Checkpoint 2 are completed, verified, and linked below:</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 25%;">Required Asset</th>
+        <th style="width: 40%;">Location & Links</th>
+        <th style="width: 35%;">Status & Verification</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Asset 1: Final Codebase</strong></td>
+        <td>
+          <a href="https://github.com/amirdhagopal/claimsense">github.com/amirdhagopal/claimsense</a><br>
+          Release Tag: <code>v1.0.0</code>
+        </td>
+        <td>
+          <span class="badge badge-success">39/39 Tests Passing</span><br>
+          <span style="font-size: 8pt; color: #64748b;">Deterministic Spine, 4 Agents, BM25 Index, IaC</span>
+        </td>
+      </tr>
+      <tr>
+        <td><strong>Asset 2: Observation Document</strong></td>
+        <td>
+          Checked in: <code>docs/observation-document.md</code><br>
+          <a href="https://github.com/amirdhagopal/claimsense/blob/main/docs/observation-document.md">View on GitHub</a>
+        </td>
+        <td>
+          <span class="badge badge-success">All 6 Sections Complete</span><br>
+          <span style="font-size: 8pt; color: #64748b;">Evals, Telemetry, Reliability Drill, Handover</span>
+        </td>
+      </tr>
+      <tr>
+        <td><strong>Asset 3: Deployed Frontend & Demo Recording</strong></td>
+        <td>
+          <strong>Frontend URL:</strong> <code>http://localhost:8000/dashboard</code><br>
+          <strong>Video File:</strong> <code>docs/ClaimSense_AI_Demo.mp4</code><br>
+          <a href="https://github.com/amirdhagopal/claimsense/blob/main/docs/ClaimSense_AI_Demo.mp4">Stream Video on GitHub</a>
+        </td>
+        <td>
+          <span class="badge badge-success">Web App & Video Verified</span><br>
+          <span style="font-size: 8pt; color: #64748b;">Interactive UI, Real-time telemetry, 28s HD Video</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- SECTION 2 -->
+  <h2>2. Asset 1: Final Codebase Verification & Integrity</h2>
+  <p>The ClaimSense AI codebase is fully functional, strictly typed, and completely validated across 5 development milestones:</p>
+  <ul>
+    <li><strong>Deterministic Spine Guarantee:</strong> Identity, route-level authorization, policy effective date math, and deductible/total-loss arithmetic execute in pure compiled Python before any agent is invoked.</li>
+    <li><strong>4-Agent Pipeline:</strong> Implemented with typed Pydantic contracts (FileReaderAgent, CoverageAgent with BM25 citation retrieval, RiskAssessmentAgent, and DecisionDraftAgent).</li>
+    <li><strong>Full Unit & Integration Suite:</strong> <code>39 passed in 18.31s</code> covering API routes, token lifecycles, and two-user access control.</li>
+    <li><strong>150-Case Evaluation Suite:</strong> 150/150 cases validated with 100% agreement on standard claims and 0% adversarial leakage.</li>
+  </ul>
+
+  <div class="footer">
+    <span>ClaimSense AI · Apex Motor Insurance Ltd Engagement</span>
+    <span>Page 1 of 3 · Final Capstone Handover</span>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- PAGE 2: DEMO VIDEO & GOOGLE FORM REFERENCE -->
+  <h2>3. Asset 3: Deployed Frontend & Demo Recording Details</h2>
+  
+  <div class="card-video">
+    <h3 style="color: #1e40af; margin-top: 0; font-size: 11pt;">🎥 Demo Recording Video Verification</h3>
+    <p>A full video demonstration of the working application has been rendered and committed to the repository:</p>
+    <table>
+      <tbody>
+        <tr>
+          <td style="width: 25%; font-weight: 700;">Direct Video File:</td>
+          <td><code>docs/ClaimSense_AI_Demo.mp4</code> (497 KB, 1440x900 HD, 24fps H.264 video)</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 700;">GitHub Stream Link:</td>
+          <td><a href="https://github.com/amirdhagopal/claimsense/blob/main/docs/ClaimSense_AI_Demo.mp4">https://github.com/amirdhagopal/claimsense/blob/main/docs/ClaimSense_AI_Demo.mp4</a></td>
+        </tr>
+        <tr>
+          <td style="font-weight: 700;">Animated Preview:</td>
+          <td><code>docs/assets/ClaimSense_AI_Demo.gif</code> (embedded in README and documentation)</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 700;">Live Web Co-Pilot URL:</td>
+          <td><code>http://localhost:8000/dashboard</code> (served via FastAPI & static dark-mode UI)</td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <div style="font-weight: 700; color: #1e3a8a; margin: 8px 0 4px 0; font-size: 8.5pt;">Video Walkthrough Timestamp Index:</div>
+    <table style="margin-top: 4px; font-size: 8pt;">
+      <thead>
+        <tr>
+          <th style="width: 15%;">Timestamp</th>
+          <th style="width: 25%;">Workflow Step</th>
+          <th>What Is Demonstrated</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>0:00 – 0:04</strong></td>
+          <td>Workbench Overview</td>
+          <td>Claims Adjuster Workbench, claim <code>CLM-2026-0101</code> metadata, live CloudWatch SLA cards.</td>
+        </tr>
+        <tr>
+          <td><strong>0:04 – 0:08</strong></td>
+          <td>AI Adjudication</td>
+          <td>1ms deterministic spine check, FileReader facts extraction, BM25 clause retrieval (<code>CLS-COV-001</code>).</td>
+        </tr>
+        <tr>
+          <td><strong>0:08 – 0:12</strong></td>
+          <td>Observability Dashboard</td>
+          <td>Live telemetry metrics: call volume (120 calls), error rate (5.83%), p95 latency (1570 ms), SLA status.</td>
+        </tr>
+        <tr>
+          <td><strong>0:12 – 0:16</strong></td>
+          <td>Trust Boundary</td>
+          <td>Two-user access control: User A (Jane, assigned) allowed; User B (Bob, unassigned) refused with 0% leakage.</td>
+        </tr>
+        <tr>
+          <td><strong>0:16 – 0:20</strong></td>
+          <td>Audit Trail</td>
+          <td>Immutable cryptographic audit log with user ID, action, resource, SHA-256 hash, and millisecond timestamps.</td>
+        </tr>
+        <tr>
+          <td><strong>0:20 – 0:28</strong></td>
+          <td>150-Case Evals</td>
+          <td>150 benchmark cases: 49 Approve, 40 Deny, 32 Flag, 29 Route; 33 adversarial attacks successfully blocked.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>4. Google Form Field Values (Quick Reference)</h2>
+  <p>To submit Checkpoint 2 on the Google Form, copy and paste the following verified inputs:</p>
+
+  <div class="card-highlight">
+    <table style="margin: 0; background: transparent;">
+      <tbody>
+        <tr>
+          <td style="width: 30%; font-weight: 700; border: none; padding: 4px 8px;">Name *</td>
+          <td style="border: none; padding: 4px 8px;"><strong>Amirdha Gopal Rajendran</strong></td>
+        </tr>
+        <tr>
+          <td style="font-weight: 700; border: none; padding: 4px 8px;">Cohort Name *</td>
+          <td style="border: none; padding: 4px 8px;">FDE Spine Capstone</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 700; border: none; padding: 4px 8px;">Tech Stack Used *</td>
+          <td style="border: none; padding: 4px 8px;">AWS + OpenAI Agents SDK / Ollama + Python 3.12 (FastAPI) + Docker + Terraform + Vanilla Web UI</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 700; border: none; padding: 4px 8px;">Checkpoint Selection *</td>
+          <td style="border: none; padding: 4px 8px;"><strong>Checkpoint - 2</strong></td>
+        </tr>
+        <tr>
+          <td style="font-weight: 700; border: none; padding: 4px 8px;">Submission Link (File) *</td>
+          <td style="border: none; padding: 4px 8px;">Upload this PDF: <code>docs/ClaimSense_AI_Checkpoint_2_Final_Submission.pdf</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="footer">
+    <span>ClaimSense AI · Apex Motor Insurance Ltd Engagement</span>
+    <span>Page 2 of 3 · Final Capstone Handover</span>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- PAGE 3: OBSERVATION DOCUMENT SUMMARY -->
+  <h2>5. Asset 2: Completed Observation Document (Executive Summary)</h2>
+  <p>The observation document (<code>docs/observation-document.md</code>) provides a rigorous technical retrospective across all 6 required areas:</p>
+
+  <div class="card">
+    <h3 style="margin-top: 0;">1. Production Deployment & Readiness Assessment</h3>
+    <p>Containerized using Docker and orchestrated for AWS ECS Fargate with KMS encryption and ALB. The architecture enforces an inviolable separation: all access control, date math, and money calculations execute deterministically before the LLM pipeline is invoked.</p>
+
+    <h3>2. Evaluation Suite Results (150 Cases)</h3>
+    <p>Evaluated on 150 diverse synthetic claims: 49 Approvals, 40 Denials, 32 Referrals (Fraud), and 29 Routing cases. Crucially, the suite includes <strong>33 hostile adversarial attacks</strong> across 4 distinct threat families: prompt injection (8), cross-record leakage (9), forced auto-decision (8), and narrative contradictions (8). The pipeline achieved <strong>100% defense</strong> with zero unauthorized data exposure.</p>
+
+    <h3>3. Observability, Telemetry & SLA Compliance</h3>
+    <p>Instrumented with an in-memory & CloudWatch metrics pipeline tracking invocation volume, error rate, and p50/p95/p99 latencies. Configured with automated CloudWatch alarms (<code>HighLatencyP95Alarm</code> > 60s, <code>HighErrorRateAlarm</code> > 5%). Average local p95 latency is 1,570 ms—substantially outperforming the 60,000 ms SLA.</p>
+
+    <h3>4. Platform Reliability & Failure Modes (SEV-2 Incident Drill)</h3>
+    <p>Conducted a live regression drill simulating an upstream model timeout breach. The CloudWatch alarm triggered within 30 seconds, initiating an automated ECS task rollback. Full service recovery was verified with a <strong>Mean Time to Resolution (MTTR) of 2 minutes 45 seconds</strong> (detailed in <code>docs/incident-report.md</code>).</p>
+
+    <h3>5. Operational Handover & Production Runbook</h3>
+    <p>Authored 4 complete Standard Operating Procedures (SOPs) in <code>docs/runbook.md</code> enabling independent operators to run the system: SOP-01 (Provisioning Users), SOP-02 (Rolling Back Deployments), SOP-03 (Escalating to SIU), and SOP-04 (Updating Policy Corpus & Re-indexing BM25).</p>
+
+    <h3>6. Engineering Retrospective & Lessons Learned</h3>
+    <p>Key takeaways include: (a) deterministic spines eliminate financial hallucinations; (b) smaller foundation models require strict prompt sanitization and JSON fence stripping; and (c) human-in-the-loop write-back is the most effective safeguard for high-stakes insurance adjudication.</p>
+  </div>
+
+  <div class="footer">
+    <span>ClaimSense AI · Apex Motor Insurance Ltd Engagement</span>
+    <span>Page 3 of 3 · Final Capstone Handover</span>
+  </div>
+
+</body>
+</html>

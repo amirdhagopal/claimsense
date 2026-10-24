@@ -1032,6 +1032,16 @@
       if (tabName === 'audit') fetchAuditTrail();
     }
 
+    // Direct tab routing via query param
+    window.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const tab = params.get('tab');
+      if (tab) switchTab(tab);
+      if (params.get('auto_adjudicate')) {
+        setTimeout(executeAdjudication, 500);
+      }
+    });
+
     // Token helper based on active user
     function getAuthToken() {
       const u = document.getElementById('userSelector').value;
