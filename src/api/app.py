@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import time
 from pathlib import Path
 from typing import Any, Optional
 from fastapi import Depends, FastAPI, HTTPException, Header, Query, Response, status
@@ -111,9 +112,17 @@ def adjudicate_claim(
     Access control is checked in code BEFORE any agent is instantiated.
     If the user lacks entitlement, returns HTTP 403 Forbidden with zero claim data.
     """
+    start_time = time.perf_counter()
+
     # 1. Pre-agent entitlement check in code
     granted, denial_reason = AccessControlEngine.verify_entitlement(user, req.claim_id)
     if not granted:
+        latency_ms = (time.perf_counter() - start_time) * 1000.0
+        MetricsTracker.record_request(
+            endpoint="/adjudicate",
+            status_code=status.HTTP_403_FORBIDDEN,
+            latency_ms=latency_ms,
+        )
         AuditLogger.log(
             user_id=user.user_id,
             action="adjudicate_claim",
@@ -128,6 +137,12 @@ def adjudicate_claim(
         )
 
     if req.claim_id not in CLAIMS_DB:
+        latency_ms = (time.perf_counter() - start_time) * 1000.0
+        MetricsTracker.record_request(
+            endpoint="/adjudicate",
+            status_code=status.HTTP_404_NOT_FOUND,
+            latency_ms=latency_ms,
+        )
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Claim '{req.claim_id}' not found in system.",
@@ -146,10 +161,24 @@ def adjudicate_claim(
             documents=documents,
         )
     except AccessDeniedException as e:
+        latency_ms = (time.perf_counter() - start_time) * 1000.0
+        MetricsTracker.record_request(
+            endpoint="/adjudicate",
+            status_code=status.HTTP_403_FORBIDDEN,
+            latency_ms=latency_ms,
+        )
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail=e.message,
         )
+
+    latency_ms = (time.perf_counter() - start_time) * 1000.0
+    MetricsTracker.record_request(
+        endpoint="/adjudicate",
+        status_code=status.HTTP_200_OK,
+        latency_ms=latency_ms,
+        decision=dossier.draft_decision.decision.value,
+    )
 
     return {
         "claim_id": claim.claim_id,

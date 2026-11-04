@@ -85,6 +85,42 @@ class AdjudicationPipeline:
         # Step 1: Deterministic Spine (Throws AccessDeniedException if not entitled)
         spine_context = DeterministicSpine.execute_pre_agent_checks(user, claim, policy)
 
+        # Short-circuit if deterministic spine mandates immediate rejection (lapsed policy / unscheduled VIN)
+        if spine_context.spine_must_reject:
+            rejection_clause = "CLS-PER-001" if not spine_context.policy_in_force else "CLS-COV-008"
+            detail = DecisionDetail.POLICY_LAPSED if not spine_context.policy_in_force else DecisionDetail.VEHICLE_NOT_SCHEDULED
+            draft_decision = DraftDecisionOutput(
+                claim_id=claim.claim_id,
+                decision=DecisionOutcome.DENY,
+                decision_detail=detail,
+                reasoning=f"Claim rejected deterministically: {spine_context.rejection_reason} Grounded in policy clause {rejection_clause} (effective {policy.effective_date} to expiry {policy.expiry_date}).",
+                cited_clauses=[rejection_clause],
+                payout_authorized=0.0,
+                verdict_source="deterministic_spine",
+                requires_licensed_adjuster_confirmation=True,
+            )
+            AuditLogger.log(
+                user_id=user.user_id,
+                action="adjudicate_claim",
+                resource=claim.claim_id,
+                outcome="granted",
+                decision=draft_decision.decision.value,
+                details={
+                    "decision_detail": draft_decision.decision_detail.value if draft_decision.decision_detail else None,
+                    "verdict_source": draft_decision.verdict_source,
+                    "cited_clauses": draft_decision.cited_clauses,
+                    "policy_in_force": spine_context.policy_in_force,
+                    "payout_authorized": draft_decision.payout_authorized,
+                },
+            )
+            return AdjudicationDossier(
+                spine_context=spine_context,
+                file_reader_output=None,
+                coverage_output=None,
+                risk_output=None,
+                draft_decision=draft_decision,
+            )
+
         try:
             # Step 2: FileReaderAgent
             file_reader_output = self.file_reader_agent.process(

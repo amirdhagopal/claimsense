@@ -68,30 +68,40 @@ STANDARD_CLAUSES = {
         "title": "Reduced Deductible",
         "text": "A reduced deductible of $250 applies to comprehensive weather and glass losses."
     },
-    "excl_racing": {
+    "excl_dui": {
         "clause_id": "CLS-EXC-001",
-        "title": "Racing and Speed Contests Exclusion",
-        "text": "No coverage applies to loss occurring while the vehicle is used in racing, speed contests, or track performance events."
+        "title": "Intoxication and DUI Exclusion",
+        "text": "Damage sustained while the operator is impaired or intoxicated beyond statutory limits is excluded from collision benefits."
     },
     "excl_commercial": {
         "clause_id": "CLS-EXC-002",
         "title": "Commercial Rideshare Exclusion",
         "text": "No coverage applies while the vehicle is logged into a rideshare network or transporting passengers for hire without endorsement."
     },
-    "excl_dui": {
+    "excl_racing": {
         "clause_id": "CLS-EXC-003",
-        "title": "Intoxication and DUI Exclusion",
-        "text": "Damage sustained while the operator is impaired or intoxicated beyond statutory limits is excluded from collision benefits."
+        "title": "Racing and Speed Contests Exclusion",
+        "text": "No coverage applies to loss occurring while the vehicle is used in racing, speed contests, or track performance events."
     },
     "total_loss": {
-        "clause_id": "CLS-STL-001",
+        "clause_id": "CLS-COV-006",
         "title": "Constructive Total Loss Settlement",
         "text": "Where estimated repair costs exceed 75% of actual cash value, the loss shall be settled as a constructive total loss."
     },
     "bodily_injury": {
+        "clause_id": "CLS-COV-007",
+        "title": "Bodily Injury Specialist Routing",
+        "text": "Claims involving hospitalisation, serious personal injury, or medical treatment require specialist injury adjuster handling."
+    },
+    "vehicle_schedule": {
         "clause_id": "CLS-COV-008",
-        "title": "Bodily Injury Liability",
-        "text": "Claims involving personal injury or medical treatment require specialist injury adjuster handling."
+        "title": "Scheduled Vehicle Warranty",
+        "text": "Coverage applies strictly and exclusively to vehicles whose VIN is listed on the policy vehicle schedule."
+    },
+    "classic_specialist": {
+        "clause_id": "CLS-COV-011",
+        "title": "Classic Vehicle Specialist Restoration Routing",
+        "text": "Partial damage or mechanical rebuilding of Classic or collector vehicles must be referred to a vintage automotive specialist appraiser."
     }
 }
 
@@ -195,16 +205,22 @@ def build_case(index: int) -> dict:
             status = "Lapsed"
             clauses = [STANDARD_CLAUSES["period"], STANDARD_CLAUSES["collision"], STANDARD_CLAUSES["deductible_500"]]
             reasoning_keyword = "lapsed"
+            inc_narrative = f"Incident reported on {inc_date} after policy expiration date ({exp_date})."
+            doc_summary = f"Field verification confirming policy expired on {exp_date} prior to loss on {inc_date}."
+            expected_cites = ["CLS-PER-001"]
             spine_reject = True
         elif sub_type == 1:
             # Excluded peril: Racing / track event
-            description = "Denial: Loss occurred during amateur track day sprint. Explicitly excluded under CLS-EXC-001."
+            description = "Denial: Loss occurred during amateur track day sprint. Explicitly excluded under CLS-EXC-003."
             inc_date = "2026-06-15"
             eff_date = "2026-01-01"
             exp_date = "2027-01-01"
             status = "Active"
             clauses = [STANDARD_CLAUSES["period"], STANDARD_CLAUSES["collision"], STANDARD_CLAUSES["excl_racing"], STANDARD_CLAUSES["deductible_500"]]
-            reasoning_keyword = "CLS-EXC-001"
+            reasoning_keyword = "CLS-EXC-003"
+            inc_narrative = "Vehicle spun out and struck barrier wall during a timed amateur racing speed trial on a closed motorsport circuit."
+            doc_summary = "Track marshal incident report confirming vehicle was participating in a sanctioned closed-circuit racing speed contest (excluded under CLS-EXC-003)."
+            expected_cites = ["CLS-EXC-003"]
             spine_reject = False
         elif sub_type == 2:
             # Excluded peril: Commercial rideshare transport without endorsement
@@ -215,6 +231,9 @@ def build_case(index: int) -> dict:
             status = "Active"
             clauses = [STANDARD_CLAUSES["period"], STANDARD_CLAUSES["collision"], STANDARD_CLAUSES["excl_commercial"], STANDARD_CLAUSES["deductible_500"]]
             reasoning_keyword = "CLS-EXC-002"
+            inc_narrative = "Collision occurred while driver was logged into a commercial rideshare network transporting a paying passenger for hire without endorsement."
+            doc_summary = "Police and rideshare trip log confirming vehicle was actively transporting commercial rideshare passengers for hire without endorsement (excluded under CLS-EXC-002)."
+            expected_cites = ["CLS-EXC-002"]
             spine_reject = False
         else:
             # Unscheduled vehicle VIN
@@ -223,8 +242,11 @@ def build_case(index: int) -> dict:
             eff_date = "2026-01-01"
             exp_date = "2027-01-01"
             status = "Active"
-            clauses = [STANDARD_CLAUSES["period"], STANDARD_CLAUSES["collision"], STANDARD_CLAUSES["deductible_500"]]
+            clauses = [STANDARD_CLAUSES["period"], STANDARD_CLAUSES["collision"], STANDARD_CLAUSES["vehicle_schedule"], STANDARD_CLAUSES["deductible_500"]]
             reasoning_keyword = "vehicle"
+            inc_narrative = "Rear-end collision involving a secondary household vehicle whose VIN is not listed on the policy schedule."
+            doc_summary = "Field appraisal confirming vehicle VIN 999UNSCHEDULEDVIN is not listed on the policy vehicle schedule (CLS-COV-008)."
+            expected_cites = ["CLS-COV-008"]
             spine_reject = True
 
         return {
@@ -239,7 +261,7 @@ def build_case(index: int) -> dict:
                 "incident_date": inc_date,
                 "incident_time": "18:00",
                 "incident_location": "Metropolitan Speedway / Highway Route 9",
-                "incident_description": f"Incident reported on {inc_date}. Condition under review for policy exclusion.",
+                "incident_description": inc_narrative,
                 "vehicle": {"make": make, "model": model, "year": 2022, "vin": vin if sub_type != 3 else "999UNSCHEDULEDVIN", "market_value": mkt_val},
                 "damage_description": "Front impact and suspension damage.",
                 "repair_estimate": 4200,
@@ -261,7 +283,7 @@ def build_case(index: int) -> dict:
                 {
                     "doc_id": f"DOC-{case_num:03d}-A",
                     "type": "investigation_report",
-                    "content_summary": f"Field notes documenting incident circumstances and policy exclusion triggers ({reasoning_keyword}).",
+                    "content_summary": doc_summary,
                     "flags": ["exclusion_triggered"]
                 }
             ],
@@ -270,7 +292,7 @@ def build_case(index: int) -> dict:
                 "decision": "deny",
                 "reasoning_must_contain": [reasoning_keyword],
                 "reasoning_must_not_contain": [],
-                "cited_clauses": [c["clause_id"] for c in clauses if c["clause_id"] in ["CLS-PER-001", "CLS-EXC-001", "CLS-EXC-002"]],
+                "cited_clauses": expected_cites,
                 "fraud_ground_truth": False,
                 "access_outcome": "granted",
                 "spine_must_reject": spine_reject
@@ -375,7 +397,7 @@ def build_case(index: int) -> dict:
             description = f"Route to Total Loss Unit: repair cost (${rep_cost}) exceeds 75% of actual cash value (${mkt_val})."
             route_reason = "total_loss"
             clauses = [STANDARD_CLAUSES["period"], STANDARD_CLAUSES["collision"], STANDARD_CLAUSES["total_loss"], STANDARD_CLAUSES["deductible_500"]]
-            cited = "CLS-STL-001"
+            cited = "CLS-COV-006"
             docs = [
                 {
                     "doc_id": f"DOC-{case_num:03d}-A",
@@ -390,12 +412,12 @@ def build_case(index: int) -> dict:
             description = "Route to Bodily Injury Specialist: collision resulted in passenger neck injury and hospital transport."
             route_reason = "bodily_injury"
             clauses = [STANDARD_CLAUSES["period"], STANDARD_CLAUSES["collision"], STANDARD_CLAUSES["bodily_injury"], STANDARD_CLAUSES["deductible_500"]]
-            cited = "CLS-COV-008"
+            cited = "CLS-COV-007"
             docs = [
                 {
                     "doc_id": f"DOC-{case_num:03d}-A",
                     "type": "medical_intake",
-                    "content_summary": "Emergency medical documentation recording cervical strain and ongoing rehabilitation referral.",
+                    "content_summary": "Emergency medical documentation recording passenger ICU hospitalisation, fractured ribs, and ongoing rehabilitation referral.",
                     "flags": ["bodily_injury_present"]
                 }
             ]
@@ -404,13 +426,13 @@ def build_case(index: int) -> dict:
             rep_cost = 6200
             description = "Route to Specialty / Classic Vehicle Unit: rare collector automobile requires agreed-value specialist valuation."
             route_reason = "classic_collector"
-            clauses = [STANDARD_CLAUSES["period"], STANDARD_CLAUSES["collision"], STANDARD_CLAUSES["deductible_500"]]
-            cited = "CLS-COV-001"
+            clauses = [STANDARD_CLAUSES["period"], STANDARD_CLAUSES["collision"], STANDARD_CLAUSES["classic_specialist"], STANDARD_CLAUSES["deductible_500"]]
+            cited = "CLS-COV-011"
             docs = [
                 {
                     "doc_id": f"DOC-{case_num:03d}-A",
                     "type": "specialty_appraisal",
-                    "content_summary": "1968 Shelby GT500 documentation requiring specialized appraisal.",
+                    "content_summary": "1968 Shelby GT500 classic collector vehicle documentation requiring vintage specialist restoration appraisal.",
                     "flags": ["specialist_required"]
                 }
             ]

@@ -65,6 +65,13 @@ CANONICAL_POLICY_CLAUSES = [
         applies_to_coverage=[PolicyCoverageType.COMPREHENSIVE]
     ),
     PolicyClause(
+        clause_id="CLS-COV-005",
+        title="Third-Party Recovery and Subrogation",
+        section="Coverage",
+        text="Where a third party is at fault, we may pursue recovery of the deductible and our outlay from the at-fault party's insurer.",
+        applies_to_coverage=[PolicyCoverageType.COMPREHENSIVE, PolicyCoverageType.COLLISION_ONLY]
+    ),
+    PolicyClause(
         clause_id="CLS-COV-006",
         title="Total Loss Economic Constructive Threshold",
         section="Coverage",
@@ -112,6 +119,13 @@ CANONICAL_POLICY_CLAUSES = [
         title="Intoxication and Impaired Operation Exclusion",
         section="Exclusion",
         text="No coverage applies if the operator of the insured vehicle is convicted of or breathalysed above the statutory Blood Alcohol Concentration (BAC) threshold at the time of loss.",
+        applies_to_coverage=[PolicyCoverageType.COMPREHENSIVE, PolicyCoverageType.THIRD_PARTY_ONLY, PolicyCoverageType.COLLISION_ONLY]
+    ),
+    PolicyClause(
+        clause_id="CLS-EXC-002",
+        title="Commercial Rideshare and Delivery Exclusion",
+        section="Exclusion",
+        text="No coverage applies while the vehicle is logged into a commercial rideshare network or transporting passengers or goods for hire without an active commercial endorsement.",
         applies_to_coverage=[PolicyCoverageType.COMPREHENSIVE, PolicyCoverageType.THIRD_PARTY_ONLY, PolicyCoverageType.COLLISION_ONLY]
     ),
     PolicyClause(

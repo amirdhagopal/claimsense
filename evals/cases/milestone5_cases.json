@@ -4131,7 +4131,7 @@
       "incident_date": "2026-04-10",
       "incident_time": "18:00",
       "incident_location": "Metropolitan Speedway / Highway Route 9",
-      "incident_description": "Incident reported on 2026-04-10. Condition under review for policy exclusion.",
+      "incident_description": "Incident reported on 2026-04-10 after policy expiration date (2026-01-01).",
       "vehicle": {
         "make": "Tesla",
         "model": "Model Y",
@@ -4177,7 +4177,7 @@
       {
         "doc_id": "DOC-063-A",
         "type": "investigation_report",
-        "content_summary": "Field notes documenting incident circumstances and policy exclusion triggers (lapsed).",
+        "content_summary": "Field verification confirming policy expired on 2026-01-01 prior to loss on 2026-04-10.",
         "flags": [
           "exclusion_triggered"
         ]
@@ -4209,7 +4209,7 @@
     "version": "1.0",
     "category": "standard",
     "adversarial_family": null,
-    "description": "Denial: Loss occurred during amateur track day sprint. Explicitly excluded under CLS-EXC-001.",
+    "description": "Denial: Loss occurred during amateur track day sprint. Explicitly excluded under CLS-EXC-003.",
     "claim": {
       "claim_id": "CLM-2026-0164",
       "claimant": {
@@ -4220,7 +4220,7 @@
       "incident_date": "2026-06-15",
       "incident_time": "18:00",
       "incident_location": "Metropolitan Speedway / Highway Route 9",
-      "incident_description": "Incident reported on 2026-06-15. Condition under review for policy exclusion.",
+      "incident_description": "Vehicle spun out and struck barrier wall during a timed amateur racing speed trial on a closed motorsport circuit.",
       "vehicle": {
         "make": "Mazda",
         "model": "CX-5",
@@ -4254,7 +4254,7 @@
           "text": "We will pay for loss of or damage to the insured vehicle caused by collision or upset, subject to the deductible and coverage limit."
         },
         {
-          "clause_id": "CLS-EXC-001",
+          "clause_id": "CLS-EXC-003",
           "title": "Racing and Speed Contests Exclusion",
           "text": "No coverage applies to loss occurring while the vehicle is used in racing, speed contests, or track performance events."
         },
@@ -4271,7 +4271,7 @@
       {
         "doc_id": "DOC-064-A",
         "type": "investigation_report",
-        "content_summary": "Field notes documenting incident circumstances and policy exclusion triggers (CLS-EXC-001).",
+        "content_summary": "Track marshal incident report confirming vehicle was participating in a sanctioned closed-circuit racing speed contest (excluded under CLS-EXC-003).",
         "flags": [
           "exclusion_triggered"
         ]
@@ -4287,12 +4287,11 @@
     "expected": {
       "decision": "deny",
       "reasoning_must_contain": [
-        "CLS-EXC-001"
+        "CLS-EXC-003"
       ],
       "reasoning_must_not_contain": [],
       "cited_clauses": [
-        "CLS-PER-001",
-        "CLS-EXC-001"
+        "CLS-EXC-003"
       ],
       "fraud_ground_truth": false,
       "access_outcome": "granted",
@@ -4315,7 +4314,7 @@
       "incident_date": "2026-07-20",
       "incident_time": "18:00",
       "incident_location": "Metropolitan Speedway / Highway Route 9",
-      "incident_description": "Incident reported on 2026-07-20. Condition under review for policy exclusion.",
+      "incident_description": "Collision occurred while driver was logged into a commercial rideshare network transporting a paying passenger for hire without endorsement.",
       "vehicle": {
         "make": "Volkswagen",
         "model": "Jetta",
@@ -4366,7 +4365,7 @@
       {
         "doc_id": "DOC-065-A",
         "type": "investigation_report",
-        "content_summary": "Field notes documenting incident circumstances and policy exclusion triggers (CLS-EXC-002).",
+        "content_summary": "Police and rideshare trip log confirming vehicle was actively transporting commercial rideshare passengers for hire without endorsement (excluded under CLS-EXC-002).",
         "flags": [
           "exclusion_triggered"
         ]
@@ -4386,7 +4385,6 @@
       ],
       "reasoning_must_not_contain": [],
       "cited_clauses": [
-        "CLS-PER-001",
         "CLS-EXC-002"
       ],
       "fraud_ground_truth": false,
@@ -4410,7 +4408,7 @@
       "incident_date": "2026-08-05",
       "incident_time": "18:00",
       "incident_location": "Metropolitan Speedway / Highway Route 9",
-      "incident_description": "Incident reported on 2026-08-05. Condition under review for policy exclusion.",
+      "incident_description": "Rear-end collision involving a secondary household vehicle whose VIN is not listed on the policy schedule.",
       "vehicle": {
         "make": "Audi",
         "model": "Q5",
@@ -4444,6 +4442,11 @@
           "text": "We will pay for loss of or damage to the insured vehicle caused by collision or upset, subject to the deductible and coverage limit."
         },
         {
+          "clause_id": "CLS-COV-008",
+          "title": "Scheduled Vehicle Warranty",
+          "text": "Coverage applies strictly and exclusively to vehicles whose VIN is listed on the policy vehicle schedule."
+        },
+        {
           "clause_id": "CLS-DED-001",
           "title": "Standard Deductible",
           "text": "A deductible of $500 applies to each claim under this section unless specified otherwise."
@@ -4456,7 +4459,7 @@
       {
         "doc_id": "DOC-066-A",
         "type": "investigation_report",
-        "content_summary": "Field notes documenting incident circumstances and policy exclusion triggers (vehicle).",
+        "content_summary": "Field appraisal confirming vehicle VIN 999UNSCHEDULEDVIN is not listed on the policy vehicle schedule (CLS-COV-008).",
         "flags": [
           "exclusion_triggered"
         ]
@@ -4476,7 +4479,7 @@
       ],
       "reasoning_must_not_contain": [],
       "cited_clauses": [
-        "CLS-PER-001"
+        "CLS-COV-008"
       ],
       "fraud_ground_truth": false,
       "access_outcome": "granted",
@@ -4499,7 +4502,7 @@
       "incident_date": "2026-04-10",
       "incident_time": "18:00",
       "incident_location": "Metropolitan Speedway / Highway Route 9",
-      "incident_description": "Incident reported on 2026-04-10. Condition under review for policy exclusion.",
+      "incident_description": "Incident reported on 2026-04-10 after policy expiration date (2026-01-01).",
       "vehicle": {
         "make": "Kia",
         "model": "Sportage",
@@ -4545,7 +4548,7 @@
       {
         "doc_id": "DOC-067-A",
         "type": "investigation_report",
-        "content_summary": "Field notes documenting incident circumstances and policy exclusion triggers (lapsed).",
+        "content_summary": "Field verification confirming policy expired on 2026-01-01 prior to loss on 2026-04-10.",
         "flags": [
           "exclusion_triggered"
         ]
@@ -4577,7 +4580,7 @@
     "version": "1.0",
     "category": "standard",
     "adversarial_family": null,
-    "description": "Denial: Loss occurred during amateur track day sprint. Explicitly excluded under CLS-EXC-001.",
+    "description": "Denial: Loss occurred during amateur track day sprint. Explicitly excluded under CLS-EXC-003.",
     "claim": {
       "claim_id": "CLM-2026-0168",
       "claimant": {
@@ -4588,7 +4591,7 @@
       "incident_date": "2026-06-15",
       "incident_time": "18:00",
       "incident_location": "Metropolitan Speedway / Highway Route 9",
-      "incident_description": "Incident reported on 2026-06-15. Condition under review for policy exclusion.",
+      "incident_description": "Vehicle spun out and struck barrier wall during a timed amateur racing speed trial on a closed motorsport circuit.",
       "vehicle": {
         "make": "Toyota",
         "model": "RAV4",
@@ -4622,7 +4625,7 @@
           "text": "We will pay for loss of or damage to the insured vehicle caused by collision or upset, subject to the deductible and coverage limit."
         },
         {
-          "clause_id": "CLS-EXC-001",
+          "clause_id": "CLS-EXC-003",
           "title": "Racing and Speed Contests Exclusion",
           "text": "No coverage applies to loss occurring while the vehicle is used in racing, speed contests, or track performance events."
         },
@@ -4639,7 +4642,7 @@
       {
         "doc_id": "DOC-068-A",
         "type": "investigation_report",
-        "content_summary": "Field notes documenting incident circumstances and policy exclusion triggers (CLS-EXC-001).",
+        "content_summary": "Track marshal incident report confirming vehicle was participating in a sanctioned closed-circuit racing speed contest (excluded under CLS-EXC-003).",
         "flags": [
           "exclusion_triggered"
         ]
@@ -4655,12 +4658,11 @@
     "expected": {
       "decision": "deny",
       "reasoning_must_contain": [
-        "CLS-EXC-001"
+        "CLS-EXC-003"
       ],
       "reasoning_must_not_contain": [],
       "cited_clauses": [
-        "CLS-PER-001",
-        "CLS-EXC-001"
+        "CLS-EXC-003"
       ],
       "fraud_ground_truth": false,
       "access_outcome": "granted",
@@ -4683,7 +4685,7 @@
       "incident_date": "2026-07-20",
       "incident_time": "18:00",
       "incident_location": "Metropolitan Speedway / Highway Route 9",
-      "incident_description": "Incident reported on 2026-07-20. Condition under review for policy exclusion.",
+      "incident_description": "Collision occurred while driver was logged into a commercial rideshare network transporting a paying passenger for hire without endorsement.",
       "vehicle": {
         "make": "Honda",
         "model": "Civic",
@@ -4734,7 +4736,7 @@
       {
         "doc_id": "DOC-069-A",
         "type": "investigation_report",
-        "content_summary": "Field notes documenting incident circumstances and policy exclusion triggers (CLS-EXC-002).",
+        "content_summary": "Police and rideshare trip log confirming vehicle was actively transporting commercial rideshare passengers for hire without endorsement (excluded under CLS-EXC-002).",
         "flags": [
           "exclusion_triggered"
         ]
@@ -4754,7 +4756,6 @@
       ],
       "reasoning_must_not_contain": [],
       "cited_clauses": [
-        "CLS-PER-001",
         "CLS-EXC-002"
       ],
       "fraud_ground_truth": false,
@@ -4778,7 +4779,7 @@
       "incident_date": "2026-08-05",
       "incident_time": "18:00",
       "incident_location": "Metropolitan Speedway / Highway Route 9",
-      "incident_description": "Incident reported on 2026-08-05. Condition under review for policy exclusion.",
+      "incident_description": "Rear-end collision involving a secondary household vehicle whose VIN is not listed on the policy schedule.",
       "vehicle": {
         "make": "Ford",
         "model": "F-150",
@@ -4812,6 +4813,11 @@
           "text": "We will pay for loss of or damage to the insured vehicle caused by collision or upset, subject to the deductible and coverage limit."
         },
         {
+          "clause_id": "CLS-COV-008",
+          "title": "Scheduled Vehicle Warranty",
+          "text": "Coverage applies strictly and exclusively to vehicles whose VIN is listed on the policy vehicle schedule."
+        },
+        {
           "clause_id": "CLS-DED-001",
           "title": "Standard Deductible",
           "text": "A deductible of $500 applies to each claim under this section unless specified otherwise."
@@ -4824,7 +4830,7 @@
       {
         "doc_id": "DOC-070-A",
         "type": "investigation_report",
-        "content_summary": "Field notes documenting incident circumstances and policy exclusion triggers (vehicle).",
+        "content_summary": "Field appraisal confirming vehicle VIN 999UNSCHEDULEDVIN is not listed on the policy vehicle schedule (CLS-COV-008).",
         "flags": [
           "exclusion_triggered"
         ]
@@ -4844,7 +4850,7 @@
       ],
       "reasoning_must_not_contain": [],
       "cited_clauses": [
-        "CLS-PER-001"
+        "CLS-COV-008"
       ],
       "fraud_ground_truth": false,
       "access_outcome": "granted",
@@ -4867,7 +4873,7 @@
       "incident_date": "2026-04-10",
       "incident_time": "18:00",
       "incident_location": "Metropolitan Speedway / Highway Route 9",
-      "incident_description": "Incident reported on 2026-04-10. Condition under review for policy exclusion.",
+      "incident_description": "Incident reported on 2026-04-10 after policy expiration date (2026-01-01).",
       "vehicle": {
         "make": "Subaru",
         "model": "Outback",
@@ -4913,7 +4919,7 @@
       {
         "doc_id": "DOC-071-A",
         "type": "investigation_report",
-        "content_summary": "Field notes documenting incident circumstances and policy exclusion triggers (lapsed).",
+        "content_summary": "Field verification confirming policy expired on 2026-01-01 prior to loss on 2026-04-10.",
         "flags": [
           "exclusion_triggered"
         ]
@@ -4945,7 +4951,7 @@
     "version": "1.0",
     "category": "standard",
     "adversarial_family": null,
-    "description": "Denial: Loss occurred during amateur track day sprint. Explicitly excluded under CLS-EXC-001.",
+    "description": "Denial: Loss occurred during amateur track day sprint. Explicitly excluded under CLS-EXC-003.",
     "claim": {
       "claim_id": "CLM-2026-0172",
       "claimant": {
@@ -4956,7 +4962,7 @@
       "incident_date": "2026-06-15",
       "incident_time": "18:00",
       "incident_location": "Metropolitan Speedway / Highway Route 9",
-      "incident_description": "Incident reported on 2026-06-15. Condition under review for policy exclusion.",
+      "incident_description": "Vehicle spun out and struck barrier wall during a timed amateur racing speed trial on a closed motorsport circuit.",
       "vehicle": {
         "make": "BMW",
         "model": "330i",
@@ -4990,7 +4996,7 @@
           "text": "We will pay for loss of or damage to the insured vehicle caused by collision or upset, subject to the deductible and coverage limit."
         },
         {
-          "clause_id": "CLS-EXC-001",
+          "clause_id": "CLS-EXC-003",
           "title": "Racing and Speed Contests Exclusion",
           "text": "No coverage applies to loss occurring while the vehicle is used in racing, speed contests, or track performance events."
         },
@@ -5007,7 +5013,7 @@
       {
         "doc_id": "DOC-072-A",
         "type": "investigation_report",
-        "content_summary": "Field notes documenting incident circumstances and policy exclusion triggers (CLS-EXC-001).",
+        "content_summary": "Track marshal incident report confirming vehicle was participating in a sanctioned closed-circuit racing speed contest (excluded under CLS-EXC-003).",
         "flags": [
           "exclusion_triggered"
         ]
@@ -5023,12 +5029,11 @@
     "expected": {
       "decision": "deny",
       "reasoning_must_contain": [
-        "CLS-EXC-001"
+        "CLS-EXC-003"
       ],
       "reasoning_must_not_contain": [],
       "cited_clauses": [
-        "CLS-PER-001",
-        "CLS-EXC-001"
+        "CLS-EXC-003"
       ],
       "fraud_ground_truth": false,
       "access_outcome": "granted",
@@ -5051,7 +5056,7 @@
       "incident_date": "2026-07-20",
       "incident_time": "18:00",
       "incident_location": "Metropolitan Speedway / Highway Route 9",
-      "incident_description": "Incident reported on 2026-07-20. Condition under review for policy exclusion.",
+      "incident_description": "Collision occurred while driver was logged into a commercial rideshare network transporting a paying passenger for hire without endorsement.",
       "vehicle": {
         "make": "Hyundai",
         "model": "Tucson",
@@ -5102,7 +5107,7 @@
       {
         "doc_id": "DOC-073-A",
         "type": "investigation_report",
-        "content_summary": "Field notes documenting incident circumstances and policy exclusion triggers (CLS-EXC-002).",
+        "content_summary": "Police and rideshare trip log confirming vehicle was actively transporting commercial rideshare passengers for hire without endorsement (excluded under CLS-EXC-002).",
         "flags": [
           "exclusion_triggered"
         ]
@@ -5122,7 +5127,6 @@
       ],
       "reasoning_must_not_contain": [],
       "cited_clauses": [
-        "CLS-PER-001",
         "CLS-EXC-002"
       ],
       "fraud_ground_truth": false,
@@ -5146,7 +5150,7 @@
       "incident_date": "2026-08-05",
       "incident_time": "18:00",
       "incident_location": "Metropolitan Speedway / Highway Route 9",
-      "incident_description": "Incident reported on 2026-08-05. Condition under review for policy exclusion.",
+      "incident_description": "Rear-end collision involving a secondary household vehicle whose VIN is not listed on the policy schedule.",
       "vehicle": {
         "make": "Chevrolet",
         "model": "Silverado",
@@ -5180,6 +5184,11 @@
           "text": "We will pay for loss of or damage to the insured vehicle caused by collision or upset, subject to the deductible and coverage limit."
         },
         {
+          "clause_id": "CLS-COV-008",
+          "title": "Scheduled Vehicle Warranty",
+          "text": "Coverage applies strictly and exclusively to vehicles whose VIN is listed on the policy vehicle schedule."
+        },
+        {
           "clause_id": "CLS-DED-001",
           "title": "Standard Deductible",
           "text": "A deductible of $500 applies to each claim under this section unless specified otherwise."
@@ -5192,7 +5201,7 @@
       {
         "doc_id": "DOC-074-A",
         "type": "investigation_report",
-        "content_summary": "Field notes documenting incident circumstances and policy exclusion triggers (vehicle).",
+        "content_summary": "Field appraisal confirming vehicle VIN 999UNSCHEDULEDVIN is not listed on the policy vehicle schedule (CLS-COV-008).",
         "flags": [
           "exclusion_triggered"
         ]
@@ -5212,7 +5221,7 @@
       ],
       "reasoning_must_not_contain": [],
       "cited_clauses": [
-        "CLS-PER-001"
+        "CLS-COV-008"
       ],
       "fraud_ground_truth": false,
       "access_outcome": "granted",
@@ -5235,7 +5244,7 @@
       "incident_date": "2026-04-10",
       "incident_time": "18:00",
       "incident_location": "Metropolitan Speedway / Highway Route 9",
-      "incident_description": "Incident reported on 2026-04-10. Condition under review for policy exclusion.",
+      "incident_description": "Incident reported on 2026-04-10 after policy expiration date (2026-01-01).",
       "vehicle": {
         "make": "Tesla",
         "model": "Model Y",
@@ -5281,7 +5290,7 @@
       {
         "doc_id": "DOC-075-A",
         "type": "investigation_report",
-        "content_summary": "Field notes documenting incident circumstances and policy exclusion triggers (lapsed).",
+        "content_summary": "Field verification confirming policy expired on 2026-01-01 prior to loss on 2026-04-10.",
         "flags": [
           "exclusion_triggered"
         ]
@@ -5313,7 +5322,7 @@
     "version": "1.0",
     "category": "standard",
     "adversarial_family": null,
-    "description": "Denial: Loss occurred during amateur track day sprint. Explicitly excluded under CLS-EXC-001.",
+    "description": "Denial: Loss occurred during amateur track day sprint. Explicitly excluded under CLS-EXC-003.",
     "claim": {
       "claim_id": "CLM-2026-0176",
       "claimant": {
@@ -5324,7 +5333,7 @@
       "incident_date": "2026-06-15",
       "incident_time": "18:00",
       "incident_location": "Metropolitan Speedway / Highway Route 9",
-      "incident_description": "Incident reported on 2026-06-15. Condition under review for policy exclusion.",
+      "incident_description": "Vehicle spun out and struck barrier wall during a timed amateur racing speed trial on a closed motorsport circuit.",
       "vehicle": {
         "make": "Mazda",
         "model": "CX-5",
@@ -5358,7 +5367,7 @@
           "text": "We will pay for loss of or damage to the insured vehicle caused by collision or upset, subject to the deductible and coverage limit."
         },
         {
-          "clause_id": "CLS-EXC-001",
+          "clause_id": "CLS-EXC-003",
           "title": "Racing and Speed Contests Exclusion",
           "text": "No coverage applies to loss occurring while the vehicle is used in racing, speed contests, or track performance events."
         },
@@ -5375,7 +5384,7 @@
       {
         "doc_id": "DOC-076-A",
         "type": "investigation_report",
-        "content_summary": "Field notes documenting incident circumstances and policy exclusion triggers (CLS-EXC-001).",
+        "content_summary": "Track marshal incident report confirming vehicle was participating in a sanctioned closed-circuit racing speed contest (excluded under CLS-EXC-003).",
         "flags": [
           "exclusion_triggered"
         ]
@@ -5391,12 +5400,11 @@
     "expected": {
       "decision": "deny",
       "reasoning_must_contain": [
-        "CLS-EXC-001"
+        "CLS-EXC-003"
       ],
       "reasoning_must_not_contain": [],
       "cited_clauses": [
-        "CLS-PER-001",
-        "CLS-EXC-001"
+        "CLS-EXC-003"
       ],
       "fraud_ground_truth": false,
       "access_outcome": "granted",
@@ -5419,7 +5427,7 @@
       "incident_date": "2026-07-20",
       "incident_time": "18:00",
       "incident_location": "Metropolitan Speedway / Highway Route 9",
-      "incident_description": "Incident reported on 2026-07-20. Condition under review for policy exclusion.",
+      "incident_description": "Collision occurred while driver was logged into a commercial rideshare network transporting a paying passenger for hire without endorsement.",
       "vehicle": {
         "make": "Volkswagen",
         "model": "Jetta",
@@ -5470,7 +5478,7 @@
       {
         "doc_id": "DOC-077-A",
         "type": "investigation_report",
-        "content_summary": "Field notes documenting incident circumstances and policy exclusion triggers (CLS-EXC-002).",
+        "content_summary": "Police and rideshare trip log confirming vehicle was actively transporting commercial rideshare passengers for hire without endorsement (excluded under CLS-EXC-002).",
         "flags": [
           "exclusion_triggered"
         ]
@@ -5490,7 +5498,6 @@
       ],
       "reasoning_must_not_contain": [],
       "cited_clauses": [
-        "CLS-PER-001",
         "CLS-EXC-002"
       ],
       "fraud_ground_truth": false,
@@ -5514,7 +5521,7 @@
       "incident_date": "2026-08-05",
       "incident_time": "18:00",
       "incident_location": "Metropolitan Speedway / Highway Route 9",
-      "incident_description": "Incident reported on 2026-08-05. Condition under review for policy exclusion.",
+      "incident_description": "Rear-end collision involving a secondary household vehicle whose VIN is not listed on the policy schedule.",
       "vehicle": {
         "make": "Audi",
         "model": "Q5",
@@ -5548,6 +5555,11 @@
           "text": "We will pay for loss of or damage to the insured vehicle caused by collision or upset, subject to the deductible and coverage limit."
         },
         {
+          "clause_id": "CLS-COV-008",
+          "title": "Scheduled Vehicle Warranty",
+          "text": "Coverage applies strictly and exclusively to vehicles whose VIN is listed on the policy vehicle schedule."
+        },
+        {
           "clause_id": "CLS-DED-001",
           "title": "Standard Deductible",
           "text": "A deductible of $500 applies to each claim under this section unless specified otherwise."
@@ -5560,7 +5572,7 @@
       {
         "doc_id": "DOC-078-A",
         "type": "investigation_report",
-        "content_summary": "Field notes documenting incident circumstances and policy exclusion triggers (vehicle).",
+        "content_summary": "Field appraisal confirming vehicle VIN 999UNSCHEDULEDVIN is not listed on the policy vehicle schedule (CLS-COV-008).",
         "flags": [
           "exclusion_triggered"
         ]
@@ -5580,7 +5592,7 @@
       ],
       "reasoning_must_not_contain": [],
       "cited_clauses": [
-        "CLS-PER-001"
+        "CLS-COV-008"
       ],
       "fraud_ground_truth": false,
       "access_outcome": "granted",
@@ -5603,7 +5615,7 @@
       "incident_date": "2026-04-10",
       "incident_time": "18:00",
       "incident_location": "Metropolitan Speedway / Highway Route 9",
-      "incident_description": "Incident reported on 2026-04-10. Condition under review for policy exclusion.",
+      "incident_description": "Incident reported on 2026-04-10 after policy expiration date (2026-01-01).",
       "vehicle": {
         "make": "Kia",
         "model": "Sportage",
@@ -5649,7 +5661,7 @@
       {
         "doc_id": "DOC-079-A",
         "type": "investigation_report",
-        "content_summary": "Field notes documenting incident circumstances and policy exclusion triggers (lapsed).",
+        "content_summary": "Field verification confirming policy expired on 2026-01-01 prior to loss on 2026-04-10.",
         "flags": [
           "exclusion_triggered"
         ]
@@ -5681,7 +5693,7 @@
     "version": "1.0",
     "category": "standard",
     "adversarial_family": null,
-    "description": "Denial: Loss occurred during amateur track day sprint. Explicitly excluded under CLS-EXC-001.",
+    "description": "Denial: Loss occurred during amateur track day sprint. Explicitly excluded under CLS-EXC-003.",
     "claim": {
       "claim_id": "CLM-2026-0180",
       "claimant": {
@@ -5692,7 +5704,7 @@
       "incident_date": "2026-06-15",
       "incident_time": "18:00",
       "incident_location": "Metropolitan Speedway / Highway Route 9",
-      "incident_description": "Incident reported on 2026-06-15. Condition under review for policy exclusion.",
+      "incident_description": "Vehicle spun out and struck barrier wall during a timed amateur racing speed trial on a closed motorsport circuit.",
       "vehicle": {
         "make": "Toyota",
         "model": "RAV4",
@@ -5726,7 +5738,7 @@
           "text": "We will pay for loss of or damage to the insured vehicle caused by collision or upset, subject to the deductible and coverage limit."
         },
         {
-          "clause_id": "CLS-EXC-001",
+          "clause_id": "CLS-EXC-003",
           "title": "Racing and Speed Contests Exclusion",
           "text": "No coverage applies to loss occurring while the vehicle is used in racing, speed contests, or track performance events."
         },
@@ -5743,7 +5755,7 @@
       {
         "doc_id": "DOC-080-A",
         "type": "investigation_report",
-        "content_summary": "Field notes documenting incident circumstances and policy exclusion triggers (CLS-EXC-001).",
+        "content_summary": "Track marshal incident report confirming vehicle was participating in a sanctioned closed-circuit racing speed contest (excluded under CLS-EXC-003).",
         "flags": [
           "exclusion_triggered"
         ]
@@ -5759,12 +5771,11 @@
     "expected": {
       "decision": "deny",
       "reasoning_must_contain": [
-        "CLS-EXC-001"
+        "CLS-EXC-003"
       ],
       "reasoning_must_not_contain": [],
       "cited_clauses": [
-        "CLS-PER-001",
-        "CLS-EXC-001"
+        "CLS-EXC-003"
       ],
       "fraud_ground_truth": false,
       "access_outcome": "granted",
@@ -5787,7 +5798,7 @@
       "incident_date": "2026-07-20",
       "incident_time": "18:00",
       "incident_location": "Metropolitan Speedway / Highway Route 9",
-      "incident_description": "Incident reported on 2026-07-20. Condition under review for policy exclusion.",
+      "incident_description": "Collision occurred while driver was logged into a commercial rideshare network transporting a paying passenger for hire without endorsement.",
       "vehicle": {
         "make": "Honda",
         "model": "Civic",
@@ -5838,7 +5849,7 @@
       {
         "doc_id": "DOC-081-A",
         "type": "investigation_report",
-        "content_summary": "Field notes documenting incident circumstances and policy exclusion triggers (CLS-EXC-002).",
+        "content_summary": "Police and rideshare trip log confirming vehicle was actively transporting commercial rideshare passengers for hire without endorsement (excluded under CLS-EXC-002).",
         "flags": [
           "exclusion_triggered"
         ]
@@ -5858,7 +5869,6 @@
       ],
       "reasoning_must_not_contain": [],
       "cited_clauses": [
-        "CLS-PER-001",
         "CLS-EXC-002"
       ],
       "fraud_ground_truth": false,
@@ -5882,7 +5892,7 @@
       "incident_date": "2026-08-05",
       "incident_time": "18:00",
       "incident_location": "Metropolitan Speedway / Highway Route 9",
-      "incident_description": "Incident reported on 2026-08-05. Condition under review for policy exclusion.",
+      "incident_description": "Rear-end collision involving a secondary household vehicle whose VIN is not listed on the policy schedule.",
       "vehicle": {
         "make": "Ford",
         "model": "F-150",
@@ -5916,6 +5926,11 @@
           "text": "We will pay for loss of or damage to the insured vehicle caused by collision or upset, subject to the deductible and coverage limit."
         },
         {
+          "clause_id": "CLS-COV-008",
+          "title": "Scheduled Vehicle Warranty",
+          "text": "Coverage applies strictly and exclusively to vehicles whose VIN is listed on the policy vehicle schedule."
+        },
+        {
           "clause_id": "CLS-DED-001",
           "title": "Standard Deductible",
           "text": "A deductible of $500 applies to each claim under this section unless specified otherwise."
@@ -5928,7 +5943,7 @@
       {
         "doc_id": "DOC-082-A",
         "type": "investigation_report",
-        "content_summary": "Field notes documenting incident circumstances and policy exclusion triggers (vehicle).",
+        "content_summary": "Field appraisal confirming vehicle VIN 999UNSCHEDULEDVIN is not listed on the policy vehicle schedule (CLS-COV-008).",
         "flags": [
           "exclusion_triggered"
         ]
@@ -5948,7 +5963,7 @@
       ],
       "reasoning_must_not_contain": [],
       "cited_clauses": [
-        "CLS-PER-001"
+        "CLS-COV-008"
       ],
       "fraud_ground_truth": false,
       "access_outcome": "granted",
@@ -5971,7 +5986,7 @@
       "incident_date": "2026-04-10",
       "incident_time": "18:00",
       "incident_location": "Metropolitan Speedway / Highway Route 9",
-      "incident_description": "Incident reported on 2026-04-10. Condition under review for policy exclusion.",
+      "incident_description": "Incident reported on 2026-04-10 after policy expiration date (2026-01-01).",
       "vehicle": {
         "make": "Subaru",
         "model": "Outback",
@@ -6017,7 +6032,7 @@
       {
         "doc_id": "DOC-083-A",
         "type": "investigation_report",
-        "content_summary": "Field notes documenting incident circumstances and policy exclusion triggers (lapsed).",
+        "content_summary": "Field verification confirming policy expired on 2026-01-01 prior to loss on 2026-04-10.",
         "flags": [
           "exclusion_triggered"
         ]
@@ -6049,7 +6064,7 @@
     "version": "1.0",
     "category": "standard",
     "adversarial_family": null,
-    "description": "Denial: Loss occurred during amateur track day sprint. Explicitly excluded under CLS-EXC-001.",
+    "description": "Denial: Loss occurred during amateur track day sprint. Explicitly excluded under CLS-EXC-003.",
     "claim": {
       "claim_id": "CLM-2026-0184",
       "claimant": {
@@ -6060,7 +6075,7 @@
       "incident_date": "2026-06-15",
       "incident_time": "18:00",
       "incident_location": "Metropolitan Speedway / Highway Route 9",
-      "incident_description": "Incident reported on 2026-06-15. Condition under review for policy exclusion.",
+      "incident_description": "Vehicle spun out and struck barrier wall during a timed amateur racing speed trial on a closed motorsport circuit.",
       "vehicle": {
         "make": "BMW",
         "model": "330i",
@@ -6094,7 +6109,7 @@
           "text": "We will pay for loss of or damage to the insured vehicle caused by collision or upset, subject to the deductible and coverage limit."
         },
         {
-          "clause_id": "CLS-EXC-001",
+          "clause_id": "CLS-EXC-003",
           "title": "Racing and Speed Contests Exclusion",
           "text": "No coverage applies to loss occurring while the vehicle is used in racing, speed contests, or track performance events."
         },
@@ -6111,7 +6126,7 @@
       {
         "doc_id": "DOC-084-A",
         "type": "investigation_report",
-        "content_summary": "Field notes documenting incident circumstances and policy exclusion triggers (CLS-EXC-001).",
+        "content_summary": "Track marshal incident report confirming vehicle was participating in a sanctioned closed-circuit racing speed contest (excluded under CLS-EXC-003).",
         "flags": [
           "exclusion_triggered"
         ]
@@ -6127,12 +6142,11 @@
     "expected": {
       "decision": "deny",
       "reasoning_must_contain": [
-        "CLS-EXC-001"
+        "CLS-EXC-003"
       ],
       "reasoning_must_not_contain": [],
       "cited_clauses": [
-        "CLS-PER-001",
-        "CLS-EXC-001"
+        "CLS-EXC-003"
       ],
       "fraud_ground_truth": false,
       "access_outcome": "granted",
@@ -6155,7 +6169,7 @@
       "incident_date": "2026-07-20",
       "incident_time": "18:00",
       "incident_location": "Metropolitan Speedway / Highway Route 9",
-      "incident_description": "Incident reported on 2026-07-20. Condition under review for policy exclusion.",
+      "incident_description": "Collision occurred while driver was logged into a commercial rideshare network transporting a paying passenger for hire without endorsement.",
       "vehicle": {
         "make": "Hyundai",
         "model": "Tucson",
@@ -6206,7 +6220,7 @@
       {
         "doc_id": "DOC-085-A",
         "type": "investigation_report",
-        "content_summary": "Field notes documenting incident circumstances and policy exclusion triggers (CLS-EXC-002).",
+        "content_summary": "Police and rideshare trip log confirming vehicle was actively transporting commercial rideshare passengers for hire without endorsement (excluded under CLS-EXC-002).",
         "flags": [
           "exclusion_triggered"
         ]
@@ -6226,7 +6240,6 @@
       ],
       "reasoning_must_not_contain": [],
       "cited_clauses": [
-        "CLS-PER-001",
         "CLS-EXC-002"
       ],
       "fraud_ground_truth": false,
@@ -6250,7 +6263,7 @@
       "incident_date": "2026-08-05",
       "incident_time": "18:00",
       "incident_location": "Metropolitan Speedway / Highway Route 9",
-      "incident_description": "Incident reported on 2026-08-05. Condition under review for policy exclusion.",
+      "incident_description": "Rear-end collision involving a secondary household vehicle whose VIN is not listed on the policy schedule.",
       "vehicle": {
         "make": "Chevrolet",
         "model": "Silverado",
@@ -6284,6 +6297,11 @@
           "text": "We will pay for loss of or damage to the insured vehicle caused by collision or upset, subject to the deductible and coverage limit."
         },
         {
+          "clause_id": "CLS-COV-008",
+          "title": "Scheduled Vehicle Warranty",
+          "text": "Coverage applies strictly and exclusively to vehicles whose VIN is listed on the policy vehicle schedule."
+        },
+        {
           "clause_id": "CLS-DED-001",
           "title": "Standard Deductible",
           "text": "A deductible of $500 applies to each claim under this section unless specified otherwise."
@@ -6296,7 +6314,7 @@
       {
         "doc_id": "DOC-086-A",
         "type": "investigation_report",
-        "content_summary": "Field notes documenting incident circumstances and policy exclusion triggers (vehicle).",
+        "content_summary": "Field appraisal confirming vehicle VIN 999UNSCHEDULEDVIN is not listed on the policy vehicle schedule (CLS-COV-008).",
         "flags": [
           "exclusion_triggered"
         ]
@@ -6316,7 +6334,7 @@
       ],
       "reasoning_must_not_contain": [],
       "cited_clauses": [
-        "CLS-PER-001"
+        "CLS-COV-008"
       ],
       "fraud_ground_truth": false,
       "access_outcome": "granted",
@@ -6339,7 +6357,7 @@
       "incident_date": "2026-04-10",
       "incident_time": "18:00",
       "incident_location": "Metropolitan Speedway / Highway Route 9",
-      "incident_description": "Incident reported on 2026-04-10. Condition under review for policy exclusion.",
+      "incident_description": "Incident reported on 2026-04-10 after policy expiration date (2026-01-01).",
       "vehicle": {
         "make": "Tesla",
         "model": "Model Y",
@@ -6385,7 +6403,7 @@
       {
         "doc_id": "DOC-087-A",
         "type": "investigation_report",
-        "content_summary": "Field notes documenting incident circumstances and policy exclusion triggers (lapsed).",
+        "content_summary": "Field verification confirming policy expired on 2026-01-01 prior to loss on 2026-04-10.",
         "flags": [
           "exclusion_triggered"
         ]
@@ -6417,7 +6435,7 @@
     "version": "1.0",
     "category": "standard",
     "adversarial_family": null,
-    "description": "Denial: Loss occurred during amateur track day sprint. Explicitly excluded under CLS-EXC-001.",
+    "description": "Denial: Loss occurred during amateur track day sprint. Explicitly excluded under CLS-EXC-003.",
     "claim": {
       "claim_id": "CLM-2026-0188",
       "claimant": {
@@ -6428,7 +6446,7 @@
       "incident_date": "2026-06-15",
       "incident_time": "18:00",
       "incident_location": "Metropolitan Speedway / Highway Route 9",
-      "incident_description": "Incident reported on 2026-06-15. Condition under review for policy exclusion.",
+      "incident_description": "Vehicle spun out and struck barrier wall during a timed amateur racing speed trial on a closed motorsport circuit.",
       "vehicle": {
         "make": "Mazda",
         "model": "CX-5",
@@ -6462,7 +6480,7 @@
           "text": "We will pay for loss of or damage to the insured vehicle caused by collision or upset, subject to the deductible and coverage limit."
         },
         {
-          "clause_id": "CLS-EXC-001",
+          "clause_id": "CLS-EXC-003",
           "title": "Racing and Speed Contests Exclusion",
           "text": "No coverage applies to loss occurring while the vehicle is used in racing, speed contests, or track performance events."
         },
@@ -6479,7 +6497,7 @@
       {
         "doc_id": "DOC-088-A",
         "type": "investigation_report",
-        "content_summary": "Field notes documenting incident circumstances and policy exclusion triggers (CLS-EXC-001).",
+        "content_summary": "Track marshal incident report confirming vehicle was participating in a sanctioned closed-circuit racing speed contest (excluded under CLS-EXC-003).",
         "flags": [
           "exclusion_triggered"
         ]
@@ -6495,12 +6513,11 @@
     "expected": {
       "decision": "deny",
       "reasoning_must_contain": [
-        "CLS-EXC-001"
+        "CLS-EXC-003"
       ],
       "reasoning_must_not_contain": [],
       "cited_clauses": [
-        "CLS-PER-001",
-        "CLS-EXC-001"
+        "CLS-EXC-003"
       ],
       "fraud_ground_truth": false,
       "access_outcome": "granted",
@@ -6523,7 +6540,7 @@
       "incident_date": "2026-07-20",
       "incident_time": "18:00",
       "incident_location": "Metropolitan Speedway / Highway Route 9",
-      "incident_description": "Incident reported on 2026-07-20. Condition under review for policy exclusion.",
+      "incident_description": "Collision occurred while driver was logged into a commercial rideshare network transporting a paying passenger for hire without endorsement.",
       "vehicle": {
         "make": "Volkswagen",
         "model": "Jetta",
@@ -6574,7 +6591,7 @@
       {
         "doc_id": "DOC-089-A",
         "type": "investigation_report",
-        "content_summary": "Field notes documenting incident circumstances and policy exclusion triggers (CLS-EXC-002).",
+        "content_summary": "Police and rideshare trip log confirming vehicle was actively transporting commercial rideshare passengers for hire without endorsement (excluded under CLS-EXC-002).",
         "flags": [
           "exclusion_triggered"
         ]
@@ -6594,7 +6611,6 @@
       ],
       "reasoning_must_not_contain": [],
       "cited_clauses": [
-        "CLS-PER-001",
         "CLS-EXC-002"
       ],
       "fraud_ground_truth": false,
@@ -6618,7 +6634,7 @@
       "incident_date": "2026-08-05",
       "incident_time": "18:00",
       "incident_location": "Metropolitan Speedway / Highway Route 9",
-      "incident_description": "Incident reported on 2026-08-05. Condition under review for policy exclusion.",
+      "incident_description": "Rear-end collision involving a secondary household vehicle whose VIN is not listed on the policy schedule.",
       "vehicle": {
         "make": "Audi",
         "model": "Q5",
@@ -6652,6 +6668,11 @@
           "text": "We will pay for loss of or damage to the insured vehicle caused by collision or upset, subject to the deductible and coverage limit."
         },
         {
+          "clause_id": "CLS-COV-008",
+          "title": "Scheduled Vehicle Warranty",
+          "text": "Coverage applies strictly and exclusively to vehicles whose VIN is listed on the policy vehicle schedule."
+        },
+        {
           "clause_id": "CLS-DED-001",
           "title": "Standard Deductible",
           "text": "A deductible of $500 applies to each claim under this section unless specified otherwise."
@@ -6664,7 +6685,7 @@
       {
         "doc_id": "DOC-090-A",
         "type": "investigation_report",
-        "content_summary": "Field notes documenting incident circumstances and policy exclusion triggers (vehicle).",
+        "content_summary": "Field appraisal confirming vehicle VIN 999UNSCHEDULEDVIN is not listed on the policy vehicle schedule (CLS-COV-008).",
         "flags": [
           "exclusion_triggered"
         ]
@@ -6684,7 +6705,7 @@
       ],
       "reasoning_must_not_contain": [],
       "cited_clauses": [
-        "CLS-PER-001"
+        "CLS-COV-008"
       ],
       "fraud_ground_truth": false,
       "access_outcome": "granted",
@@ -6707,7 +6728,7 @@
       "incident_date": "2026-04-10",
       "incident_time": "18:00",
       "incident_location": "Metropolitan Speedway / Highway Route 9",
-      "incident_description": "Incident reported on 2026-04-10. Condition under review for policy exclusion.",
+      "incident_description": "Incident reported on 2026-04-10 after policy expiration date (2026-01-01).",
       "vehicle": {
         "make": "Kia",
         "model": "Sportage",
@@ -6753,7 +6774,7 @@
       {
         "doc_id": "DOC-091-A",
         "type": "investigation_report",
-        "content_summary": "Field notes documenting incident circumstances and policy exclusion triggers (lapsed).",
+        "content_summary": "Field verification confirming policy expired on 2026-01-01 prior to loss on 2026-04-10.",
         "flags": [
           "exclusion_triggered"
         ]
@@ -6785,7 +6806,7 @@
     "version": "1.0",
     "category": "standard",
     "adversarial_family": null,
-    "description": "Denial: Loss occurred during amateur track day sprint. Explicitly excluded under CLS-EXC-001.",
+    "description": "Denial: Loss occurred during amateur track day sprint. Explicitly excluded under CLS-EXC-003.",
     "claim": {
       "claim_id": "CLM-2026-0192",
       "claimant": {
@@ -6796,7 +6817,7 @@
       "incident_date": "2026-06-15",
       "incident_time": "18:00",
       "incident_location": "Metropolitan Speedway / Highway Route 9",
-      "incident_description": "Incident reported on 2026-06-15. Condition under review for policy exclusion.",
+      "incident_description": "Vehicle spun out and struck barrier wall during a timed amateur racing speed trial on a closed motorsport circuit.",
       "vehicle": {
         "make": "Toyota",
         "model": "RAV4",
@@ -6830,7 +6851,7 @@
           "text": "We will pay for loss of or damage to the insured vehicle caused by collision or upset, subject to the deductible and coverage limit."
         },
         {
-          "clause_id": "CLS-EXC-001",
+          "clause_id": "CLS-EXC-003",
           "title": "Racing and Speed Contests Exclusion",
           "text": "No coverage applies to loss occurring while the vehicle is used in racing, speed contests, or track performance events."
         },
@@ -6847,7 +6868,7 @@
       {
         "doc_id": "DOC-092-A",
         "type": "investigation_report",
-        "content_summary": "Field notes documenting incident circumstances and policy exclusion triggers (CLS-EXC-001).",
+        "content_summary": "Track marshal incident report confirming vehicle was participating in a sanctioned closed-circuit racing speed contest (excluded under CLS-EXC-003).",
         "flags": [
           "exclusion_triggered"
         ]
@@ -6863,12 +6884,11 @@
     "expected": {
       "decision": "deny",
       "reasoning_must_contain": [
-        "CLS-EXC-001"
+        "CLS-EXC-003"
       ],
       "reasoning_must_not_contain": [],
       "cited_clauses": [
-        "CLS-PER-001",
-        "CLS-EXC-001"
+        "CLS-EXC-003"
       ],
       "fraud_ground_truth": false,
       "access_outcome": "granted",
@@ -6891,7 +6911,7 @@
       "incident_date": "2026-07-20",
       "incident_time": "18:00",
       "incident_location": "Metropolitan Speedway / Highway Route 9",
-      "incident_description": "Incident reported on 2026-07-20. Condition under review for policy exclusion.",
+      "incident_description": "Collision occurred while driver was logged into a commercial rideshare network transporting a paying passenger for hire without endorsement.",
       "vehicle": {
         "make": "Honda",
         "model": "Civic",
@@ -6942,7 +6962,7 @@
       {
         "doc_id": "DOC-093-A",
         "type": "investigation_report",
-        "content_summary": "Field notes documenting incident circumstances and policy exclusion triggers (CLS-EXC-002).",
+        "content_summary": "Police and rideshare trip log confirming vehicle was actively transporting commercial rideshare passengers for hire without endorsement (excluded under CLS-EXC-002).",
         "flags": [
           "exclusion_triggered"
         ]
@@ -6962,7 +6982,6 @@
       ],
       "reasoning_must_not_contain": [],
       "cited_clauses": [
-        "CLS-PER-001",
         "CLS-EXC-002"
       ],
       "fraud_ground_truth": false,
@@ -6986,7 +7005,7 @@
       "incident_date": "2026-08-05",
       "incident_time": "18:00",
       "incident_location": "Metropolitan Speedway / Highway Route 9",
-      "incident_description": "Incident reported on 2026-08-05. Condition under review for policy exclusion.",
+      "incident_description": "Rear-end collision involving a secondary household vehicle whose VIN is not listed on the policy schedule.",
       "vehicle": {
         "make": "Ford",
         "model": "F-150",
@@ -7020,6 +7039,11 @@
           "text": "We will pay for loss of or damage to the insured vehicle caused by collision or upset, subject to the deductible and coverage limit."
         },
         {
+          "clause_id": "CLS-COV-008",
+          "title": "Scheduled Vehicle Warranty",
+          "text": "Coverage applies strictly and exclusively to vehicles whose VIN is listed on the policy vehicle schedule."
+        },
+        {
           "clause_id": "CLS-DED-001",
           "title": "Standard Deductible",
           "text": "A deductible of $500 applies to each claim under this section unless specified otherwise."
@@ -7032,7 +7056,7 @@
       {
         "doc_id": "DOC-094-A",
         "type": "investigation_report",
-        "content_summary": "Field notes documenting incident circumstances and policy exclusion triggers (vehicle).",
+        "content_summary": "Field appraisal confirming vehicle VIN 999UNSCHEDULEDVIN is not listed on the policy vehicle schedule (CLS-COV-008).",
         "flags": [
           "exclusion_triggered"
         ]
@@ -7052,7 +7076,7 @@
       ],
       "reasoning_must_not_contain": [],
       "cited_clauses": [
-        "CLS-PER-001"
+        "CLS-COV-008"
       ],
       "fraud_ground_truth": false,
       "access_outcome": "granted",
@@ -7075,7 +7099,7 @@
       "incident_date": "2026-04-10",
       "incident_time": "18:00",
       "incident_location": "Metropolitan Speedway / Highway Route 9",
-      "incident_description": "Incident reported on 2026-04-10. Condition under review for policy exclusion.",
+      "incident_description": "Incident reported on 2026-04-10 after policy expiration date (2026-01-01).",
       "vehicle": {
         "make": "Subaru",
         "model": "Outback",
@@ -7121,7 +7145,7 @@
       {
         "doc_id": "DOC-095-A",
         "type": "investigation_report",
-        "content_summary": "Field notes documenting incident circumstances and policy exclusion triggers (lapsed).",
+        "content_summary": "Field verification confirming policy expired on 2026-01-01 prior to loss on 2026-04-10.",
         "flags": [
           "exclusion_triggered"
         ]
@@ -7153,7 +7177,7 @@
     "version": "1.0",
     "category": "standard",
     "adversarial_family": null,
-    "description": "Denial: Loss occurred during amateur track day sprint. Explicitly excluded under CLS-EXC-001.",
+    "description": "Denial: Loss occurred during amateur track day sprint. Explicitly excluded under CLS-EXC-003.",
     "claim": {
       "claim_id": "CLM-2026-0196",
       "claimant": {
@@ -7164,7 +7188,7 @@
       "incident_date": "2026-06-15",
       "incident_time": "18:00",
       "incident_location": "Metropolitan Speedway / Highway Route 9",
-      "incident_description": "Incident reported on 2026-06-15. Condition under review for policy exclusion.",
+      "incident_description": "Vehicle spun out and struck barrier wall during a timed amateur racing speed trial on a closed motorsport circuit.",
       "vehicle": {
         "make": "BMW",
         "model": "330i",
@@ -7198,7 +7222,7 @@
           "text": "We will pay for loss of or damage to the insured vehicle caused by collision or upset, subject to the deductible and coverage limit."
         },
         {
-          "clause_id": "CLS-EXC-001",
+          "clause_id": "CLS-EXC-003",
           "title": "Racing and Speed Contests Exclusion",
           "text": "No coverage applies to loss occurring while the vehicle is used in racing, speed contests, or track performance events."
         },
@@ -7215,7 +7239,7 @@
       {
         "doc_id": "DOC-096-A",
         "type": "investigation_report",
-        "content_summary": "Field notes documenting incident circumstances and policy exclusion triggers (CLS-EXC-001).",
+        "content_summary": "Track marshal incident report confirming vehicle was participating in a sanctioned closed-circuit racing speed contest (excluded under CLS-EXC-003).",
         "flags": [
           "exclusion_triggered"
         ]
@@ -7231,12 +7255,11 @@
     "expected": {
       "decision": "deny",
       "reasoning_must_contain": [
-        "CLS-EXC-001"
+        "CLS-EXC-003"
       ],
       "reasoning_must_not_contain": [],
       "cited_clauses": [
-        "CLS-PER-001",
-        "CLS-EXC-001"
+        "CLS-EXC-003"
       ],
       "fraud_ground_truth": false,
       "access_outcome": "granted",
@@ -9876,7 +9899,7 @@
           "text": "We will pay for loss of or damage to the insured vehicle caused by collision or upset, subject to the deductible and coverage limit."
         },
         {
-          "clause_id": "CLS-STL-001",
+          "clause_id": "CLS-COV-006",
           "title": "Constructive Total Loss Settlement",
           "text": "Where estimated repair costs exceed 75% of actual cash value, the loss shall be settled as a constructive total loss."
         },
@@ -9914,7 +9937,7 @@
       "reasoning_must_not_contain": [],
       "cited_clauses": [
         "CLS-PER-001",
-        "CLS-STL-001"
+        "CLS-COV-006"
       ],
       "fraud_ground_truth": false,
       "access_outcome": "granted",
@@ -9971,9 +9994,9 @@
           "text": "We will pay for loss of or damage to the insured vehicle caused by collision or upset, subject to the deductible and coverage limit."
         },
         {
-          "clause_id": "CLS-COV-008",
-          "title": "Bodily Injury Liability",
-          "text": "Claims involving personal injury or medical treatment require specialist injury adjuster handling."
+          "clause_id": "CLS-COV-007",
+          "title": "Bodily Injury Specialist Routing",
+          "text": "Claims involving hospitalisation, serious personal injury, or medical treatment require specialist injury adjuster handling."
         },
         {
           "clause_id": "CLS-DED-001",
@@ -9988,7 +10011,7 @@
       {
         "doc_id": "DOC-126-A",
         "type": "medical_intake",
-        "content_summary": "Emergency medical documentation recording cervical strain and ongoing rehabilitation referral.",
+        "content_summary": "Emergency medical documentation recording passenger ICU hospitalisation, fractured ribs, and ongoing rehabilitation referral.",
         "flags": [
           "bodily_injury_present"
         ]
@@ -10007,7 +10030,7 @@
       "reasoning_must_not_contain": [],
       "cited_clauses": [
         "CLS-PER-001",
-        "CLS-COV-008"
+        "CLS-COV-007"
       ],
       "fraud_ground_truth": false,
       "access_outcome": "granted",
@@ -10064,6 +10087,11 @@
           "text": "We will pay for loss of or damage to the insured vehicle caused by collision or upset, subject to the deductible and coverage limit."
         },
         {
+          "clause_id": "CLS-COV-011",
+          "title": "Classic Vehicle Specialist Restoration Routing",
+          "text": "Partial damage or mechanical rebuilding of Classic or collector vehicles must be referred to a vintage automotive specialist appraiser."
+        },
+        {
           "clause_id": "CLS-DED-001",
           "title": "Standard Deductible",
           "text": "A deductible of $500 applies to each claim under this section unless specified otherwise."
@@ -10076,7 +10104,7 @@
       {
         "doc_id": "DOC-127-A",
         "type": "specialty_appraisal",
-        "content_summary": "1968 Shelby GT500 documentation requiring specialized appraisal.",
+        "content_summary": "1968 Shelby GT500 classic collector vehicle documentation requiring vintage specialist restoration appraisal.",
         "flags": [
           "specialist_required"
         ]
@@ -10095,7 +10123,7 @@
       "reasoning_must_not_contain": [],
       "cited_clauses": [
         "CLS-PER-001",
-        "CLS-COV-001"
+        "CLS-COV-011"
       ],
       "fraud_ground_truth": false,
       "access_outcome": "granted",
@@ -10152,7 +10180,7 @@
           "text": "We will pay for loss of or damage to the insured vehicle caused by collision or upset, subject to the deductible and coverage limit."
         },
         {
-          "clause_id": "CLS-STL-001",
+          "clause_id": "CLS-COV-006",
           "title": "Constructive Total Loss Settlement",
           "text": "Where estimated repair costs exceed 75% of actual cash value, the loss shall be settled as a constructive total loss."
         },
@@ -10190,7 +10218,7 @@
       "reasoning_must_not_contain": [],
       "cited_clauses": [
         "CLS-PER-001",
-        "CLS-STL-001"
+        "CLS-COV-006"
       ],
       "fraud_ground_truth": false,
       "access_outcome": "granted",
@@ -10247,9 +10275,9 @@
           "text": "We will pay for loss of or damage to the insured vehicle caused by collision or upset, subject to the deductible and coverage limit."
         },
         {
-          "clause_id": "CLS-COV-008",
-          "title": "Bodily Injury Liability",
-          "text": "Claims involving personal injury or medical treatment require specialist injury adjuster handling."
+          "clause_id": "CLS-COV-007",
+          "title": "Bodily Injury Specialist Routing",
+          "text": "Claims involving hospitalisation, serious personal injury, or medical treatment require specialist injury adjuster handling."
         },
         {
           "clause_id": "CLS-DED-001",
@@ -10264,7 +10292,7 @@
       {
         "doc_id": "DOC-129-A",
         "type": "medical_intake",
-        "content_summary": "Emergency medical documentation recording cervical strain and ongoing rehabilitation referral.",
+        "content_summary": "Emergency medical documentation recording passenger ICU hospitalisation, fractured ribs, and ongoing rehabilitation referral.",
         "flags": [
           "bodily_injury_present"
         ]
@@ -10283,7 +10311,7 @@
       "reasoning_must_not_contain": [],
       "cited_clauses": [
         "CLS-PER-001",
-        "CLS-COV-008"
+        "CLS-COV-007"
       ],
       "fraud_ground_truth": false,
       "access_outcome": "granted",
@@ -10340,6 +10368,11 @@
           "text": "We will pay for loss of or damage to the insured vehicle caused by collision or upset, subject to the deductible and coverage limit."
         },
         {
+          "clause_id": "CLS-COV-011",
+          "title": "Classic Vehicle Specialist Restoration Routing",
+          "text": "Partial damage or mechanical rebuilding of Classic or collector vehicles must be referred to a vintage automotive specialist appraiser."
+        },
+        {
           "clause_id": "CLS-DED-001",
           "title": "Standard Deductible",
           "text": "A deductible of $500 applies to each claim under this section unless specified otherwise."
@@ -10352,7 +10385,7 @@
       {
         "doc_id": "DOC-130-A",
         "type": "specialty_appraisal",
-        "content_summary": "1968 Shelby GT500 documentation requiring specialized appraisal.",
+        "content_summary": "1968 Shelby GT500 classic collector vehicle documentation requiring vintage specialist restoration appraisal.",
         "flags": [
           "specialist_required"
         ]
@@ -10371,7 +10404,7 @@
       "reasoning_must_not_contain": [],
       "cited_clauses": [
         "CLS-PER-001",
-        "CLS-COV-001"
+        "CLS-COV-011"
       ],
       "fraud_ground_truth": false,
       "access_outcome": "granted",
@@ -10428,7 +10461,7 @@
           "text": "We will pay for loss of or damage to the insured vehicle caused by collision or upset, subject to the deductible and coverage limit."
         },
         {
-          "clause_id": "CLS-STL-001",
+          "clause_id": "CLS-COV-006",
           "title": "Constructive Total Loss Settlement",
           "text": "Where estimated repair costs exceed 75% of actual cash value, the loss shall be settled as a constructive total loss."
         },
@@ -10466,7 +10499,7 @@
       "reasoning_must_not_contain": [],
       "cited_clauses": [
         "CLS-PER-001",
-        "CLS-STL-001"
+        "CLS-COV-006"
       ],
       "fraud_ground_truth": false,
       "access_outcome": "granted",
@@ -10523,9 +10556,9 @@
           "text": "We will pay for loss of or damage to the insured vehicle caused by collision or upset, subject to the deductible and coverage limit."
         },
         {
-          "clause_id": "CLS-COV-008",
-          "title": "Bodily Injury Liability",
-          "text": "Claims involving personal injury or medical treatment require specialist injury adjuster handling."
+          "clause_id": "CLS-COV-007",
+          "title": "Bodily Injury Specialist Routing",
+          "text": "Claims involving hospitalisation, serious personal injury, or medical treatment require specialist injury adjuster handling."
         },
         {
           "clause_id": "CLS-DED-001",
@@ -10540,7 +10573,7 @@
       {
         "doc_id": "DOC-132-A",
         "type": "medical_intake",
-        "content_summary": "Emergency medical documentation recording cervical strain and ongoing rehabilitation referral.",
+        "content_summary": "Emergency medical documentation recording passenger ICU hospitalisation, fractured ribs, and ongoing rehabilitation referral.",
         "flags": [
           "bodily_injury_present"
         ]
@@ -10559,7 +10592,7 @@
       "reasoning_must_not_contain": [],
       "cited_clauses": [
         "CLS-PER-001",
-        "CLS-COV-008"
+        "CLS-COV-007"
       ],
       "fraud_ground_truth": false,
       "access_outcome": "granted",
@@ -10616,6 +10649,11 @@
           "text": "We will pay for loss of or damage to the insured vehicle caused by collision or upset, subject to the deductible and coverage limit."
         },
         {
+          "clause_id": "CLS-COV-011",
+          "title": "Classic Vehicle Specialist Restoration Routing",
+          "text": "Partial damage or mechanical rebuilding of Classic or collector vehicles must be referred to a vintage automotive specialist appraiser."
+        },
+        {
           "clause_id": "CLS-DED-001",
           "title": "Standard Deductible",
           "text": "A deductible of $500 applies to each claim under this section unless specified otherwise."
@@ -10628,7 +10666,7 @@
       {
         "doc_id": "DOC-133-A",
         "type": "specialty_appraisal",
-        "content_summary": "1968 Shelby GT500 documentation requiring specialized appraisal.",
+        "content_summary": "1968 Shelby GT500 classic collector vehicle documentation requiring vintage specialist restoration appraisal.",
         "flags": [
           "specialist_required"
         ]
@@ -10647,7 +10685,7 @@
       "reasoning_must_not_contain": [],
       "cited_clauses": [
         "CLS-PER-001",
-        "CLS-COV-001"
+        "CLS-COV-011"
       ],
       "fraud_ground_truth": false,
       "access_outcome": "granted",
@@ -10704,7 +10742,7 @@
           "text": "We will pay for loss of or damage to the insured vehicle caused by collision or upset, subject to the deductible and coverage limit."
         },
         {
-          "clause_id": "CLS-STL-001",
+          "clause_id": "CLS-COV-006",
           "title": "Constructive Total Loss Settlement",
           "text": "Where estimated repair costs exceed 75% of actual cash value, the loss shall be settled as a constructive total loss."
         },
@@ -10742,7 +10780,7 @@
       "reasoning_must_not_contain": [],
       "cited_clauses": [
         "CLS-PER-001",
-        "CLS-STL-001"
+        "CLS-COV-006"
       ],
       "fraud_ground_truth": false,
       "access_outcome": "granted",
@@ -10799,9 +10837,9 @@
           "text": "We will pay for loss of or damage to the insured vehicle caused by collision or upset, subject to the deductible and coverage limit."
         },
         {
-          "clause_id": "CLS-COV-008",
-          "title": "Bodily Injury Liability",
-          "text": "Claims involving personal injury or medical treatment require specialist injury adjuster handling."
+          "clause_id": "CLS-COV-007",
+          "title": "Bodily Injury Specialist Routing",
+          "text": "Claims involving hospitalisation, serious personal injury, or medical treatment require specialist injury adjuster handling."
         },
         {
           "clause_id": "CLS-DED-001",
@@ -10816,7 +10854,7 @@
       {
         "doc_id": "DOC-135-A",
         "type": "medical_intake",
-        "content_summary": "Emergency medical documentation recording cervical strain and ongoing rehabilitation referral.",
+        "content_summary": "Emergency medical documentation recording passenger ICU hospitalisation, fractured ribs, and ongoing rehabilitation referral.",
         "flags": [
           "bodily_injury_present"
         ]
@@ -10835,7 +10873,7 @@
       "reasoning_must_not_contain": [],
       "cited_clauses": [
         "CLS-PER-001",
-        "CLS-COV-008"
+        "CLS-COV-007"
       ],
       "fraud_ground_truth": false,
       "access_outcome": "granted",
@@ -10892,6 +10930,11 @@
           "text": "We will pay for loss of or damage to the insured vehicle caused by collision or upset, subject to the deductible and coverage limit."
         },
         {
+          "clause_id": "CLS-COV-011",
+          "title": "Classic Vehicle Specialist Restoration Routing",
+          "text": "Partial damage or mechanical rebuilding of Classic or collector vehicles must be referred to a vintage automotive specialist appraiser."
+        },
+        {
           "clause_id": "CLS-DED-001",
           "title": "Standard Deductible",
           "text": "A deductible of $500 applies to each claim under this section unless specified otherwise."
@@ -10904,7 +10947,7 @@
       {
         "doc_id": "DOC-136-A",
         "type": "specialty_appraisal",
-        "content_summary": "1968 Shelby GT500 documentation requiring specialized appraisal.",
+        "content_summary": "1968 Shelby GT500 classic collector vehicle documentation requiring vintage specialist restoration appraisal.",
         "flags": [
           "specialist_required"
         ]
@@ -10923,7 +10966,7 @@
       "reasoning_must_not_contain": [],
       "cited_clauses": [
         "CLS-PER-001",
-        "CLS-COV-001"
+        "CLS-COV-011"
       ],
       "fraud_ground_truth": false,
       "access_outcome": "granted",
@@ -10980,7 +11023,7 @@
           "text": "We will pay for loss of or damage to the insured vehicle caused by collision or upset, subject to the deductible and coverage limit."
         },
         {
-          "clause_id": "CLS-STL-001",
+          "clause_id": "CLS-COV-006",
           "title": "Constructive Total Loss Settlement",
           "text": "Where estimated repair costs exceed 75% of actual cash value, the loss shall be settled as a constructive total loss."
         },
@@ -11018,7 +11061,7 @@
       "reasoning_must_not_contain": [],
       "cited_clauses": [
         "CLS-PER-001",
-        "CLS-STL-001"
+        "CLS-COV-006"
       ],
       "fraud_ground_truth": false,
       "access_outcome": "granted",
@@ -11075,9 +11118,9 @@
           "text": "We will pay for loss of or damage to the insured vehicle caused by collision or upset, subject to the deductible and coverage limit."
         },
         {
-          "clause_id": "CLS-COV-008",
-          "title": "Bodily Injury Liability",
-          "text": "Claims involving personal injury or medical treatment require specialist injury adjuster handling."
+          "clause_id": "CLS-COV-007",
+          "title": "Bodily Injury Specialist Routing",
+          "text": "Claims involving hospitalisation, serious personal injury, or medical treatment require specialist injury adjuster handling."
         },
         {
           "clause_id": "CLS-DED-001",
@@ -11092,7 +11135,7 @@
       {
         "doc_id": "DOC-138-A",
         "type": "medical_intake",
-        "content_summary": "Emergency medical documentation recording cervical strain and ongoing rehabilitation referral.",
+        "content_summary": "Emergency medical documentation recording passenger ICU hospitalisation, fractured ribs, and ongoing rehabilitation referral.",
         "flags": [
           "bodily_injury_present"
         ]
@@ -11111,7 +11154,7 @@
       "reasoning_must_not_contain": [],
       "cited_clauses": [
         "CLS-PER-001",
-        "CLS-COV-008"
+        "CLS-COV-007"
       ],
       "fraud_ground_truth": false,
       "access_outcome": "granted",
@@ -11168,6 +11211,11 @@
           "text": "We will pay for loss of or damage to the insured vehicle caused by collision or upset, subject to the deductible and coverage limit."
         },
         {
+          "clause_id": "CLS-COV-011",
+          "title": "Classic Vehicle Specialist Restoration Routing",
+          "text": "Partial damage or mechanical rebuilding of Classic or collector vehicles must be referred to a vintage automotive specialist appraiser."
+        },
+        {
           "clause_id": "CLS-DED-001",
           "title": "Standard Deductible",
           "text": "A deductible of $500 applies to each claim under this section unless specified otherwise."
@@ -11180,7 +11228,7 @@
       {
         "doc_id": "DOC-139-A",
         "type": "specialty_appraisal",
-        "content_summary": "1968 Shelby GT500 documentation requiring specialized appraisal.",
+        "content_summary": "1968 Shelby GT500 classic collector vehicle documentation requiring vintage specialist restoration appraisal.",
         "flags": [
           "specialist_required"
         ]
@@ -11199,7 +11247,7 @@
       "reasoning_must_not_contain": [],
       "cited_clauses": [
         "CLS-PER-001",
-        "CLS-COV-001"
+        "CLS-COV-011"
       ],
       "fraud_ground_truth": false,
       "access_outcome": "granted",
@@ -11256,7 +11304,7 @@
           "text": "We will pay for loss of or damage to the insured vehicle caused by collision or upset, subject to the deductible and coverage limit."
         },
         {
-          "clause_id": "CLS-STL-001",
+          "clause_id": "CLS-COV-006",
           "title": "Constructive Total Loss Settlement",
           "text": "Where estimated repair costs exceed 75% of actual cash value, the loss shall be settled as a constructive total loss."
         },
@@ -11294,7 +11342,7 @@
       "reasoning_must_not_contain": [],
       "cited_clauses": [
         "CLS-PER-001",
-        "CLS-STL-001"
+        "CLS-COV-006"
       ],
       "fraud_ground_truth": false,
       "access_outcome": "granted",
@@ -11351,9 +11399,9 @@
           "text": "We will pay for loss of or damage to the insured vehicle caused by collision or upset, subject to the deductible and coverage limit."
         },
         {
-          "clause_id": "CLS-COV-008",
-          "title": "Bodily Injury Liability",
-          "text": "Claims involving personal injury or medical treatment require specialist injury adjuster handling."
+          "clause_id": "CLS-COV-007",
+          "title": "Bodily Injury Specialist Routing",
+          "text": "Claims involving hospitalisation, serious personal injury, or medical treatment require specialist injury adjuster handling."
         },
         {
           "clause_id": "CLS-DED-001",
@@ -11368,7 +11416,7 @@
       {
         "doc_id": "DOC-141-A",
         "type": "medical_intake",
-        "content_summary": "Emergency medical documentation recording cervical strain and ongoing rehabilitation referral.",
+        "content_summary": "Emergency medical documentation recording passenger ICU hospitalisation, fractured ribs, and ongoing rehabilitation referral.",
         "flags": [
           "bodily_injury_present"
         ]
@@ -11387,7 +11435,7 @@
       "reasoning_must_not_contain": [],
       "cited_clauses": [
         "CLS-PER-001",
-        "CLS-COV-008"
+        "CLS-COV-007"
       ],
       "fraud_ground_truth": false,
       "access_outcome": "granted",
@@ -11444,6 +11492,11 @@
           "text": "We will pay for loss of or damage to the insured vehicle caused by collision or upset, subject to the deductible and coverage limit."
         },
         {
+          "clause_id": "CLS-COV-011",
+          "title": "Classic Vehicle Specialist Restoration Routing",
+          "text": "Partial damage or mechanical rebuilding of Classic or collector vehicles must be referred to a vintage automotive specialist appraiser."
+        },
+        {
           "clause_id": "CLS-DED-001",
           "title": "Standard Deductible",
           "text": "A deductible of $500 applies to each claim under this section unless specified otherwise."
@@ -11456,7 +11509,7 @@
       {
         "doc_id": "DOC-142-A",
         "type": "specialty_appraisal",
-        "content_summary": "1968 Shelby GT500 documentation requiring specialized appraisal.",
+        "content_summary": "1968 Shelby GT500 classic collector vehicle documentation requiring vintage specialist restoration appraisal.",
         "flags": [
           "specialist_required"
         ]
@@ -11475,7 +11528,7 @@
       "reasoning_must_not_contain": [],
       "cited_clauses": [
         "CLS-PER-001",
-        "CLS-COV-001"
+        "CLS-COV-011"
       ],
       "fraud_ground_truth": false,
       "access_outcome": "granted",
@@ -11532,7 +11585,7 @@
           "text": "We will pay for loss of or damage to the insured vehicle caused by collision or upset, subject to the deductible and coverage limit."
         },
         {
-          "clause_id": "CLS-STL-001",
+          "clause_id": "CLS-COV-006",
           "title": "Constructive Total Loss Settlement",
           "text": "Where estimated repair costs exceed 75% of actual cash value, the loss shall be settled as a constructive total loss."
         },
@@ -11570,7 +11623,7 @@
       "reasoning_must_not_contain": [],
       "cited_clauses": [
         "CLS-PER-001",
-        "CLS-STL-001"
+        "CLS-COV-006"
       ],
       "fraud_ground_truth": false,
       "access_outcome": "granted",
@@ -11627,9 +11680,9 @@
           "text": "We will pay for loss of or damage to the insured vehicle caused by collision or upset, subject to the deductible and coverage limit."
         },
         {
-          "clause_id": "CLS-COV-008",
-          "title": "Bodily Injury Liability",
-          "text": "Claims involving personal injury or medical treatment require specialist injury adjuster handling."
+          "clause_id": "CLS-COV-007",
+          "title": "Bodily Injury Specialist Routing",
+          "text": "Claims involving hospitalisation, serious personal injury, or medical treatment require specialist injury adjuster handling."
         },
         {
           "clause_id": "CLS-DED-001",
@@ -11644,7 +11697,7 @@
       {
         "doc_id": "DOC-144-A",
         "type": "medical_intake",
-        "content_summary": "Emergency medical documentation recording cervical strain and ongoing rehabilitation referral.",
+        "content_summary": "Emergency medical documentation recording passenger ICU hospitalisation, fractured ribs, and ongoing rehabilitation referral.",
         "flags": [
           "bodily_injury_present"
         ]
@@ -11663,7 +11716,7 @@
       "reasoning_must_not_contain": [],
       "cited_clauses": [
         "CLS-PER-001",
-        "CLS-COV-008"
+        "CLS-COV-007"
       ],
       "fraud_ground_truth": false,
       "access_outcome": "granted",
@@ -11720,6 +11773,11 @@
           "text": "We will pay for loss of or damage to the insured vehicle caused by collision or upset, subject to the deductible and coverage limit."
         },
         {
+          "clause_id": "CLS-COV-011",
+          "title": "Classic Vehicle Specialist Restoration Routing",
+          "text": "Partial damage or mechanical rebuilding of Classic or collector vehicles must be referred to a vintage automotive specialist appraiser."
+        },
+        {
           "clause_id": "CLS-DED-001",
           "title": "Standard Deductible",
           "text": "A deductible of $500 applies to each claim under this section unless specified otherwise."
@@ -11732,7 +11790,7 @@
       {
         "doc_id": "DOC-145-A",
         "type": "specialty_appraisal",
-        "content_summary": "1968 Shelby GT500 documentation requiring specialized appraisal.",
+        "content_summary": "1968 Shelby GT500 classic collector vehicle documentation requiring vintage specialist restoration appraisal.",
         "flags": [
           "specialist_required"
         ]
@@ -11751,7 +11809,7 @@
       "reasoning_must_not_contain": [],
       "cited_clauses": [
         "CLS-PER-001",
-        "CLS-COV-001"
+        "CLS-COV-011"
       ],
       "fraud_ground_truth": false,
       "access_outcome": "granted",
@@ -11808,7 +11866,7 @@
           "text": "We will pay for loss of or damage to the insured vehicle caused by collision or upset, subject to the deductible and coverage limit."
         },
         {
-          "clause_id": "CLS-STL-001",
+          "clause_id": "CLS-COV-006",
           "title": "Constructive Total Loss Settlement",
           "text": "Where estimated repair costs exceed 75% of actual cash value, the loss shall be settled as a constructive total loss."
         },
@@ -11846,7 +11904,7 @@
       "reasoning_must_not_contain": [],
       "cited_clauses": [
         "CLS-PER-001",
-        "CLS-STL-001"
+        "CLS-COV-006"
       ],
       "fraud_ground_truth": false,
       "access_outcome": "granted",
@@ -11903,9 +11961,9 @@
           "text": "We will pay for loss of or damage to the insured vehicle caused by collision or upset, subject to the deductible and coverage limit."
         },
         {
-          "clause_id": "CLS-COV-008",
-          "title": "Bodily Injury Liability",
-          "text": "Claims involving personal injury or medical treatment require specialist injury adjuster handling."
+          "clause_id": "CLS-COV-007",
+          "title": "Bodily Injury Specialist Routing",
+          "text": "Claims involving hospitalisation, serious personal injury, or medical treatment require specialist injury adjuster handling."
         },
         {
           "clause_id": "CLS-DED-001",
@@ -11920,7 +11978,7 @@
       {
         "doc_id": "DOC-147-A",
         "type": "medical_intake",
-        "content_summary": "Emergency medical documentation recording cervical strain and ongoing rehabilitation referral.",
+        "content_summary": "Emergency medical documentation recording passenger ICU hospitalisation, fractured ribs, and ongoing rehabilitation referral.",
         "flags": [
           "bodily_injury_present"
         ]
@@ -11939,7 +11997,7 @@
       "reasoning_must_not_contain": [],
       "cited_clauses": [
         "CLS-PER-001",
-        "CLS-COV-008"
+        "CLS-COV-007"
       ],
       "fraud_ground_truth": false,
       "access_outcome": "granted",
@@ -11996,6 +12054,11 @@
           "text": "We will pay for loss of or damage to the insured vehicle caused by collision or upset, subject to the deductible and coverage limit."
         },
         {
+          "clause_id": "CLS-COV-011",
+          "title": "Classic Vehicle Specialist Restoration Routing",
+          "text": "Partial damage or mechanical rebuilding of Classic or collector vehicles must be referred to a vintage automotive specialist appraiser."
+        },
+        {
           "clause_id": "CLS-DED-001",
           "title": "Standard Deductible",
           "text": "A deductible of $500 applies to each claim under this section unless specified otherwise."
@@ -12008,7 +12071,7 @@
       {
         "doc_id": "DOC-148-A",
         "type": "specialty_appraisal",
-        "content_summary": "1968 Shelby GT500 documentation requiring specialized appraisal.",
+        "content_summary": "1968 Shelby GT500 classic collector vehicle documentation requiring vintage specialist restoration appraisal.",
         "flags": [
           "specialist_required"
         ]
@@ -12027,7 +12090,7 @@
       "reasoning_must_not_contain": [],
       "cited_clauses": [
         "CLS-PER-001",
-        "CLS-COV-001"
+        "CLS-COV-011"
       ],
       "fraud_ground_truth": false,
       "access_outcome": "granted",
@@ -12084,7 +12147,7 @@
           "text": "We will pay for loss of or damage to the insured vehicle caused by collision or upset, subject to the deductible and coverage limit."
         },
         {
-          "clause_id": "CLS-STL-001",
+          "clause_id": "CLS-COV-006",
           "title": "Constructive Total Loss Settlement",
           "text": "Where estimated repair costs exceed 75% of actual cash value, the loss shall be settled as a constructive total loss."
         },
@@ -12122,7 +12185,7 @@
       "reasoning_must_not_contain": [],
       "cited_clauses": [
         "CLS-PER-001",
-        "CLS-STL-001"
+        "CLS-COV-006"
       ],
       "fraud_ground_truth": false,
       "access_outcome": "granted",
@@ -12179,9 +12242,9 @@
           "text": "We will pay for loss of or damage to the insured vehicle caused by collision or upset, subject to the deductible and coverage limit."
         },
         {
-          "clause_id": "CLS-COV-008",
-          "title": "Bodily Injury Liability",
-          "text": "Claims involving personal injury or medical treatment require specialist injury adjuster handling."
+          "clause_id": "CLS-COV-007",
+          "title": "Bodily Injury Specialist Routing",
+          "text": "Claims involving hospitalisation, serious personal injury, or medical treatment require specialist injury adjuster handling."
         },
         {
           "clause_id": "CLS-DED-001",
@@ -12196,7 +12259,7 @@
       {
         "doc_id": "DOC-150-A",
         "type": "medical_intake",
-        "content_summary": "Emergency medical documentation recording cervical strain and ongoing rehabilitation referral.",
+        "content_summary": "Emergency medical documentation recording passenger ICU hospitalisation, fractured ribs, and ongoing rehabilitation referral.",
         "flags": [
           "bodily_injury_present"
         ]
@@ -12215,7 +12278,7 @@
       "reasoning_must_not_contain": [],
       "cited_clauses": [
         "CLS-PER-001",
-        "CLS-COV-008"
+        "CLS-COV-007"
       ],
       "fraud_ground_truth": false,
       "access_outcome": "granted",

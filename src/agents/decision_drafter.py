@@ -70,10 +70,10 @@ class DecisionDraftAgent(BaseAgent):
                 claim_id=claim.claim_id,
                 decision=DecisionOutcome.DENY,
                 decision_detail=detail,
-                reasoning=f"Claim rejected deterministically: {spine_context.rejection_reason}. Grounded in policy clause {rejection_clause}.",
+                reasoning=f"Claim rejected deterministically: {spine_context.rejection_reason} Grounded in policy clause {rejection_clause} (effective {policy.effective_date} to expiry {policy.expiry_date}).",
                 cited_clauses=[rejection_clause],
                 payout_authorized=0.0,
-                verdict_source="model_agent",
+                verdict_source="deterministic_spine",
                 requires_licensed_adjuster_confirmation=True,
             )
 

@@ -270,10 +270,17 @@ def test_dashboard_ui_endpoint(client):
 
 
 def test_dashboard_metrics_telemetry(client):
+    before = client.get("/dashboard/metrics").json()["total_calls"]
+    # Trigger a quick 403 refusal on /adjudicate and verify live telemetry increments
+    client.post(
+        "/adjudicate",
+        json={"claim_id": "CLM-2026-0101"},
+        headers={"Authorization": "Bearer token-bob-limited-access"},
+    )
     response = client.get("/dashboard/metrics")
     assert response.status_code == 200
     data = response.json()
-    assert "total_calls" in data
+    assert data["total_calls"] == before + 1
     assert "error_rate_pct" in data
     assert "p50_latency_ms" in data
     assert "p95_latency_ms" in data

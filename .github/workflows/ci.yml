@@ -33,8 +33,22 @@ jobs:
         run: |
           python evals/run_evals.py
 
+      - name: Provision Local Ollama Model (if OPENAI_API_KEY not set)
+        if: ${{ env.OPENAI_API_KEY == '' }}
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          curl -fsSL https://ollama.com/install.sh | sh
+          nohup ollama serve > /tmp/ollama.log 2>&1 &
+          sleep 5
+          ollama pull llama3.2:3b
+
       - name: Run CI Evaluation Gate (Blocks Push on Failure)
         id: eval_gate
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY || 'ollama' }}
+          OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL || 'http://localhost:11434/v1' }}
+          OPENAI_MODEL: ${{ secrets.OPENAI_MODEL || 'llama3.2:3b' }}
         run: |
           PYTHONPATH=. python evals/run_pipeline_evals.py
 

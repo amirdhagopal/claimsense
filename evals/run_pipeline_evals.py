@@ -65,6 +65,7 @@ def run_pipeline_evaluations(cases_path: Optional[str] = None, run_all: bool = F
     refusal_matches = 0
     citation_matches = 0
     model_verdicts = 0
+    spine_verdicts = 0
     fallback_verdicts = 0
 
     per_outcome_results = Counter()
@@ -131,6 +132,8 @@ def run_pipeline_evaluations(cases_path: Optional[str] = None, run_all: bool = F
             verdict_source = dossier.draft_decision.verdict_source
             if verdict_source == "model_agent":
                 model_verdicts += 1
+            elif verdict_source == "deterministic_spine":
+                spine_verdicts += 1
             else:
                 fallback_verdicts += 1
 
@@ -177,7 +180,7 @@ def run_pipeline_evaluations(cases_path: Optional[str] = None, run_all: bool = F
     print("EVALUATION GATE RESULTS SUMMARY")
     print("=" * 70)
     print(f"Overall Pass Rate: {passed_cases}/{total_cases} ({accuracy:.1f}%)")
-    print(f"Model-Generated Verdicts: {model_verdicts} | Fallbacks: {fallback_verdicts}")
+    print(f"Model-Generated Verdicts: {model_verdicts} | Deterministic Spine: {spine_verdicts} | Fallbacks: {fallback_verdicts}")
 
     print("\nAccuracy by Decision Outcome:")
     for dec in ["approve", "deny", "flag", "route"]:
