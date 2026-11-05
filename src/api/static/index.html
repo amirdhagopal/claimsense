@@ -1366,10 +1366,11 @@
       }
     }
 
-    // Simulate Unauthorized user attempt
+    // Simulate Bob user attempt on the currently selected claim
     async function simulateUnauthorizedAttempt() {
-      const claimId = 'CLM-2026-0101';
+      const claimId = document.getElementById('selectClaim').value;
       const bobToken = 'Bearer token-bob-limited-access';
+      const t0 = performance.now();
       
       const res = await fetch('/adjudicate', {
         method: 'POST',
@@ -1380,9 +1381,18 @@
         body: JSON.stringify({ claim_id: claimId })
       });
 
+      const dt = Math.round(performance.now() - t0);
+      document.getElementById('timingBadge').innerText = `Elapsed: ${dt}ms`;
+
       if (res.status === 403) {
         const err = await res.json();
         alert(`🔒 TWO-USER BOUNDARY TEST PASS!\n\nUser: adjuster-bob\nClaim: ${claimId}\nStatus: 403 Forbidden\nDetail: ${err.detail}\n\nOutcome: Refusal verified in deterministic code BEFORE any agent ran. Check Audit Trail!`);
+        fetchAuditTrail();
+        refreshMetrics();
+      } else if (res.ok) {
+        const data = await res.json();
+        renderDecision(data);
+        alert(`✅ ENTITLEMENT GRANTED (200 OK)\n\nUser: adjuster-bob\nClaim: ${claimId}\nStatus: 200 OK\nOutcome: ${data.decision.toUpperCase()}\n\n'adjuster-bob' is explicitly entitled to ${claimId} (["CLM-2026-0104", "CLM-2026-0109", "CLM-2026-0113"]).`);
         fetchAuditTrail();
         refreshMetrics();
       }

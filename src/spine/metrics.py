@@ -116,7 +116,7 @@ class MetricsTracker:
         if error_rate > ERROR_RATE_ALARM_THRESHOLD_PCT and len(target_pool) >= 10:
             alarms.append({
                 "alarm_name": "HighErrorRateAlarm",
-                "metric": "ErrorRate",
+                "metric": "ErrorRate",  
                 "value": round(error_rate, 2),
                 "threshold": ERROR_RATE_ALARM_THRESHOLD_PCT,
                 "status": "ALARM",
@@ -170,7 +170,7 @@ class MetricsTracker:
             for i in range(120):
                 t = base_time + (i * 30)
                 lat = 850.0 + (i % 7) * 120.0
-                status = 200 if i % 18 != 0 else 403
+                status = 200 if i % 40 != 0 else 403
                 dec = ["approve", "deny", "flag", "route"][i % 4] if status == 200 else None
                 cls._history.append(
                     RequestMetric(
