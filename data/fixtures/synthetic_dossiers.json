@@ -22,7 +22,7 @@
       "damage_description": "Rear bumper cracked, tail light housing broken, minor dent to trunk lid.",
       "repair_estimate": 2800.0,
       "prior_claims": [],
-      "created_at": "2026-10-23T02:28:31.463535",
+      "created_at": "2026-11-04T23:45:34.529370Z",
       "assigned_adjuster_id": "adjuster-jane"
     },
     "policy": {
@@ -75,7 +75,7 @@
         "content_summary": "Springfield PD report #2026-03-1501. Confirms rear-end collision at intersection. Other driver cited for following too closely. No injuries reported.",
         "structured_data": {},
         "is_redacted": false,
-        "retrieved_at": "2026-10-23T02:28:31.463726"
+        "retrieved_at": "2026-11-04T23:45:34.529624Z"
       },
       {
         "doc_id": "DOC-001-B",
@@ -84,7 +84,7 @@
         "content_summary": "Springfield Auto Body estimate: rear bumper replacement ($1,200), tail light housing ($400), trunk lid repair and repaint ($1,200). Total: $2,800.",
         "structured_data": {},
         "is_redacted": false,
-        "retrieved_at": "2026-10-23T02:28:31.463733"
+        "retrieved_at": "2026-11-04T23:45:34.529630Z"
       }
     ],
     "ground_truth_decision": "approve",
@@ -119,7 +119,7 @@
       "damage_description": "Full windshield crack requiring complete replacement.",
       "repair_estimate": 950.0,
       "prior_claims": [],
-      "created_at": "2026-10-23T02:28:31.463752",
+      "created_at": "2026-11-04T23:45:34.529651Z",
       "assigned_adjuster_id": "adjuster-jane"
     },
     "policy": {
@@ -172,7 +172,7 @@
         "content_summary": "Photo showing full-width crack across windshield originating from a circular impact point on the passenger side.",
         "structured_data": {},
         "is_redacted": false,
-        "retrieved_at": "2026-10-23T02:28:31.463770"
+        "retrieved_at": "2026-11-04T23:45:34.529753Z"
       }
     ],
     "ground_truth_decision": "approve",
@@ -207,7 +207,7 @@
       "damage_description": "Front bumper crushed, radiator damaged, rear hatch dented, both tail lights broken. Driveable but unsafe.",
       "repair_estimate": 8500.0,
       "prior_claims": [],
-      "created_at": "2026-10-23T02:28:31.463784",
+      "created_at": "2026-11-04T23:45:34.529770Z",
       "assigned_adjuster_id": "adjuster-jane"
     },
     "policy": {
@@ -269,7 +269,7 @@
         "content_summary": "State Police report confirming three-vehicle collision. Rear driver cited for distracted driving. Middle vehicle (claimant) not at fault.",
         "structured_data": {},
         "is_redacted": false,
-        "retrieved_at": "2026-10-23T02:28:31.463873"
+        "retrieved_at": "2026-11-04T23:45:34.529788Z"
       },
       {
         "doc_id": "DOC-003-B",
@@ -278,7 +278,7 @@
         "content_summary": "Certified repair shop estimate: front bumper assembly ($3,200), radiator ($1,500), rear hatch ($2,000), tail lights ($800), labour ($1,000). Total: $8,500.",
         "structured_data": {},
         "is_redacted": false,
-        "retrieved_at": "2026-10-23T02:28:31.463877"
+        "retrieved_at": "2026-11-04T23:45:34.529793Z"
       }
     ],
     "ground_truth_decision": "approve",
@@ -313,7 +313,7 @@
       "damage_description": "Approximately 30 dents across roof, hood, and trunk. Two cracked body panels. Windshield pitting.",
       "repair_estimate": 4200.0,
       "prior_claims": [],
-      "created_at": "2026-10-23T02:28:31.463891",
+      "created_at": "2026-11-04T23:45:34.529808Z",
       "assigned_adjuster_id": "adjuster-bob"
     },
     "policy": {
@@ -366,7 +366,7 @@
         "content_summary": "National Weather Service storm report confirming large hail (1.5 inch diameter) in the Springfield area on 2026-06-01 between 02:00 and 04:00.",
         "structured_data": {},
         "is_redacted": false,
-        "retrieved_at": "2026-10-23T02:28:31.463907"
+        "retrieved_at": "2026-11-04T23:45:34.529822Z"
       },
       {
         "doc_id": "DOC-004-B",
@@ -375,7 +375,7 @@
         "content_summary": "Photos showing widespread dimple-pattern dents on roof and hood consistent with hail impact. Windshield shows pitting marks.",
         "structured_data": {},
         "is_redacted": false,
-        "retrieved_at": "2026-10-23T02:28:31.463910"
+        "retrieved_at": "2026-11-04T23:45:34.529825Z"
       }
     ],
     "ground_truth_decision": "approve",
@@ -410,7 +410,7 @@
       "damage_description": "Driver-side door dent with white paint transfer. Door functions normally.",
       "repair_estimate": 1800.0,
       "prior_claims": [],
-      "created_at": "2026-10-23T02:28:31.463920",
+      "created_at": "2026-11-04T23:45:34.529835Z",
       "assigned_adjuster_id": "adjuster-jane"
     },
     "policy": {
@@ -463,7 +463,7 @@
         "content_summary": "Photo showing oval-shaped dent on driver door with white paint transfer. Consistent with another vehicle's door edge or bumper corner.",
         "structured_data": {},
         "is_redacted": false,
-        "retrieved_at": "2026-10-23T02:28:31.463933"
+        "retrieved_at": "2026-11-04T23:45:34.529847Z"
       }
     ],
     "ground_truth_decision": "approve",
@@ -498,7 +498,7 @@
       "damage_description": "Two tires blown, front passenger rim bent, lower control arm cracked.",
       "repair_estimate": 3200.0,
       "prior_claims": [],
-      "created_at": "2026-10-23T02:28:31.463945",
+      "created_at": "2026-11-04T23:45:34.529857Z",
       "assigned_adjuster_id": "adjuster-jane"
     },
     "policy": {
@@ -542,7 +542,7 @@
         "content_summary": "Two tires ($600), rim replacement ($800), control arm ($1,200), alignment and labour ($600). Total: $3,200.",
         "structured_data": {},
         "is_redacted": false,
-        "retrieved_at": "2026-10-23T02:28:31.463956"
+        "retrieved_at": "2026-11-04T23:45:34.529869Z"
       }
     ],
     "ground_truth_decision": "deny",
@@ -575,7 +575,7 @@
       "damage_description": "Front end crushed, both airbags deployed, frame bent, engine pushed into firewall. Vehicle unlikely repairable.",
       "repair_estimate": 42000.0,
       "prior_claims": [],
-      "created_at": "2026-10-23T02:28:31.463993",
+      "created_at": "2026-11-04T23:45:34.529880Z",
       "assigned_adjuster_id": "adjuster-jane"
     },
     "policy": {
@@ -628,7 +628,7 @@
         "content_summary": "Springfield Raceway incident report. Vehicle #17 (claimant) spun out on turn 3 during the amateur open track day. Track marshals confirmed the event was a timed racing competition.",
         "structured_data": {},
         "is_redacted": false,
-        "retrieved_at": "2026-10-23T02:28:31.464006"
+        "retrieved_at": "2026-11-04T23:45:34.529892Z"
       }
     ],
     "ground_truth_decision": "deny",
@@ -661,7 +661,7 @@
       "damage_description": "Front end severe impact with utility pole. Radiator, hood, fender destroyed. Airbags deployed.",
       "repair_estimate": 15000.0,
       "prior_claims": [],
-      "created_at": "2026-10-23T02:28:31.464016",
+      "created_at": "2026-11-04T23:45:34.529902Z",
       "assigned_adjuster_id": "adjuster-jane"
     },
     "policy": {
@@ -714,7 +714,7 @@
         "content_summary": "Springfield PD report. Driver failed field sobriety test and breathalyser (BAC 0.14, legal limit 0.08). Arrested for DUI. Single-vehicle collision with utility pole.",
         "structured_data": {},
         "is_redacted": false,
-        "retrieved_at": "2026-10-23T02:28:31.464029"
+        "retrieved_at": "2026-11-04T23:45:34.529914Z"
       }
     ],
     "ground_truth_decision": "deny",
@@ -747,7 +747,7 @@
       "damage_description": "Rear bumper damage, minor trunk dent.",
       "repair_estimate": 2200.0,
       "prior_claims": [],
-      "created_at": "2026-10-23T02:28:31.464038",
+      "created_at": "2026-11-04T23:45:34.529924Z",
       "assigned_adjuster_id": "adjuster-bob"
     },
     "policy": {
@@ -800,7 +800,7 @@
         "content_summary": "Minor rear-end collision. Other driver cited. Vehicle VIN confirmed as 5XYRG4LC5PG000109 (Kia Sorento).",
         "structured_data": {},
         "is_redacted": false,
-        "retrieved_at": "2026-10-23T02:28:31.464050"
+        "retrieved_at": "2026-11-04T23:45:34.529936Z"
       }
     ],
     "ground_truth_decision": "deny",
@@ -846,7 +846,7 @@
           "amount_paid": 6800.0
         }
       ],
-      "created_at": "2026-10-23T02:28:31.464072",
+      "created_at": "2026-11-04T23:45:34.529959Z",
       "assigned_adjuster_id": "adjuster-jane"
     },
     "policy": {
@@ -890,7 +890,7 @@
         "content_summary": "Front bumper replacement ($3,500), hood repaint ($2,000), headlight assembly ($1,500), labour ($2,500). Total: $9,500. NOTE: All damage is to the FRONT of the vehicle.",
         "structured_data": {},
         "is_redacted": false,
-        "retrieved_at": "2026-10-23T02:28:31.464083"
+        "retrieved_at": "2026-11-04T23:45:34.529981Z"
       },
       {
         "doc_id": "DOC-010-B",
@@ -899,7 +899,7 @@
         "content_summary": "Claimant presented with whiplash symptoms 5 days after the incident. Claims to have been in the vehicle at the time of impact. Original statement said vehicle was unoccupied and parked.",
         "structured_data": {},
         "is_redacted": false,
-        "retrieved_at": "2026-10-23T02:28:31.464086"
+        "retrieved_at": "2026-11-04T23:45:34.529986Z"
       }
     ],
     "ground_truth_decision": "flag",
@@ -932,14 +932,14 @@
       "damage_description": "Vehicle not recovered. Total theft claim.",
       "repair_estimate": 62000.0,
       "prior_claims": [],
-      "created_at": "2026-10-23T02:28:31.464098",
+      "created_at": "2026-11-04T23:45:34.529996Z",
       "assigned_adjuster_id": "adjuster-bob"
     },
     "policy": {
       "policy_id": "POL-10011",
       "policyholder": "Derek Okafor",
-      "effective_date": "2025-06-15",
-      "expiry_date": "2026-06-15",
+      "effective_date": "2026-06-15",
+      "expiry_date": "2027-06-15",
       "status": "Active",
       "coverage_type": "Third-Party Only",
       "vehicle_schedule": [
@@ -985,7 +985,7 @@
         "content_summary": "Vehicle theft report filed. No witnesses, no camera footage. Vehicle has not been recovered as of filing date.",
         "structured_data": {},
         "is_redacted": false,
-        "retrieved_at": "2026-10-23T02:28:31.464110"
+        "retrieved_at": "2026-11-04T23:45:34.530010Z"
       },
       {
         "doc_id": "DOC-011-B",
@@ -994,7 +994,7 @@
         "content_summary": "Endorsement dated 2026-06-15: coverage upgraded from Third-Party Only to Comprehensive, effective same day. Upgrade made via online portal at 23:45. Theft claim filed 48 hours later.",
         "structured_data": {},
         "is_redacted": false,
-        "retrieved_at": "2026-10-23T02:28:31.464113"
+        "retrieved_at": "2026-11-04T23:45:34.530013Z"
       }
     ],
     "ground_truth_decision": "flag",
@@ -1028,7 +1028,7 @@
       "damage_description": "Minor door dent on passenger side. Paint scuff. Estimated 5 mph impact.",
       "repair_estimate": 1500.0,
       "prior_claims": [],
-      "created_at": "2026-10-23T02:28:31.464124",
+      "created_at": "2026-11-04T23:45:34.530023Z",
       "assigned_adjuster_id": "adjuster-jane"
     },
     "policy": {
@@ -1072,7 +1072,7 @@
         "content_summary": "Minor intersection collision. Other vehicle VIN traces to same household address as claimant (742 Evergreen Terrace). Both drivers related (claimant's spouse). Low-speed impact, no visible injuries at scene.",
         "structured_data": {},
         "is_redacted": false,
-        "retrieved_at": "2026-10-23T02:28:31.464135"
+        "retrieved_at": "2026-11-04T23:45:34.530033Z"
       },
       {
         "doc_id": "DOC-012-B",
@@ -1081,7 +1081,7 @@
         "content_summary": "Both occupants of claimant's vehicle presented to ER 3 days post-incident claiming severe neck and back pain. Medical exam findings are minimal and inconsistent with the low-speed impact described. Total medical claims: $35,000.",
         "structured_data": {},
         "is_redacted": false,
-        "retrieved_at": "2026-10-23T02:28:31.464139"
+        "retrieved_at": "2026-11-04T23:45:34.530036Z"
       }
     ],
     "ground_truth_decision": "flag",
@@ -1114,7 +1114,7 @@
       "damage_description": "Roof crushed from rollover, all windows shattered, frame twisted, suspension damaged on both sides.",
       "repair_estimate": 22000.0,
       "prior_claims": [],
-      "created_at": "2026-10-23T02:28:31.464149",
+      "created_at": "2026-11-04T23:45:34.530047Z",
       "assigned_adjuster_id": "adjuster-bob"
     },
     "policy": {
@@ -1167,7 +1167,7 @@
         "content_summary": "Comprehensive damage assessment: roof replacement ($8,000), windows ($2,500), frame straightening ($6,000), suspension ($4,000), labour ($1,500). Total: $22,000. Exceeds vehicle value of $16,000.",
         "structured_data": {},
         "is_redacted": false,
-        "retrieved_at": "2026-10-23T02:28:31.464163"
+        "retrieved_at": "2026-11-04T23:45:34.530059Z"
       },
       {
         "doc_id": "DOC-013-B",
@@ -1176,7 +1176,7 @@
         "content_summary": "Single-vehicle rollover on icy bridge. No other vehicles involved. No citations issued. Road conditions confirmed hazardous by DOT.",
         "structured_data": {},
         "is_redacted": false,
-        "retrieved_at": "2026-10-23T02:28:31.464166"
+        "retrieved_at": "2026-11-04T23:45:34.530061Z"
       }
     ],
     "ground_truth_decision": "route",
@@ -1211,7 +1211,7 @@
       "damage_description": "Severe front-end damage. Both airbags deployed. Vehicle towed from scene.",
       "repair_estimate": 18000.0,
       "prior_claims": [],
-      "created_at": "2026-10-23T02:28:31.464175",
+      "created_at": "2026-11-04T23:45:34.530072Z",
       "assigned_adjuster_id": "adjuster-jane"
     },
     "policy": {
@@ -1264,7 +1264,7 @@
         "content_summary": "Head-on collision. Other driver crossed center line. Claimant's passenger airlifted to Springfield General. Other driver cited for reckless driving.",
         "structured_data": {},
         "is_redacted": false,
-        "retrieved_at": "2026-10-23T02:28:31.464189"
+        "retrieved_at": "2026-11-04T23:45:34.530084Z"
       },
       {
         "doc_id": "DOC-014-B",
@@ -1273,7 +1273,7 @@
         "content_summary": "Passenger admitted to ICU with three broken ribs, punctured left lung, and facial lacerations. Estimated 4-week recovery. Current medical expenses: $85,000 and rising.",
         "structured_data": {},
         "is_redacted": false,
-        "retrieved_at": "2026-10-23T02:28:31.464191"
+        "retrieved_at": "2026-11-04T23:45:34.530087Z"
       }
     ],
     "ground_truth_decision": "route",
@@ -1308,7 +1308,7 @@
       "damage_description": "Underbody damage to exhaust system, oil pan cracked, rear axle bent, floor pan dented. Requires specialist classic-car restoration assessment.",
       "repair_estimate": 45000.0,
       "prior_claims": [],
-      "created_at": "2026-10-23T02:28:31.464201",
+      "created_at": "2026-11-04T23:45:34.530096Z",
       "assigned_adjuster_id": "adjuster-bob"
     },
     "policy": {
@@ -1361,7 +1361,7 @@
         "content_summary": "Photos of 1967 Jaguar E-Type on garage floor showing underbody damage. Exhaust system detached, visible crack in oil pan, rear axle misalignment.",
         "structured_data": {},
         "is_redacted": false,
-        "retrieved_at": "2026-10-23T02:28:31.464213"
+        "retrieved_at": "2026-11-04T23:45:34.530108Z"
       }
     ],
     "ground_truth_decision": "route",
@@ -1396,7 +1396,7 @@
       "damage_description": "Minor paint scrape on rear quarter panel.",
       "repair_estimate": 800.0,
       "prior_claims": [],
-      "created_at": "2026-10-23T02:28:31.464222",
+      "created_at": "2026-11-04T23:45:34.530117Z",
       "assigned_adjuster_id": "adjuster-jane"
     },
     "policy": {
@@ -1440,7 +1440,7 @@
         "content_summary": "Photo of minor paint scrape on rear quarter panel. Damage is superficial.",
         "structured_data": {},
         "is_redacted": false,
-        "retrieved_at": "2026-10-23T02:28:31.464233"
+        "retrieved_at": "2026-11-04T23:45:34.530127Z"
       }
     ],
     "ground_truth_decision": "approve",
@@ -1474,7 +1474,7 @@
       "damage_description": "Small dent and paint chip on driver-side door from cart impact.",
       "repair_estimate": 650.0,
       "prior_claims": [],
-      "created_at": "2026-10-23T02:28:31.464242",
+      "created_at": "2026-11-04T23:45:34.530137Z",
       "assigned_adjuster_id": "adjuster-limited"
     },
     "policy": {
@@ -1518,7 +1518,7 @@
         "content_summary": "Photo of small dent on driver door consistent with a shopping cart impact.",
         "structured_data": {},
         "is_redacted": false,
-        "retrieved_at": "2026-10-23T02:28:31.464253"
+        "retrieved_at": "2026-11-04T23:45:34.530147Z"
       }
     ],
     "ground_truth_decision": "approve",
@@ -1552,7 +1552,7 @@
       "damage_description": "Significant side impact damage.",
       "repair_estimate": 12000.0,
       "prior_claims": [],
-      "created_at": "2026-10-23T02:28:31.464262",
+      "created_at": "2026-11-04T23:45:34.530157Z",
       "assigned_adjuster_id": "adjuster-limited"
     },
     "policy": {
@@ -1617,7 +1617,7 @@
       "damage_description": "Driver-side damage from guardrail contact. Door panels crumpled, mirror sheared, wheel well bent.",
       "repair_estimate": 7500.0,
       "prior_claims": [],
-      "created_at": "2026-10-23T02:28:31.464280",
+      "created_at": "2026-11-04T23:45:34.530174Z",
       "assigned_adjuster_id": "adjuster-jane"
     },
     "policy": {
@@ -1691,7 +1691,7 @@
           "amount_paid": 8500.0
         }
       ],
-      "created_at": "2026-10-23T02:28:31.464300",
+      "created_at": "2026-11-04T23:45:34.530194Z",
       "assigned_adjuster_id": "adjuster-jane"
     },
     "policy": {
@@ -1735,7 +1735,7 @@
         "content_summary": "On-board diagnostic report downloaded from the vehicle ECU. Airbag module shows NO deployment event recorded. All airbag sensors report normal. Impact event recorded at 06:17 AM but severity classified as 'moderate' \u2014 below airbag deployment threshold.",
         "structured_data": {},
         "is_redacted": false,
-        "retrieved_at": "2026-10-23T02:28:31.464312"
+        "retrieved_at": "2026-11-04T23:45:34.530205Z"
       },
       {
         "doc_id": "DOC-020-B",
@@ -1744,7 +1744,7 @@
         "content_summary": "Claimant presented to ER same day with 'airbag burn marks on face and forearms' and 'chemical irritation consistent with airbag propellant exposure.' Claims airbags deployed on impact. Diagnosis: first-degree burns to face and forearms, consistent with airbag deployment.",
         "structured_data": {},
         "is_redacted": false,
-        "retrieved_at": "2026-10-23T02:28:31.464315"
+        "retrieved_at": "2026-11-04T23:45:34.530208Z"
       },
       {
         "doc_id": "DOC-020-C",
@@ -1753,7 +1753,7 @@
         "content_summary": "Major front-end rebuild. Damage assessment notes: 'No evidence of airbag deployment in cabin. Airbag covers intact. Steering wheel airbag not triggered.'",
         "structured_data": {},
         "is_redacted": false,
-        "retrieved_at": "2026-10-23T02:28:31.464317"
+        "retrieved_at": "2026-11-04T23:45:34.530211Z"
       }
     ],
     "ground_truth_decision": "flag",

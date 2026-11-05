@@ -857,8 +857,8 @@
     "policy": {
       "policy_id": "POL-10011",
       "policyholder": "Derek Okafor",
-      "effective_date": "2025-06-15",
-      "expiry_date": "2026-06-15",
+      "effective_date": "2026-06-15",
+      "expiry_date": "2027-06-15",
       "status": "Active",
       "coverage_type": "Third-Party Only",
       "vehicle_schedule": ["5UXCR6C09R9000111"],

@@ -195,6 +195,14 @@ def adjudicate_claim(
             "repair_to_value_ratio": dossier.spine_context.repair_to_value_ratio,
             "is_constructive_total_loss": dossier.spine_context.is_constructive_total_loss,
             "applicable_deductible": dossier.spine_context.deductible,
+            "max_authorized_payout": dossier.spine_context.max_authorized_payout,
+            "spine_must_reject": dossier.spine_context.spine_must_reject,
+            "rejection_reason": dossier.spine_context.rejection_reason,
+        },
+        "agent_trace": {
+            "file_reader": dossier.file_reader_output.model_dump() if dossier.file_reader_output else None,
+            "coverage": dossier.coverage_output.model_dump() if dossier.coverage_output else None,
+            "risk": dossier.risk_output.model_dump() if dossier.risk_output else None,
         },
         "requires_human_confirmation": True,
     }

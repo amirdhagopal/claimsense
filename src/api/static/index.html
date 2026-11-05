@@ -641,7 +641,7 @@
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" color="#94a3b8">
           <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
         </svg>
-        <select id="userSelector" class="user-select">
+        <select id="userSelector" class="user-select" onchange="loadClaimDetails(document.getElementById('selectClaim').value)">
           <option value="adjuster-jane" selected>Jane Doe (Licensed Adjuster · Full Portfolio)</option>
           <option value="adjuster-bob">Bob Vance (Adjuster · Limited Entitlement)</option>
           <option value="compliance-auditor">Auditor (Compliance & Governance)</option>
@@ -718,18 +718,26 @@
           <div class="field-group">
             <label for="selectClaim">Select Motor Claim File</label>
             <select id="selectClaim" onchange="loadClaimDetails(this.value)">
-              <option value="CLM-2026-0101" selected>CLM-2026-0101 (Sarah Chen · Rear Bumper)</option>
+              <option value="CLM-2026-0101" selected>CLM-2026-0101 (Sarah Chen · Rear Bumper Collision)</option>
               <option value="CLM-2026-0102">CLM-2026-0102 (Michael Torres · Windshield Crack)</option>
-              <option value="CLM-2026-0103">CLM-2026-0103 (Emily Watson · 3-Car Collision)</option>
-              <option value="CLM-2026-0104">CLM-2026-0104 (David Kim · Hail Storm)</option>
-              <option value="CLM-2026-0106">CLM-2026-0106 (James Wilson · Animal Strike)</option>
-              <option value="CLM-2026-0108">CLM-2026-0108 (Robert Taylor · Lapsed Policy)</option>
-              <option value="CLM-2026-0110">CLM-2026-0110 (Dmitri Ivanov · DUI Exclusion)</option>
-              <option value="CLM-2026-0111">CLM-2026-0111 (Priya Sharma · Staged Collision)</option>
-              <option value="CLM-2026-0114">CLM-2026-0114 (Lucas Silva · Total Loss Over 75%)</option>
-              <option value="CLM-2026-0115">CLM-2026-0115 (Maya Lin · Severe Bodily Injury)</option>
-              <option value="CLM-2026-0116">CLM-2026-0116 (Test Injector · Adversarial Prompt)</option>
-              <option value="CLM-2026-0117">CLM-2026-0117 (Restricted Claim · Cross-Record Leak)</option>
+              <option value="CLM-2026-0103">CLM-2026-0103 (Priya Patel · 3-Vehicle Chain Collision)</option>
+              <option value="CLM-2026-0104">CLM-2026-0104 (David Kim · Overnight Hailstorm)</option>
+              <option value="CLM-2026-0105">CLM-2026-0105 (Lisa Morgan · Parking Lot Hit-and-Run)</option>
+              <option value="CLM-2026-0106">CLM-2026-0106 (James Wright · Lapsed Policy / Pothole)</option>
+              <option value="CLM-2026-0107">CLM-2026-0107 (Kevin Nash · Closed-Circuit Racing Exclusion)</option>
+              <option value="CLM-2026-0108">CLM-2026-0108 (Robert Garcia · DUI Exclusion / Utility Pole)</option>
+              <option value="CLM-2026-0109">CLM-2026-0109 (Angela Foster · Unscheduled Vehicle VIN)</option>
+              <option value="CLM-2026-0110">CLM-2026-0110 (Victor Ramirez · Contradictory Narrative)</option>
+              <option value="CLM-2026-0111">CLM-2026-0111 (Derek Okafor · Theft 48h After Upgrade)</option>
+              <option value="CLM-2026-0112">CLM-2026-0112 (Maria Santos · Staged Collision / Same Household)</option>
+              <option value="CLM-2026-0113">CLM-2026-0113 (Thomas Lee · Total Loss Rollover &gt; 75%)</option>
+              <option value="CLM-2026-0114">CLM-2026-0114 (Natasha Volkov · Severe Bodily Injury / ICU)</option>
+              <option value="CLM-2026-0115">CLM-2026-0115 (Charles Beaumont · Classic Jaguar Specialist)</option>
+              <option value="CLM-2026-0116">CLM-2026-0116 (Test Injector · Adversarial Prompt Injection)</option>
+              <option value="CLM-2026-0117">CLM-2026-0117 (Emily Watson · Cross-Record Leakage Check)</option>
+              <option value="CLM-2026-0118">CLM-2026-0118 (Confidential Claimant · Unauthorized Access Denial)</option>
+              <option value="CLM-2026-0119">CLM-2026-0119 (Auto Approver · Forced Auto-Decision on Lapsed Policy)</option>
+              <option value="CLM-2026-0120">CLM-2026-0120 (Raymond Black · Airbag Burn Contradiction)</option>
             </select>
           </div>
 
@@ -1085,23 +1093,131 @@
       }
     }
 
-    // Load Claim details into Left Panel
+    let lastDecisionData = null;
+    let currentClaimContext = { claim: null, policy: null, docs: [] };
+
+    function formatCurrency(val) {
+      return `$${Number(val || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    }
+
+    // Load Claim details into Left Panel & synchronize Right Panel Pipeline Cards
     async function loadClaimDetails(claimId) {
       document.getElementById('badgeClaimId').innerText = claimId;
+      document.getElementById('decisionBanner').style.display = 'none';
+      document.getElementById('timingBadge').innerText = 'Ready';
+      lastDecisionData = null;
+
       try {
         const res = await fetch(`/claims/${claimId}`, {
           headers: { 'Authorization': getAuthToken() }
         });
+
+        if (res.status === 403) {
+          currentClaimContext = { claim: null, policy: null, docs: [] };
+          document.getElementById('metaClaimant').innerText = 'Restricted (403 Forbidden)';
+          document.getElementById('metaVehicle').innerText = 'Restricted';
+          document.getElementById('metaMarketVal').innerText = '--';
+          document.getElementById('metaRepairEst').innerText = '--';
+          document.getElementById('metaPolicyId').innerText = 'Restricted';
+          const statusEl = document.getElementById('metaPolicyStatus');
+          statusEl.innerText = 'Restricted (Access Denied)';
+          statusEl.style.color = 'var(--danger)';
+
+          document.getElementById('spineBadge').className = 'step-badge badge-denied';
+          document.getElementById('spineBadge').innerText = 'Access Denied (403)';
+          document.getElementById('spineBody').innerText = `Active persona (${document.getElementById('userSelector').value}) does not hold entitlement for ${claimId}. Pre-agent trust perimeter blocks dossier read.`;
+
+          document.getElementById('frBadge').className = 'step-badge badge-denied';
+          document.getElementById('frBadge').innerText = 'Blocked';
+          document.getElementById('frBody').innerText = 'Zero claim documents loaded due to deterministic entitlement refusal.';
+
+          document.getElementById('covBadge').className = 'step-badge badge-denied';
+          document.getElementById('covBadge').innerText = 'Blocked';
+          document.getElementById('covBody').innerText = 'Policy retrieval prevented before agent invocation.';
+
+          document.getElementById('riskBadge').className = 'step-badge badge-denied';
+          document.getElementById('riskBadge').innerText = 'Blocked';
+          document.getElementById('riskBody').innerText = 'Risk assessment skipped.';
+          return;
+        }
+
         if (res.ok) {
           const c = await res.json();
+          const policyId = c.claimant?.policy_id || 'POL-10001';
           document.getElementById('metaClaimant').innerText = c.claimant?.name || 'N/A';
           document.getElementById('metaVehicle').innerText = `${c.vehicle?.year} ${c.vehicle?.make} ${c.vehicle?.model}`;
-          document.getElementById('metaMarketVal').innerText = `$${(c.vehicle?.market_value || 0).toLocaleString()}`;
-          document.getElementById('metaRepairEst').innerText = `$${(c.repair_estimate || 0).toLocaleString()}`;
-          document.getElementById('metaPolicyId').innerText = c.claimant?.policy_id || 'POL-10001';
+          document.getElementById('metaMarketVal').innerText = formatCurrency(c.vehicle?.market_value);
+          document.getElementById('metaRepairEst').innerText = formatCurrency(c.repair_estimate);
+          document.getElementById('metaPolicyId').innerText = policyId;
+
+          const [polRes, docRes] = await Promise.all([
+            fetch(`/policies/${policyId}`, { headers: { 'Authorization': getAuthToken() } }),
+            fetch(`/documents?claim_id=${claimId}`, { headers: { 'Authorization': getAuthToken() } })
+          ]);
+
+          const polJson = polRes.ok ? await polRes.json() : null;
+          const p = polJson?.policy || polJson;
+          const docData = docRes.ok ? await docRes.json() : { documents: [] };
+          const docs = docData.documents || [];
+          currentClaimContext = { claim: c, policy: p, docs: docs };
+
+          const statusEl = document.getElementById('metaPolicyStatus');
+          const mktVal = Number(c.vehicle?.market_value || 0);
+          const repEst = Number(c.repair_estimate || 0);
+          const ratio = mktVal > 0 ? (repEst / mktVal) : 0;
+          const ratioPct = (ratio * 100).toFixed(1);
+
+          if (p) {
+            const isStatusActive = p.active !== undefined ? Boolean(p.active) : (!p.status || p.status.toLowerCase() === 'active');
+            const inForce = Boolean(isStatusActive && p.effective_date <= c.incident_date && c.incident_date <= p.expiry_date);
+            const vinScheduled = (p.vehicle_schedule || []).includes(c.vehicle?.vin);
+            const deductible = Number(p.deductible || 0);
+            const netPayout = Math.max(0, Math.min(repEst - deductible, Number(p.coverage_limit || repEst)));
+
+            if (!inForce) {
+              statusEl.innerText = `Lapsed (${p.effective_date} to ${p.expiry_date})`;
+              statusEl.style.color = 'var(--danger)';
+              document.getElementById('spineBadge').className = 'step-badge badge-denied';
+              document.getElementById('spineBadge').innerText = 'Policy Lapsed';
+              document.getElementById('spineBody').innerText = `Incident date ${c.incident_date} falls outside policy ${p.policy_id} effective period (${p.effective_date} to ${p.expiry_date}). Deterministic spine requires rejection.`;
+            } else if (!vinScheduled) {
+              statusEl.innerText = 'Active (VIN Not Scheduled)';
+              statusEl.style.color = 'var(--warning)';
+              document.getElementById('spineBadge').className = 'step-badge badge-denied';
+              document.getElementById('spineBadge').innerText = 'VIN Unscheduled';
+              document.getElementById('spineBody').innerText = `Policy ${p.policy_id} is in force on ${c.incident_date}, but vehicle VIN (${c.vehicle?.vin}) is not on the policy schedule (${(p.vehicle_schedule || []).join(', ')}). Deterministic spine requires rejection.`;
+            } else if (ratio >= 0.75) {
+              statusEl.innerText = 'Active (In Force)';
+              statusEl.style.color = 'var(--success)';
+              document.getElementById('spineBadge').className = 'step-badge badge-routed';
+              document.getElementById('spineBadge').innerText = 'Total Loss >= 75%';
+              document.getElementById('spineBody').innerText = `Policy in force on loss date (${c.incident_date}). Vehicle VIN (${c.vehicle?.vin}) scheduled. Repair-to-value ratio: ${ratioPct}% (>= 75% total loss threshold). Deductible ${formatCurrency(deductible)}.`;
+            } else {
+              statusEl.innerText = 'Active (In Force)';
+              statusEl.style.color = 'var(--success)';
+              document.getElementById('spineBadge').className = 'step-badge badge-approved';
+              document.getElementById('spineBadge').innerText = 'Invariants Valid';
+              document.getElementById('spineBody').innerText = `Policy in force on loss date (${c.incident_date}). Vehicle VIN (${c.vehicle?.vin}) scheduled on policy. Repair-to-value ratio: ${ratioPct}% (< 75% total loss threshold). Deductible ${formatCurrency(deductible)} applied net (${formatCurrency(netPayout)}).`;
+            }
+
+            const clauseIds = (p.clauses || []).map(cl => cl.clause_id).join(', ');
+            document.getElementById('covBadge').className = 'step-badge badge-approved';
+            document.getElementById('covBadge').innerText = 'Policy Loaded';
+            document.getElementById('covBody').innerText = `Policy ${p.policy_id} (${(p.coverage_type || 'comprehensive').toUpperCase()}): Limit ${formatCurrency(p.coverage_limit)}, Deductible ${formatCurrency(deductible)}. Clauses indexed for RAG: ${clauseIds || 'N/A'}.`;
+          }
+
+          const docTypes = docs.map(d => (d.document_type || d.doc_type || 'document').replace(/_/g, ' ')).join(', ');
+          document.getElementById('frBadge').className = 'step-badge badge-approved';
+          document.getElementById('frBadge').innerText = `${docs.length} Docs Loaded`;
+          document.getElementById('frBody').innerText = `Incident (${c.incident_date}): ${c.incident_description} [Attached: ${docTypes || 'none'}] — Click "Run AI Adjudication Pipeline" to execute agent extraction.`;
+
+          const priorCount = (c.prior_claims || []).length;
+          document.getElementById('riskBadge').className = 'step-badge badge-approved';
+          document.getElementById('riskBadge').innerText = 'Ready to Evaluate';
+          document.getElementById('riskBody').innerText = `Prior claims on record: ${priorCount}. Repair-to-value ratio: ${ratioPct}%. Run pipeline to evaluate fraud signals, contradictions, and specialist routing.`;
         }
       } catch (e) {
-        console.log('Using default claim metadata');
+        console.log('Error loading claim metadata', e);
       }
     }
 
@@ -1152,19 +1268,96 @@
     }
 
     function renderDecision(d) {
+      lastDecisionData = d;
       const banner = document.getElementById('decisionBanner');
       banner.style.display = 'flex';
       banner.className = 'decision-banner ' + d.decision;
       
       const iconMap = { approve: '✓', deny: '✕', flag: '⚑', route: '➔' };
       document.getElementById('decisionIcon').innerText = iconMap[d.decision] || '●';
-      document.getElementById('decisionTitle').innerText = `${d.decision.toUpperCase()} — ${d.decision_detail ? d.decision_detail.replace('_', ' ').toUpperCase() : 'OUTCOME'}`;
+      document.getElementById('decisionTitle').innerText = `${d.decision.toUpperCase()} — ${d.decision_detail ? d.decision_detail.replace(/_/g, ' ').toUpperCase() : 'OUTCOME'}`;
       document.getElementById('decisionReasoning').innerText = d.reasoning;
-      document.getElementById('decisionPayout').innerText = d.payout_authorized !== null ? `$${d.payout_authorized.toFixed(2)}` : 'N/A';
+      document.getElementById('decisionPayout').innerText = d.payout_authorized !== null && d.payout_authorized !== undefined ? formatCurrency(d.payout_authorized) : 'N/A';
       document.getElementById('decisionSource').innerText = d.verdict_source || 'model_agent';
 
       const cits = document.getElementById('decisionCitations');
       cits.innerHTML = (d.cited_clauses || []).map(c => `<span class="clause-pill">${c}</span>`).join('');
+
+      // Synchronize the 4-Agent Step Cards with live pipeline trace
+      if (d.spine_facts) {
+        const sf = d.spine_facts;
+        const c = currentClaimContext.claim;
+        const mktVal = Number(c?.vehicle?.market_value || 0);
+        const repEst = Number(c?.repair_estimate || 0);
+        const ratioPct = mktVal > 0 ? ((repEst / mktVal) * 100).toFixed(1) : '0.0';
+
+        if (sf.spine_must_reject) {
+          document.getElementById('spineBadge').className = 'step-badge badge-denied';
+          document.getElementById('spineBadge').innerText = !sf.policy_in_force ? 'Policy Lapsed' : 'VIN Unscheduled';
+          document.getElementById('spineBody').innerText = sf.rejection_reason || 'Deterministic spine invariant failed.';
+        } else if (sf.total_loss_candidate) {
+          document.getElementById('spineBadge').className = 'step-badge badge-routed';
+          document.getElementById('spineBadge').innerText = 'Total Loss >= 75%';
+          document.getElementById('spineBody').innerText = `Policy in force on loss date. Vehicle VIN scheduled on policy. Repair-to-value ratio: ${ratioPct}% (>= 75% total loss threshold). Deductible ${formatCurrency(sf.deductible_applied)} applied.`;
+        } else {
+          document.getElementById('spineBadge').className = 'step-badge badge-approved';
+          document.getElementById('spineBadge').innerText = 'Invariants Valid';
+          document.getElementById('spineBody').innerText = `Policy in force on loss date. Vehicle VIN scheduled on policy. Repair-to-value ratio: ${ratioPct}% (< 75% total loss threshold). Deductible ${formatCurrency(sf.deductible_applied)} applied net (${formatCurrency(sf.max_authorized_payout)}).`;
+        }
+      }
+
+      if (d.agent_trace) {
+        const fr = d.agent_trace.file_reader;
+        if (fr) {
+          const hasInconsistencies = (fr.inconsistencies_found || []).length > 0;
+          const hasBI = Boolean(fr.bodily_injury_detected);
+          if (hasInconsistencies) {
+            document.getElementById('frBadge').className = 'step-badge badge-flagged';
+            document.getElementById('frBadge').innerText = 'Contradictions Found';
+          } else if (hasBI) {
+            document.getElementById('frBadge').className = 'step-badge badge-routed';
+            document.getElementById('frBadge').innerText = 'Bodily Injury Detected';
+          } else {
+            document.getElementById('frBadge').className = 'step-badge badge-approved';
+            document.getElementById('frBadge').innerText = 'Facts Verified';
+          }
+          const comps = (fr.damaged_components || []).join(', ') || 'none listed';
+          const incons = hasInconsistencies ? ` Contradictions: ${fr.inconsistencies_found.join('; ')}.` : ' Zero physical or medical contradictions detected.';
+          document.getElementById('frBody').innerText = `${fr.incident_summary} Damaged components: ${comps}.${incons}`;
+        }
+
+        const cov = d.agent_trace.coverage;
+        if (cov) {
+          if (cov.is_covered) {
+            document.getElementById('covBadge').className = 'step-badge badge-approved';
+            document.getElementById('covBadge').innerText = 'Covered';
+          } else {
+            document.getElementById('covBadge').className = 'step-badge badge-denied';
+            document.getElementById('covBadge').innerText = 'Not Covered';
+          }
+          const clauses = (cov.cited_clauses || []).join(', ') || 'N/A';
+          const excl = (cov.exclusions_triggered || []).length > 0 ? cov.exclusions_triggered.join(', ') : 'None';
+          document.getElementById('covBody').innerText = `${cov.coverage_reasoning} Cited clauses: ${clauses}. Exclusions triggered: ${excl}.`;
+        }
+
+        const risk = d.agent_trace.risk;
+        if (risk) {
+          const score = Number(risk.fraud_risk_score || 0).toFixed(2);
+          if (risk.recommended_outcome === 'flag' || Number(risk.fraud_risk_score) >= 0.5) {
+            document.getElementById('riskBadge').className = 'step-badge badge-flagged';
+            document.getElementById('riskBadge').innerText = `High Risk (${score})`;
+          } else if (risk.requires_specialist_route || risk.recommended_outcome === 'route') {
+            document.getElementById('riskBadge').className = 'step-badge badge-routed';
+            document.getElementById('riskBadge').innerText = 'Specialist Route';
+          } else {
+            document.getElementById('riskBadge').className = 'step-badge badge-approved';
+            document.getElementById('riskBadge').innerText = `Low Risk (${score})`;
+          }
+          const indicators = (risk.fraud_indicators || []).length > 0 ? `Fraud indicators: ${risk.fraud_indicators.join('; ')}.` : 'No suspicious timing or narrative anomalies.';
+          const routeMsg = risk.requires_specialist_route && risk.specialist_reason ? ` Specialist routing: ${risk.specialist_reason}.` : '';
+          document.getElementById('riskBody').innerText = `Fraud risk score: ${score}. ${indicators}${routeMsg}`;
+        }
+      }
     }
 
     // Simulate Unauthorized user attempt
@@ -1193,14 +1386,28 @@
     async function confirmDecision(decision) {
       const claimId = document.getElementById('selectClaim').value;
       const idempotencyKey = crypto.randomUUID();
+      const effectiveDecision = lastDecisionData ? (decision === 'approve' ? lastDecisionData.decision : decision) : decision;
+
+      const defaultClauses = (currentClaimContext.policy?.clauses || []).map(c => c.clause_id);
+      const citedClauses = (lastDecisionData?.cited_clauses && lastDecisionData.cited_clauses.length > 0)
+        ? lastDecisionData.cited_clauses
+        : (defaultClauses.length > 0 ? defaultClauses : ["CLS-COV-001"]);
+
+      const c = currentClaimContext.claim;
+      const p = currentClaimContext.policy;
+      const fallbackNet = (c && p) ? Math.max(0, Number(c.repair_estimate || 0) - Number(p.deductible || 0)) : 0.0;
+      const payoutVal = effectiveDecision === 'approve'
+        ? (lastDecisionData?.payout_authorized !== null && lastDecisionData?.payout_authorized !== undefined ? Number(lastDecisionData.payout_authorized) : fallbackNet)
+        : 0.0;
+
       const payload = {
         idempotency_key: idempotencyKey,
         claim_id: claimId,
-        decision: decision,
+        decision: effectiveDecision,
         adjuster_id: document.getElementById('userSelector').value,
-        reasoning: "Adjuster reviewed evidence and confirmed co-pilot recommendation.",
-        cited_clauses: ["CLS-PER-001", "CLS-COV-001"],
-        payout_authorized: decision === 'approve' ? 2300.0 : 0.0
+        reasoning: lastDecisionData?.reasoning || "Adjuster reviewed evidence and confirmed co-pilot recommendation.",
+        cited_clauses: citedClauses,
+        payout_authorized: payoutVal
       };
 
       try {
@@ -1298,6 +1505,7 @@
     setInterval(refreshMetrics, 3000);
     refreshMetrics();
     fetchAuditTrail();
+    loadClaimDetails(document.getElementById('selectClaim').value);
   </script>
 </body>
 </html>
