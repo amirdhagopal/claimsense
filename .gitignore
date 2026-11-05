@@ -56,3 +56,8 @@ override.tf.json
 .terraformrc
 terraform.rc
 
+# Scratch & temporary build assets
+scratch/
+docs/assets/pdf_page_*.png
+
+
