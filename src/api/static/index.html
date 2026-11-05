@@ -1290,27 +1290,30 @@
         const mktVal = Number(c?.vehicle?.market_value || 0);
         const repEst = Number(c?.repair_estimate || 0);
         const ratioPct = mktVal > 0 ? ((repEst / mktVal) * 100).toFixed(1) : '0.0';
+        const deductible = sf.applicable_deductible ?? sf.deductible_applied ?? 0;
+        const isTotalLoss = Boolean(sf.is_constructive_total_loss || sf.total_loss_candidate);
 
         if (sf.spine_must_reject) {
           document.getElementById('spineBadge').className = 'step-badge badge-denied';
           document.getElementById('spineBadge').innerText = !sf.policy_in_force ? 'Policy Lapsed' : 'VIN Unscheduled';
           document.getElementById('spineBody').innerText = sf.rejection_reason || 'Deterministic spine invariant failed.';
-        } else if (sf.total_loss_candidate) {
+        } else if (isTotalLoss) {
           document.getElementById('spineBadge').className = 'step-badge badge-routed';
           document.getElementById('spineBadge').innerText = 'Total Loss >= 75%';
-          document.getElementById('spineBody').innerText = `Policy in force on loss date. Vehicle VIN scheduled on policy. Repair-to-value ratio: ${ratioPct}% (>= 75% total loss threshold). Deductible ${formatCurrency(sf.deductible_applied)} applied.`;
+          document.getElementById('spineBody').innerText = `Policy in force on loss date. Vehicle VIN scheduled on policy. Repair-to-value ratio: ${ratioPct}% (>= 75% total loss threshold). Deductible ${formatCurrency(deductible)} applied.`;
         } else {
           document.getElementById('spineBadge').className = 'step-badge badge-approved';
           document.getElementById('spineBadge').innerText = 'Invariants Valid';
-          document.getElementById('spineBody').innerText = `Policy in force on loss date. Vehicle VIN scheduled on policy. Repair-to-value ratio: ${ratioPct}% (< 75% total loss threshold). Deductible ${formatCurrency(sf.deductible_applied)} applied net (${formatCurrency(sf.max_authorized_payout)}).`;
+          document.getElementById('spineBody').innerText = `Policy in force on loss date. Vehicle VIN scheduled on policy. Repair-to-value ratio: ${ratioPct}% (< 75% total loss threshold). Deductible ${formatCurrency(deductible)} applied net (${formatCurrency(sf.max_authorized_payout)}).`;
         }
       }
 
       if (d.agent_trace) {
         const fr = d.agent_trace.file_reader;
         if (fr) {
-          const hasInconsistencies = (fr.inconsistencies_found || []).length > 0;
-          const hasBI = Boolean(fr.bodily_injury_detected);
+          const contradictions = fr.identified_contradictions || fr.inconsistencies_found || [];
+          const hasInconsistencies = contradictions.length > 0;
+          const hasBI = Boolean(fr.injuries_reported ?? fr.bodily_injury_detected);
           if (hasInconsistencies) {
             document.getElementById('frBadge').className = 'step-badge badge-flagged';
             document.getElementById('frBadge').innerText = 'Contradictions Found';
@@ -1321,21 +1324,23 @@
             document.getElementById('frBadge').className = 'step-badge badge-approved';
             document.getElementById('frBadge').innerText = 'Facts Verified';
           }
-          const comps = (fr.damaged_components || []).join(', ') || 'none listed';
-          const incons = hasInconsistencies ? ` Contradictions: ${fr.inconsistencies_found.join('; ')}.` : ' Zero physical or medical contradictions detected.';
-          document.getElementById('frBody').innerText = `${fr.incident_summary} Damaged components: ${comps}.${incons}`;
+          const comps = (fr.damage_locations || fr.damaged_components || []).join(', ') || 'none listed';
+          const incons = hasInconsistencies ? ` Contradictions: ${contradictions.join('; ')}.` : ' Zero physical or medical contradictions detected.';
+          const summary = fr.fact_summary || fr.incident_summary || '';
+          document.getElementById('frBody').innerText = `${summary} Damaged components: ${comps}.${incons}`;
         }
 
         const cov = d.agent_trace.coverage;
         if (cov) {
-          if (cov.is_covered) {
+          const isCov = Boolean(cov.coverage_applies ?? cov.is_covered);
+          if (isCov) {
             document.getElementById('covBadge').className = 'step-badge badge-approved';
             document.getElementById('covBadge').innerText = 'Covered';
           } else {
             document.getElementById('covBadge').className = 'step-badge badge-denied';
             document.getElementById('covBadge').innerText = 'Not Covered';
           }
-          const clauses = (cov.cited_clauses || []).join(', ') || 'N/A';
+          const clauses = (cov.cited_clause_ids || cov.cited_clauses || []).join(', ') || 'N/A';
           const excl = (cov.exclusions_triggered || []).length > 0 ? cov.exclusions_triggered.join(', ') : 'None';
           document.getElementById('covBody').innerText = `${cov.coverage_reasoning} Cited clauses: ${clauses}. Exclusions triggered: ${excl}.`;
         }
@@ -1343,10 +1348,11 @@
         const risk = d.agent_trace.risk;
         if (risk) {
           const score = Number(risk.fraud_risk_score || 0).toFixed(2);
-          if (risk.recommended_outcome === 'flag' || Number(risk.fraud_risk_score) >= 0.5) {
+          const isSpecialist = Boolean(risk.is_total_loss || risk.is_bodily_injury || risk.is_specialist_required || risk.requires_specialist_route);
+          if (risk.is_fraud_flagged || risk.recommended_outcome === 'flag' || Number(risk.fraud_risk_score) >= 0.5) {
             document.getElementById('riskBadge').className = 'step-badge badge-flagged';
             document.getElementById('riskBadge').innerText = `High Risk (${score})`;
-          } else if (risk.requires_specialist_route || risk.recommended_outcome === 'route') {
+          } else if (isSpecialist || risk.recommended_outcome === 'route') {
             document.getElementById('riskBadge').className = 'step-badge badge-routed';
             document.getElementById('riskBadge').innerText = 'Specialist Route';
           } else {
@@ -1354,8 +1360,8 @@
             document.getElementById('riskBadge').innerText = `Low Risk (${score})`;
           }
           const indicators = (risk.fraud_indicators || []).length > 0 ? `Fraud indicators: ${risk.fraud_indicators.join('; ')}.` : 'No suspicious timing or narrative anomalies.';
-          const routeMsg = risk.requires_specialist_route && risk.specialist_reason ? ` Specialist routing: ${risk.specialist_reason}.` : '';
-          document.getElementById('riskBody').innerText = `Fraud risk score: ${score}. ${indicators}${routeMsg}`;
+          const summary = risk.risk_summary ? ` ${risk.risk_summary}` : '';
+          document.getElementById('riskBody').innerText = `Fraud risk score: ${score}. ${indicators}${summary}`;
         }
       }
     }
