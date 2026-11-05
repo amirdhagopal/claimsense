@@ -52,6 +52,8 @@ def test_health_endpoint(client):
         ("get", "/policies/POL-10001", None),
         ("post", "/claims/CLM-2026-0101/decisions", {"idempotency_key": "c71a364e-03a1-4043-85f8-842240b08051", "claim_id": "CLM-2026-0101", "decision": "approve", "adjuster_id": "adj-1", "reasoning": "Standard review verified."}),
         ("get", "/audit-trail", None),
+        ("post", "/drill/induce", None),
+        ("post", "/drill/recover", None),
     ],
 )
 def test_all_routes_refuse_unauthenticated_requests(client, method, endpoint, json_payload):
@@ -287,3 +289,20 @@ def test_dashboard_metrics_telemetry(client):
     assert "alarm_status" in data
     assert data["alarm_status"] in ["OK", "ALARM"]
     assert "decisions_breakdown" in data
+
+
+def test_incident_drill_and_recovery_lifecycle(client):
+    headers = {"Authorization": "Bearer token-jane-full-access"}
+    induce_resp = client.post("/drill/induce", headers=headers)
+    assert induce_resp.status_code == 200
+    induce_data = induce_resp.json()
+    assert induce_data["p95_latency_ms"] >= 60000.0
+    assert induce_data["alarm_status"] == "ALARM"
+    assert any(a["alarm_name"] == "HighLatencyP95Alarm" for a in induce_data["active_alarms"])
+
+    recover_resp = client.post("/drill/recover", headers=headers)
+    assert recover_resp.status_code == 200
+    recover_data = recover_resp.json()
+    assert recover_data["p95_latency_ms"] < 60000.0
+    assert recover_data["alarm_status"] == "OK"
+

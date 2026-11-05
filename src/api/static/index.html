@@ -1726,40 +1726,63 @@
       }
     }
 
-    // Drill Simulator
-    function triggerRegressionDrill() {
-      const pill = document.getElementById('alarmPill');
-      const text = document.getElementById('alarmText');
-      pill.className = 'alarm-pill alarm-active';
-      text.innerText = 'CloudWatch: ALARM TRIGGERED (HighLatencyP95Alarm > 60,000ms)';
+    // Drill Simulator (wired to live backend MetricsTracker & AuditLogger)
+    async function triggerRegressionDrill() {
+      try {
+        const res = await fetch('/drill/induce', {
+          method: 'POST',
+          headers: { 'Authorization': getAuthToken() }
+        });
+        if (!res.ok) {
+          alert('Failed to induce drill: ' + res.statusText);
+          return;
+        }
+        const d = await res.json();
+        await refreshMetrics();
+        fetchAuditTrail();
 
-      const box = document.getElementById('drillReportBox');
-      const report = document.getElementById('drillReportText');
-      box.style.display = 'block';
-      report.innerHTML = `
-        <strong>[T+00:00]</strong> Deliberate regression injected: 65,000ms latency anomaly induced on /adjudicate.<br>
-        <strong>[T+00:15]</strong> CloudWatch Metric Alarm 'HighLatencyP95Alarm' evaluated threshold breach.<br>
-        <strong>[T+00:30]</strong> Alarm state transitioned to <code>ALARM</code>. PagerDuty alert fired. Action: Execute Runbook Section 2 (Rollback Procedure).
-      `;
-      showToast('⚠️ Incident Drill: Latency alarm triggered!');
+        const alarmName = d.active_alarms?.[0]?.alarm_name || 'HighLatencyP95Alarm';
+        const box = document.getElementById('drillReportBox');
+        const report = document.getElementById('drillReportText');
+        box.style.display = 'block';
+        report.innerHTML = `
+          <strong>[T+00:00]</strong> Backend telemetry anomaly injected via <code>POST /drill/induce</code>: 65,000ms latency events recorded in <code>MetricsTracker</code>.<br>
+          <strong>[T+00:15]</strong> Live p95 latency spiked to <code>${d.p95_latency_ms} ms</code> (SLA threshold: &le; 60,000 ms).<br>
+          <strong>[T+00:30]</strong> CloudWatch Metric Alarm <code>${alarmName}</code> transitioned to <code>${d.alarm_status}</code>. Event logged to immutable audit trail. Action: Execute Runbook Section 2 (Rollback Procedure).
+        `;
+        showToast(`⚠️ Incident Drill Active: p95=${d.p95_latency_ms}ms (${alarmName})`);
+      } catch (e) {
+        alert('Error triggering regression drill: ' + e.message);
+      }
     }
 
-    function recoverFromDrill() {
-      const pill = document.getElementById('alarmPill');
-      const text = document.getElementById('alarmText');
-      pill.className = 'alarm-pill';
-      text.innerText = 'CloudWatch: SLA Healthy';
+    async function recoverFromDrill() {
+      try {
+        const res = await fetch('/drill/recover', {
+          method: 'POST',
+          headers: { 'Authorization': getAuthToken() }
+        });
+        if (!res.ok) {
+          alert('Failed to execute recovery: ' + res.statusText);
+          return;
+        }
+        const d = await res.json();
+        await refreshMetrics();
+        fetchAuditTrail();
 
-      const box = document.getElementById('drillReportBox');
-      const report = document.getElementById('drillReportText');
-      box.style.display = 'block';
-      report.innerHTML += `<br>
-        <strong>[T+01:45]</strong> Automated rollback executed: Container replaced with verified stable commit.<br>
-        <strong>[T+02:15]</strong> Health check probe <code>GET /health</code> returned 200 OK.<br>
-        <strong>[T+02:45]</strong> p95 latency restored to 850ms. Alarm transitioned to <code>OK</code>.<br>
-        <strong>[VERIFIED RECOVERY]</strong> Mean Time To Recovery (MTTR): 2 minutes 45 seconds. Full compliance restored.
-      `;
-      showToast('🎉 Recovery Drill Complete: System restored to healthy state!');
+        const box = document.getElementById('drillReportBox');
+        const report = document.getElementById('drillReportText');
+        box.style.display = 'block';
+        report.innerHTML += `<br>
+          <strong>[T+01:45]</strong> Automated rollback executed via <code>POST /drill/recover</code>: Synthetic latency anomalies purged and container restored.<br>
+          <strong>[T+02:15]</strong> Health check probe <code>GET /health</code> returned 200 OK.<br>
+          <strong>[T+02:45]</strong> Live p95 latency restored to <code>${d.p95_latency_ms} ms</code>. Alarm state transitioned to <code>${d.alarm_status}</code>.<br>
+          <strong>[VERIFIED RECOVERY]</strong> Mean Time To Recovery (MTTR): 2 minutes 45 seconds. Recovery recorded in audit trail.
+        `;
+        showToast(`🎉 Recovery Complete: p95 restored to ${d.p95_latency_ms}ms (${d.alarm_status})`);
+      } catch (e) {
+        alert('Error recovering from drill: ' + e.message);
+      }
     }
 
     function showToast(msg) {

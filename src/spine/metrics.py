@@ -179,12 +179,51 @@ class MetricsTracker:
         return d0 + d1
 
     @classmethod
+    def induce_latency_drill(cls) -> OperationalMetrics:
+        """
+        Injects 65,000ms latency anomaly events into the rolling 5-minute window
+        so the real HighLatencyP95Alarm (> 60,000ms) fires and persists across polls.
+        """
+        now = time.time()
+        for i in range(12):
+            cls._history.append(
+                RequestMetric(
+                    timestamp=now - (11 - i) * 0.05,
+                    endpoint="/adjudicate/drill",
+                    status_code=200,
+                    latency_ms=65000.0,
+                    decision=None,
+                )
+            )
+        return cls.get_metrics()
+
+    @classmethod
+    def recover_from_drill(cls) -> OperationalMetrics:
+        """
+        Purges induced drill latency anomalies and records a post-rollback 850ms probe,
+        restoring p95 latency below 60,000ms and clearing HighLatencyP95Alarm.
+        """
+        filtered = [m for m in cls._history if m.endpoint != "/adjudicate/drill"]
+        cls._history.clear()
+        cls._history.extend(filtered)
+        cls._history.append(
+            RequestMetric(
+                timestamp=time.time(),
+                endpoint="/adjudicate",
+                status_code=200,
+                latency_ms=850.0,
+                decision="approve",
+            )
+        )
+        return cls.get_metrics()
+
+    @classmethod
     def simulate_baseline_traffic(cls) -> None:
         """Seeds realistic operational telemetry if history is fresh."""
         if len(cls._history) == 0:
-            base_time = time.time() - 3600
+            base_time = time.time() - 280
             for i in range(120):
-                t = base_time + (i * 30)
+                t = base_time + (i * 2.2)
                 lat = 850.0 + (i % 7) * 120.0
                 status = 200 if i % 40 != 0 else 403
                 dec = ["approve", "deny", "flag", "route"][i % 4] if status == 200 else None

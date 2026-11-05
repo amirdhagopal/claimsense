@@ -429,3 +429,55 @@ def get_audit_trail(
     recent = records[-limit:]
     recent.reverse()
     return {"total_records": len(records), "returned": len(recent), "events": recent}
+
+
+# ---------------------------------------------------------------------------
+# INCIDENT DRILL & ROLLBACK ENDPOINTS (Guarded)
+# ---------------------------------------------------------------------------
+
+@app.post("/drill/induce")
+def induce_latency_drill(
+    user: UserIdentity = Depends(authenticate_request),
+) -> dict[str, Any]:
+    """
+    Injects a 65,000ms latency anomaly into MetricsTracker so HighLatencyP95Alarm
+    fires in real backend telemetry and logs the drill in the immutable audit trail.
+    """
+    metrics = MetricsTracker.induce_latency_drill()
+    AuditLogger.log(
+        user_id=user.user_id,
+        action="incident_drill_induce",
+        resource="/adjudicate",
+        outcome="granted",
+        decision="alarm",
+        details={
+            "injected_latency_ms": 65000.0,
+            "p95_latency_ms": metrics.p95_latency_ms,
+            "alarm_status": metrics.alarm_status,
+            "active_alarms": [a["alarm_name"] for a in metrics.active_alarms],
+        },
+    )
+    return metrics.model_dump()
+
+
+@app.post("/drill/recover")
+def recover_from_drill(
+    user: UserIdentity = Depends(authenticate_request),
+) -> dict[str, Any]:
+    """
+    Executes rollback recovery by purging synthetic latency anomalies from MetricsTracker,
+    restoring p95 latency below threshold, and recording recovery in the audit trail.
+    """
+    metrics = MetricsTracker.recover_from_drill()
+    AuditLogger.log(
+        user_id=user.user_id,
+        action="incident_drill_recover",
+        resource="/adjudicate",
+        outcome="granted",
+        decision="recovered",
+        details={
+            "restored_p95_ms": metrics.p95_latency_ms,
+            "alarm_status": metrics.alarm_status,
+        },
+    )
+    return metrics.model_dump()
