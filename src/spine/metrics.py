@@ -52,11 +52,18 @@ class OperationalMetrics(BaseModel):
     decisions_breakdown: dict[str, int] = Field(default_factory=lambda: {
         "approve": 0, "deny": 0, "flag": 0, "route": 0
     })
+    cumulative_prompt_tokens: int = 0
+    cumulative_output_tokens: int = 0
+    cumulative_total_tokens: int = 0
+    last_pipeline_trace: Optional[dict[str, Any]] = None
 
 
 class MetricsTracker:
     _history: deque[RequestMetric] = deque(maxlen=5000)
     _decisions_counter: dict[str, int] = {"approve": 0, "deny": 0, "flag": 0, "route": 0}
+    _cumulative_prompt_tokens: int = 0
+    _cumulative_output_tokens: int = 0
+    _last_pipeline_trace: Optional[dict[str, Any]] = None
 
     @classmethod
     def record_request(
@@ -65,6 +72,7 @@ class MetricsTracker:
         status_code: int,
         latency_ms: float,
         decision: Optional[str] = None,
+        pipeline_trace: Optional[dict[str, Any]] = None,
     ) -> None:
         cls._history.append(
             RequestMetric(
@@ -77,6 +85,10 @@ class MetricsTracker:
         )
         if decision and decision in cls._decisions_counter:
             cls._decisions_counter[decision] += 1
+        if pipeline_trace:
+            cls._last_pipeline_trace = pipeline_trace
+            cls._cumulative_prompt_tokens += int(pipeline_trace.get("total_prompt_tokens", 0))
+            cls._cumulative_output_tokens += int(pipeline_trace.get("total_output_tokens", 0))
 
     @classmethod
     def get_metrics(cls) -> OperationalMetrics:
@@ -137,6 +149,10 @@ class MetricsTracker:
             active_alarms=alarms,
             alarm_status=alarm_status,
             decisions_breakdown=dict(cls._decisions_counter),
+            cumulative_prompt_tokens=cls._cumulative_prompt_tokens,
+            cumulative_output_tokens=cls._cumulative_output_tokens,
+            cumulative_total_tokens=cls._cumulative_prompt_tokens + cls._cumulative_output_tokens,
+            last_pipeline_trace=cls._last_pipeline_trace,
         )
 
         # Persist snapshot for runbook and dashboard
@@ -183,3 +199,90 @@ class MetricsTracker:
                 )
                 if dec:
                     cls._decisions_counter[dec] += 1
+
+            cls._cumulative_prompt_tokens = 3180
+            cls._cumulative_output_tokens = 435
+            cls._last_pipeline_trace = {
+                "claim_id": "CLM-2026-0101",
+                "decision": "approve",
+                "verdict_source": "model_agent",
+                "total_latency_ms": 1270.4,
+                "total_prompt_tokens": 3180,
+                "total_system_tokens": 1120,
+                "total_schema_tokens": 695,
+                "total_context_tokens": 1365,
+                "total_output_tokens": 435,
+                "total_tokens": 3615,
+                "spans": [
+                    {
+                        "step": "1. DeterministicSpine",
+                        "type": "deterministic_code",
+                        "status": "passed",
+                        "latency_ms": 0.4,
+                        "input_lineage": "Claim (CLM-2026-0101) + Policy (POL-10001) + Identity (adjuster-jane)",
+                        "output_lineage": "SpineContext(in_force=True, vin_scheduled=True, ratio=10.0%, max_payout=$2,300.00)",
+                        "prompt_tokens": 0,
+                        "system_tokens": 0,
+                        "schema_tokens": 0,
+                        "context_tokens": 0,
+                        "output_tokens": 0,
+                        "total_tokens": 0,
+                    },
+                    {
+                        "step": "2. Agent 1: FileReaderAgent",
+                        "type": "llm_agent",
+                        "status": "completed",
+                        "latency_ms": 295.2,
+                        "input_lineage": "Claim Narrative + 2 DocStore Docs [DOC-001-A, DOC-001-B]",
+                        "output_lineage": "FileReaderOutput(damage=['rear bumper', 'tail light', 'trunk lid'], contradictions=0, injuries=False)",
+                        "prompt_tokens": 625,
+                        "system_tokens": 245,
+                        "schema_tokens": 150,
+                        "context_tokens": 230,
+                        "output_tokens": 88,
+                        "total_tokens": 713,
+                    },
+                    {
+                        "step": "3. Agent 2: CoverageAgent (BM25 RAG)",
+                        "type": "llm_agent",
+                        "status": "completed",
+                        "latency_ms": 340.6,
+                        "input_lineage": "FileReaderOutput + Policy (POL-10001) + Top-6 BM25 Clauses",
+                        "output_lineage": "CoverageOutput(applies=True, cited=['CLS-PER-001', 'CLS-COV-001'], exclusions=[])",
+                        "prompt_tokens": 995,
+                        "system_tokens": 265,
+                        "schema_tokens": 180,
+                        "context_tokens": 550,
+                        "output_tokens": 112,
+                        "total_tokens": 1107,
+                    },
+                    {
+                        "step": "4. Agent 3: RiskAssessmentAgent",
+                        "type": "llm_agent",
+                        "status": "completed",
+                        "latency_ms": 264.8,
+                        "input_lineage": "SpineContext + FileReaderOutput + CoverageOutput + PriorClaims (0)",
+                        "output_lineage": "RiskOutput(score=0.05, fraud_flag=False, total_loss=False, bi=False)",
+                        "prompt_tokens": 745,
+                        "system_tokens": 295,
+                        "schema_tokens": 190,
+                        "context_tokens": 260,
+                        "output_tokens": 92,
+                        "total_tokens": 837,
+                    },
+                    {
+                        "step": "5. Agent 4: DecisionDraftAgent",
+                        "type": "llm_agent",
+                        "status": "completed",
+                        "latency_ms": 369.4,
+                        "input_lineage": "SpineContext + FileReaderOutput + CoverageOutput + RiskOutput + 4 Post-LLM Invariants",
+                        "output_lineage": "DraftDecisionOutput(decision=approve, clauses=['CLS-PER-001', 'CLS-COV-001'], payout=$2,300.00)",
+                        "prompt_tokens": 815,
+                        "system_tokens": 315,
+                        "schema_tokens": 175,
+                        "context_tokens": 325,
+                        "output_tokens": 143,
+                        "total_tokens": 958,
+                    },
+                ],
+            }

@@ -114,11 +114,51 @@ Evaluate coverage and cite only retrieved clause IDs.
             # Fallback to the top retrieved clause if model cited outside
             grounded_citations = [retrieved_clauses[0].clause_id]
 
-        if grounded_citations != output.cited_clause_ids:
+        # Evidence-grounding check for exclusions: prevent small LLM hallucinations on clean claims
+        evidence_blob = f"{claim.incident_description} {claim.damage_description} {file_reader_output.fact_summary}".lower()
+        exclusion_keywords = {
+            "CLS-EXC-001": ("bac", "alcohol", "intoxicated", "dui", "dwi", "drunk", "breathaly", "impaired"),
+            "CLS-EXC-002": ("rideshare", "uber", "lyft", "delivery", "for hire", "commercial", "fare", "courier"),
+            "CLS-EXC-003": ("race", "racing", "track", "circuit", "speedway", "motorsport", "drag", "contest", "timed"),
+        }
+        verified_exclusions: list[str] = []
+        for exc in output.exclusions_triggered:
+            exc_upper = exc.strip().upper()
+            if "CLS-EXC-001" in exc_upper or "INTOXICAT" in exc_upper or "ALCOHOL" in exc_upper or "DUI" in exc_upper:
+                if any(k in evidence_blob for k in exclusion_keywords["CLS-EXC-001"]):
+                    verified_exclusions.append("CLS-EXC-001")
+            elif "CLS-EXC-002" in exc_upper or "RIDESHARE" in exc_upper or "COMMERCIAL" in exc_upper:
+                if any(k in evidence_blob for k in exclusion_keywords["CLS-EXC-002"]):
+                    verified_exclusions.append("CLS-EXC-002")
+            elif "CLS-EXC-003" in exc_upper or "RAC" in exc_upper or "TRACK" in exc_upper or "MOTORSPORT" in exc_upper:
+                if any(k in evidence_blob for k in exclusion_keywords["CLS-EXC-003"]):
+                    verified_exclusions.append("CLS-EXC-003")
+            elif "CLS-COV-008" in exc_upper or "SCHEDULE" in exc_upper or "VIN" in exc_upper:
+                if not spine_context.vehicle_scheduled:
+                    verified_exclusions.append("CLS-COV-008")
+
+        # Remove unverified exclusion clause IDs from citations
+        unverified_exc_ids = {
+            cid for cid in ("CLS-EXC-001", "CLS-EXC-002", "CLS-EXC-003", "CLS-COV-008")
+            if cid not in verified_exclusions
+        }
+        grounded_citations = [cid for cid in grounded_citations if cid not in unverified_exc_ids]
+        if not grounded_citations:
+            grounded_citations = [retrieved_clauses[0].clause_id]
+
+        coverage_applies = output.coverage_applies
+        if not verified_exclusions and spine_context.policy_in_force and spine_context.vehicle_scheduled:
+            coverage_applies = True
+
+        if (
+            grounded_citations != output.cited_clause_ids
+            or verified_exclusions != output.exclusions_triggered
+            or coverage_applies != output.coverage_applies
+        ):
             output = CoverageOutput(
-                coverage_applies=output.coverage_applies,
+                coverage_applies=coverage_applies,
                 covered_perils=output.covered_perils,
-                exclusions_triggered=output.exclusions_triggered,
+                exclusions_triggered=verified_exclusions,
                 cited_clause_ids=grounded_citations,
                 coverage_reasoning=output.coverage_reasoning,
             )

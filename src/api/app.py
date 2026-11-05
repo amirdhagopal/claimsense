@@ -178,6 +178,7 @@ def adjudicate_claim(
         status_code=status.HTTP_200_OK,
         latency_ms=latency_ms,
         decision=dossier.draft_decision.decision.value,
+        pipeline_trace=dossier.telemetry,
     )
 
     return {
@@ -204,6 +205,7 @@ def adjudicate_claim(
             "coverage": dossier.coverage_output.model_dump() if dossier.coverage_output else None,
             "risk": dossier.risk_output.model_dump() if dossier.risk_output else None,
         },
+        "telemetry": dossier.telemetry,
         "requires_human_confirmation": True,
     }
 

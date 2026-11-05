@@ -177,7 +177,36 @@ Synthesize findings into a final first-pass recommendation.
                 requires_licensed_adjuster_confirmation=True,
             )
 
-        # Invariant 4: Set authorized payout deterministically if approved
+        # Invariant 4: Clean covered claim with zero exclusions, zero fraud, and zero routing triggers -> APPROVE
+        elif (
+            coverage_output.coverage_applies
+            and not valid_exclusions
+            and not risk_output.is_fraud_flagged
+            and not file_reader_output.identified_contradictions
+            and not spine_context.is_constructive_total_loss
+            and not risk_output.is_total_loss
+            and not risk_output.is_bodily_injury
+            and not risk_output.is_specialist_required
+        ):
+            reasoning = decision.reasoning
+            if decision.decision != DecisionOutcome.APPROVE:
+                reasoning = (
+                    f"Claim approved under active policy {policy.policy_id}: {coverage_output.coverage_reasoning} "
+                    f"Supporting documents corroborate the loss with zero exclusions or fraud indicators. "
+                    f"Authorized payout of ${spine_context.max_authorized_payout:,.2f} (net of ${spine_context.deductible:,.2f} deductible) requires licensed adjuster confirmation."
+                )
+            decision = DraftDecisionOutput(
+                claim_id=decision.claim_id,
+                decision=DecisionOutcome.APPROVE,
+                decision_detail=DecisionDetail.STANDARD_APPROVAL,
+                reasoning=reasoning,
+                cited_clauses=coverage_output.cited_clause_ids or decision.cited_clauses,
+                payout_authorized=spine_context.max_authorized_payout,
+                verdict_source="model_agent",
+                requires_licensed_adjuster_confirmation=True,
+            )
+
+        # Invariant 5: Set authorized payout deterministically if approved
         elif decision.decision == DecisionOutcome.APPROVE:
             decision = DraftDecisionOutput(
                 claim_id=decision.claim_id,

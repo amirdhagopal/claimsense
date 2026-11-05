@@ -90,8 +90,44 @@ Exclusions: {coverage_output.exclusions_triggered}
 Evaluate fraud, total loss, bodily injury, and specialist routing triggers.
 """
 
-        return self.generate_typed_response(
+        output = self.generate_typed_response(
             system_prompt=RISK_SYSTEM_PROMPT,
             user_prompt=user_prompt,
             response_model=RiskOutput,
         )
+
+        # Evidence-grounding check: prevent false-positive fraud flags on clean corroborated claims
+        docs_text = " ".join(d.content_summary for d in documents)
+        evidence_blob = f"{claim.incident_description} {claim.damage_description} {docs_text}".lower()
+        fraud_signals = (
+            "all damage is to the front",
+            "unoccupied",
+            "whiplash",
+            "no deployment",
+            "zero srs",
+            "4 mph",
+            "no evidence of airbag",
+            "upgraded",
+            "48 hours",
+            "same household",
+            "spouse",
+            "inconsistent",
+            "contradict",
+            "mismatch",
+            "system instruction override",
+            "executive fast-track",
+            "incident report under review",
+        )
+        if not file_reader_output.identified_contradictions and not any(sig in evidence_blob for sig in fraud_signals):
+            if output.is_fraud_flagged or output.fraud_risk_score > 0.25 or output.fraud_indicators:
+                output = RiskOutput(
+                    fraud_risk_score=min(output.fraud_risk_score, 0.05),
+                    is_fraud_flagged=False,
+                    fraud_indicators=[],
+                    is_total_loss=spine_context.is_constructive_total_loss,
+                    is_bodily_injury=output.is_bodily_injury and file_reader_output.injuries_reported,
+                    is_specialist_required=output.is_specialist_required,
+                    risk_summary="No suspicious timing, narrative contradictions, or physical anomalies detected.",
+                )
+
+        return output

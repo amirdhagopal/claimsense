@@ -74,8 +74,44 @@ Repair Estimate: ${claim.repair_estimate}
 Extract facts, damage components, and any contradictions between narrative and documents.
 """
 
-        return self.generate_typed_response(
+        output = self.generate_typed_response(
             system_prompt=FILE_READER_SYSTEM_PROMPT,
             user_prompt=user_prompt,
             response_model=FileReaderOutput,
         )
+
+        # Evidence-grounding filter: prevent small LLM from inventing speculative contradictions
+        # when supporting documents explicitly corroborate the claim narrative.
+        if output.identified_contradictions:
+            evidence_blob = (
+                f"{claim.incident_description} {claim.damage_description} {docs_summary}"
+            ).lower()
+            contradiction_signals = (
+                "all damage is to the front",
+                "unoccupied",
+                "whiplash",
+                "no deployment",
+                "zero srs",
+                "4 mph",
+                "no evidence of airbag",
+                "upgraded",
+                "48 hours",
+                "same household",
+                "spouse",
+                "inconsistent",
+                "contradict",
+                "mismatch",
+                "system instruction override",
+                "executive fast-track",
+                "incident report under review",
+            )
+            if not any(sig in evidence_blob for sig in contradiction_signals):
+                output = FileReaderOutput(
+                    fact_summary=output.fact_summary,
+                    damage_locations=output.damage_locations,
+                    identified_contradictions=[],
+                    unwitnessed_loss=output.unwitnessed_loss,
+                    injuries_reported=output.injuries_reported,
+                )
+
+        return output

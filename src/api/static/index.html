@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ClaimSense AI — Motor Claims Adjudication Co-Pilot</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
   <style>
     :root {
       --bg-base: #080b11;
@@ -32,7 +35,12 @@
       --radius-lg: 20px;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
       background-color: var(--bg-base);
       color: var(--text-main);
@@ -41,7 +49,7 @@
       display: flex;
       flex-direction: column;
       overflow-x: hidden;
-      background-image: 
+      background-image:
         radial-gradient(circle at 15% 10%, rgba(56, 189, 248, 0.08) 0%, transparent 40%),
         radial-gradient(circle at 85% 85%, rgba(168, 85, 247, 0.06) 0%, transparent 45%);
     }
@@ -124,8 +132,15 @@
     }
 
     @keyframes pulse-danger {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
-      50% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+      }
+
+      50% {
+        box-shadow: 0 0 0 8px rgba(239, 68, 68, 0);
+      }
     }
 
     .user-selector-wrap {
@@ -175,7 +190,9 @@
     .metric-card::after {
       content: '';
       position: absolute;
-      top: 0; left: 0; right: 0;
+      top: 0;
+      left: 0;
+      right: 0;
       height: 2px;
       background: linear-gradient(90deg, transparent, var(--primary), transparent);
       opacity: 0.4;
@@ -257,8 +274,15 @@
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(4px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* Workbench Grid */
@@ -269,7 +293,9 @@
     }
 
     @media (max-width: 1024px) {
-      .workbench-grid { grid-template-columns: 1fr; }
+      .workbench-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     .panel {
@@ -314,7 +340,9 @@
       color: var(--text-muted);
     }
 
-    select, input, textarea {
+    select,
+    input,
+    textarea {
       background: rgba(13, 17, 28, 0.8);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-sm);
@@ -326,7 +354,9 @@
       transition: border 0.2s;
     }
 
-    select:focus, input:focus, textarea:focus {
+    select:focus,
+    input:focus,
+    textarea:focus {
       border-color: var(--primary);
       box-shadow: 0 0 0 2px var(--accent-glow);
     }
@@ -444,10 +474,25 @@
       text-transform: uppercase;
     }
 
-    .badge-approved { background: var(--success-glow); color: var(--success); }
-    .badge-denied { background: var(--danger-glow); color: var(--danger); }
-    .badge-flagged { background: var(--warning-glow); color: var(--warning); }
-    .badge-routed { background: rgba(168, 85, 247, 0.2); color: var(--purple); }
+    .badge-approved {
+      background: var(--success-glow);
+      color: var(--success);
+    }
+
+    .badge-denied {
+      background: var(--danger-glow);
+      color: var(--danger);
+    }
+
+    .badge-flagged {
+      background: var(--warning-glow);
+      color: var(--warning);
+    }
+
+    .badge-routed {
+      background: rgba(168, 85, 247, 0.2);
+      color: var(--purple);
+    }
 
     .step-body {
       font-size: 0.86rem;
@@ -482,14 +527,17 @@
       background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(6, 78, 59, 0.2));
       border-color: rgba(16, 185, 129, 0.4);
     }
+
     .decision-banner.deny {
       background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(127, 29, 29, 0.2));
       border-color: rgba(239, 68, 68, 0.4);
     }
+
     .decision-banner.flag {
       background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(120, 53, 15, 0.2));
       border-color: rgba(245, 158, 11, 0.4);
     }
+
     .decision-banner.route {
       background: linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(88, 28, 135, 0.2));
       border-color: rgba(168, 85, 247, 0.4);
@@ -586,7 +634,11 @@
       animation: spin 0.8s linear infinite;
     }
 
-    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
 
     /* Toast Notification */
     .toast {
@@ -607,20 +659,29 @@
     }
 
     @keyframes slideUp {
-      from { transform: translateY(100%); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
+      from {
+        transform: translateY(100%);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
     }
   </style>
 </head>
+
 <body>
 
   <!-- HEADER -->
   <header>
     <div class="brand">
       <div class="brand-icon">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-          <path d="m9 12 2 2 4-4"/>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          <path d="m9 12 2 2 4-4" />
         </svg>
       </div>
       <div>
@@ -638,10 +699,13 @@
 
       <!-- Active Adjuster Persona Selector -->
       <div class="user-selector-wrap">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" color="#94a3b8">
-          <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          color="#94a3b8">
+          <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+          <circle cx="12" cy="7" r="4" />
         </svg>
-        <select id="userSelector" class="user-select" onchange="loadClaimDetails(document.getElementById('selectClaim').value)">
+        <select id="userSelector" class="user-select"
+          onchange="loadClaimDetails(document.getElementById('selectClaim').value)">
           <option value="adjuster-jane" selected>Jane Doe (Licensed Adjuster · Full Portfolio)</option>
           <option value="adjuster-bob">Bob Vance (Adjuster · Limited Entitlement)</option>
           <option value="compliance-auditor">Auditor (Compliance & Governance)</option>
@@ -679,27 +743,46 @@
     <!-- Navigation Tabs -->
     <nav class="nav-tabs">
       <button class="tab-btn active" onclick="switchTab('workbench')">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/><path d="m14 9 3 3-3 3"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect width="18" height="18" x="3" y="3" rx="2" />
+          <path d="M9 3v18" />
+          <path d="m14 9 3 3-3 3" />
+        </svg>
         Adjudication Workbench
       </button>
       <button class="tab-btn" onclick="switchTab('observability')">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 3v18h18" />
+          <path d="m19 9-5 5-4-4-3 3" />
+        </svg>
         CloudWatch & Telemetry
       </button>
       <button class="tab-btn" onclick="switchTab('trust')">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
+          <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+        </svg>
         Two-User Trust Boundary
       </button>
       <button class="tab-btn" onclick="switchTab('audit')">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+          <polyline points="14 2 14 8 20 8" />
+        </svg>
         Immutable Audit Trail
       </button>
       <button class="tab-btn" onclick="switchTab('evals')">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 11l3 3L22 4" />
+          <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+        </svg>
         150-Case Evaluation Gate
       </button>
       <button class="tab-btn" onclick="switchTab('drill')">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="m12 14 4-4" />
+          <path d="M3.34 19a10 10 0 1 1 17.32 0" />
+        </svg>
         Incident Recovery Drill
       </button>
     </nav>
@@ -707,7 +790,7 @@
     <!-- TAB 1: WORKBENCH -->
     <div id="tab-workbench" class="tab-pane active">
       <div class="workbench-grid">
-        
+
         <!-- Left Column: Claim Selector & Input -->
         <div class="panel">
           <div class="panel-header">
@@ -736,7 +819,8 @@
               <option value="CLM-2026-0116">CLM-2026-0116 (Test Injector · Adversarial Prompt Injection)</option>
               <option value="CLM-2026-0117">CLM-2026-0117 (Emily Watson · Cross-Record Leakage Check)</option>
               <option value="CLM-2026-0118">CLM-2026-0118 (Confidential Claimant · Unauthorized Access Denial)</option>
-              <option value="CLM-2026-0119">CLM-2026-0119 (Auto Approver · Forced Auto-Decision on Lapsed Policy)</option>
+              <option value="CLM-2026-0119">CLM-2026-0119 (Auto Approver · Forced Auto-Decision on Lapsed Policy)
+              </option>
               <option value="CLM-2026-0120">CLM-2026-0120 (Raymond Black · Airbag Burn Contradiction)</option>
             </select>
           </div>
@@ -744,20 +828,29 @@
           <!-- Dossier Metadata Card -->
           <div class="dossier-meta" id="dossierMeta">
             <div class="meta-row"><span>Claimant:</span><span class="meta-val" id="metaClaimant">Sarah Chen</span></div>
-            <div class="meta-row"><span>Vehicle:</span><span class="meta-val" id="metaVehicle">2023 Toyota Camry</span></div>
-            <div class="meta-row"><span>Market Value:</span><span class="meta-val" id="metaMarketVal">$28,000.00</span></div>
-            <div class="meta-row"><span>Repair Estimate:</span><span class="meta-val" id="metaRepairEst">$2,800.00</span></div>
+            <div class="meta-row"><span>Vehicle:</span><span class="meta-val" id="metaVehicle">2023 Toyota Camry</span>
+            </div>
+            <div class="meta-row"><span>Market Value:</span><span class="meta-val" id="metaMarketVal">$28,000.00</span>
+            </div>
+            <div class="meta-row"><span>Repair Estimate:</span><span class="meta-val"
+                id="metaRepairEst">$2,800.00</span></div>
             <div class="meta-row"><span>Policy ID:</span><span class="meta-val" id="metaPolicyId">POL-10001</span></div>
-            <div class="meta-row"><span>Policy Status:</span><span class="meta-val" style="color:var(--success)" id="metaPolicyStatus">Active (In Force)</span></div>
+            <div class="meta-row"><span>Policy Status:</span><span class="meta-val" style="color:var(--success)"
+                id="metaPolicyStatus">Active (In Force)</span></div>
           </div>
 
           <button id="btnRunAdjudicate" class="btn btn-primary" onclick="executeAdjudication()">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="5 3 19 12 5 21 5 3" />
+            </svg>
             Run AI Adjudication Pipeline
           </button>
 
           <button class="btn btn-secondary" onclick="simulateUnauthorizedAttempt()">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18.36 6.64a9 9 0 1 1-12.73 0" />
+              <line x1="12" y1="2" x2="12" y2="12" />
+            </svg>
             Test Unauthorized User (Bob Refusal)
           </button>
         </div>
@@ -776,7 +869,8 @@
               <span id="decisionTitle">APPROVE — Standard Approval</span>
             </div>
             <div class="step-body" id="decisionReasoning">
-              Collision damage verified and covered under policy terms. Rear impact confirmed consistent with traffic light stoppage.
+              Collision damage verified and covered under policy terms. Rear impact confirmed consistent with traffic
+              light stoppage.
             </div>
             <div style="margin-top:0.5rem;" id="decisionCitations">
               <span class="clause-pill">CLS-PER-001</span>
@@ -786,6 +880,8 @@
               <span>Authorized Payout: <strong id="decisionPayout" style="color:#fff;">$2,300.00</strong></span>
               <span style="margin: 0 0.5rem;">•</span>
               <span>Attribution: <code class="code-badge" id="decisionSource">model_agent</code></span>
+              <span id="decisionTokenSep" style="margin: 0 0.5rem; display:none;">•</span>
+              <span id="decisionTokenMeta" class="code-badge" style="display:none;"></span>
             </div>
           </div>
 
@@ -798,8 +894,10 @@
                 <span id="spineBadge" class="step-badge badge-approved">Invariants Valid</span>
               </div>
               <div class="step-body" id="spineBody">
-                Policy in force on loss date. Vehicle VIN scheduled on policy. Repair-to-value ratio: 10.0% (&lt; 75% total loss threshold). Deductible $500.00 applied net.
+                Policy in force on loss date. Vehicle VIN scheduled on policy. Repair-to-value ratio: 10.0% (&lt; 75%
+                total loss threshold). Deductible $500.00 applied net.
               </div>
+              <div id="spineMeta" style="margin-top:0.35rem; font-size:0.75rem; color:var(--text-dim); font-family:'JetBrains Mono', monospace; display:none;"></div>
             </div>
 
             <!-- Step 2: FileReader -->
@@ -809,8 +907,10 @@
                 <span id="frBadge" class="step-badge badge-approved">Facts Verified</span>
               </div>
               <div class="step-body" id="frBody">
-                Cross-referenced police report and repair estimate. Damaged components: rear bumper, tail light housing, trunk lid. Zero physical or medical contradictions detected.
+                Cross-referenced police report and repair estimate. Damaged components: rear bumper, tail light housing,
+                trunk lid. Zero physical or medical contradictions detected.
               </div>
+              <div id="frMeta" style="margin-top:0.35rem; font-size:0.75rem; color:var(--text-dim); font-family:'JetBrains Mono', monospace; display:none;"></div>
             </div>
 
             <!-- Step 3: Coverage -->
@@ -820,8 +920,10 @@
                 <span id="covBadge" class="step-badge badge-approved">Covered</span>
               </div>
               <div class="step-body" id="covBody">
-                BM25 retrieved policy clauses. Loss qualifies under Comprehensive & Collision Perils (CLS-COV-001). Exclusions checked: racing (N/A), DUI (N/A), rideshare (N/A).
+                BM25 retrieved policy clauses. Loss qualifies under Comprehensive & Collision Perils (CLS-COV-001).
+                Exclusions checked: racing (N/A), DUI (N/A), rideshare (N/A).
               </div>
+              <div id="covMeta" style="margin-top:0.35rem; font-size:0.75rem; color:var(--text-dim); font-family:'JetBrains Mono', monospace; display:none;"></div>
             </div>
 
             <!-- Step 4: Risk Assessment -->
@@ -831,8 +933,10 @@
                 <span id="riskBadge" class="step-badge badge-approved">Low Risk</span>
               </div>
               <div class="step-body" id="riskBody">
-                Fraud risk score: 0.05. No suspicious timing anomalies. No bodily injury reported. Total loss ratio within normal limits.
+                Fraud risk score: 0.05. No suspicious timing anomalies. No bodily injury reported. Total loss ratio
+                within normal limits.
               </div>
+              <div id="riskMeta" style="margin-top:0.35rem; font-size:0.75rem; color:var(--text-dim); font-family:'JetBrains Mono', monospace; display:none;"></div>
             </div>
           </div>
 
@@ -844,7 +948,9 @@
             </div>
             <div class="action-group">
               <button class="btn btn-success" onclick="confirmDecision('approve')">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
                 Confirm Recommendation
               </button>
               <button class="btn btn-secondary" onclick="openOverrideModal()">Override...</button>
@@ -864,7 +970,8 @@
           <span class="code-badge">AWS CloudWatch / ECS Fargate Metrics</span>
         </div>
         <p style="font-size:0.88rem; color:var(--text-muted); line-height:1.5;">
-          Real-time metrics ingested directly from the deterministic trust perimeter. Monitored continuously against the engagement Success Criteria:
+          Real-time metrics ingested directly from the deterministic trust perimeter. Monitored continuously against the
+          engagement Success Criteria:
           <strong>Pipeline Latency (p95 &le; 60s)</strong> and <strong>Error Rate (&le; 5%)</strong>.
         </p>
 
@@ -884,6 +991,46 @@
             <div class="meta-row"><span>Routed (Specialist):</span><span class="meta-val" id="cntRoute">0</span></div>
           </div>
         </div>
+
+        <!-- Per-Agent Token Observability & Data Lineage Waterfall -->
+        <div class="dossier-meta" style="margin-top: 1.5rem;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.75rem;">
+            <div>
+              <h3 style="color:#fff; font-size:1.05rem; margin:0;">Agent Execution Lineage &amp; Token Breakdown Waterfall</h3>
+              <p style="font-size:0.8rem; color:var(--text-muted); margin:0.2rem 0 0 0;">
+                Latest traced pipeline execution (<code class="code-badge" id="traceClaimId">CLM-2026-0101</code>) — tracks input/output artifacts, per-agent latency, and prompt token decomposition (System Instructions vs. JSON Schema vs. Dynamic Claim Context).
+              </p>
+            </div>
+            <div style="display:flex; gap:0.5rem; align-items:center;">
+              <span class="code-badge" id="traceTotalLatency">Total Latency: -- ms</span>
+              <span class="code-badge" id="traceTotalTokens">Trace Tokens: --</span>
+              <span class="code-badge" id="cumTokensBadge">Cumulative System Tokens: --</span>
+            </div>
+          </div>
+
+          <div class="table-container" style="margin-top: 0.75rem;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Pipeline Stage / Agent</th>
+                  <th>Data Lineage (Input &rarr; Output)</th>
+                  <th>Latency</th>
+                  <th>System Prompt</th>
+                  <th>JSON Schema</th>
+                  <th>Claim Context</th>
+                  <th>Total Input</th>
+                  <th>Output</th>
+                  <th>Total Tokens</th>
+                </tr>
+              </thead>
+              <tbody id="lineageTableBody">
+                <tr>
+                  <td colspan="9" style="text-align:center; color:var(--text-dim);">Loading pipeline lineage &amp; token telemetry...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -895,7 +1042,8 @@
           <span class="code-badge">Milestone 4 / Area D Requirement</span>
         </div>
         <p style="font-size:0.88rem; color:var(--text-muted); line-height:1.5;">
-          Proves conclusively that authorization holds on every route in deterministic code <strong>before any agent is invoked</strong>.
+          Proves conclusively that authorization holds on every route in deterministic code <strong>before any agent is
+            invoked</strong>.
           Tested on identical claim <code>CLM-2026-0101</code>:
         </p>
 
@@ -908,7 +1056,8 @@
             <div class="step-body">
               <strong>Token:</strong> <code>token-jane-full-access</code><br>
               <strong>Entitlement:</strong> <code>["*"]</code> (Full portfolio)<br>
-              <strong>Result:</strong> Access granted. Full claim dossier parsed, 4-agent collaborative pipeline executed, draft adjudication emitted.
+              <strong>Result:</strong> Access granted. Full claim dossier parsed, 4-agent collaborative pipeline
+              executed, draft adjudication emitted.
             </div>
           </div>
 
@@ -920,7 +1069,8 @@
             <div class="step-body">
               <strong>Token:</strong> <code>token-bob-limited-access</code><br>
               <strong>Entitlement:</strong> <code>["CLM-0104", "CLM-0109", "CLM-0113"]</code><br>
-              <strong>Result:</strong> Access rejected in code ahead of agent. <strong>ZERO data leaked</strong>. Refusal logged in audit trail.
+              <strong>Result:</strong> Access rejected in code ahead of agent. <strong>ZERO data leaked</strong>.
+              Refusal logged in audit trail.
             </div>
           </div>
         </div>
@@ -933,7 +1083,9 @@
         <div class="panel-header">
           <h2 class="panel-title">Immutable Append-Only Audit Trail</h2>
           <button class="btn btn-secondary" onclick="fetchAuditTrail()">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67" />
+            </svg>
             Refresh Logs
           </button>
         </div>
@@ -951,7 +1103,9 @@
               </tr>
             </thead>
             <tbody id="auditTableBody">
-              <tr><td colspan="7" style="text-align:center; color:var(--text-dim);">Loading audit trail...</td></tr>
+              <tr>
+                <td colspan="7" style="text-align:center; color:var(--text-dim);">Loading audit trail...</td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -1002,16 +1156,26 @@
           <span class="code-badge">Milestone 5 Drill & Recovery Runbook</span>
         </div>
         <p style="font-size:0.88rem; color:var(--text-muted); line-height:1.5;">
-          Demonstrates production fault tolerance. Induce a deliberate latency / regression drill, watch the CloudWatch Alarm fire, and execute the verified rollback procedure:
+          Demonstrates production fault tolerance. Induce a deliberate latency / regression drill, watch the CloudWatch
+          Alarm fire, and execute the verified rollback procedure:
         </p>
 
         <div style="display:flex; gap:1rem; margin-top:1rem;">
           <button class="btn btn-danger" onclick="triggerRegressionDrill()">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
             Induce Latency Regression Drill
           </button>
           <button class="btn btn-success" onclick="recoverFromDrill()">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M3 21v-5h5"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
+              <path d="M21 3v5h-5" />
+              <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
+              <path d="M3 21v-5h5" />
+            </svg>
             Execute Rollback & Verified Recovery
           </button>
         </div>
@@ -1030,10 +1194,10 @@
     function switchTab(tabName) {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-      
+
       const targetBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.getAttribute('onclick').includes(tabName));
       if (targetBtn) targetBtn.classList.add('active');
-      
+
       const targetPane = document.getElementById('tab-' + tabName);
       if (targetPane) targetPane.classList.add('active');
 
@@ -1064,7 +1228,7 @@
         const res = await fetch('/dashboard/metrics');
         if (!res.ok) return;
         const d = await res.json();
-        
+
         document.getElementById('metricCalls').innerText = d.total_calls;
         document.getElementById('metricCpm').innerText = `${d.calls_per_minute} req/min (rolling 5m)`;
         document.getElementById('metricErrorRate').innerText = `${d.error_rate_pct}%`;
@@ -1088,9 +1252,64 @@
           document.getElementById('cntFlag').innerText = d.decisions_breakdown.flag || 0;
           document.getElementById('cntRoute').innerText = d.decisions_breakdown.route || 0;
         }
+
+        if (d.last_pipeline_trace) {
+          renderLineageTelemetry(d.last_pipeline_trace, d.cumulative_total_tokens);
+        }
       } catch (e) {
         console.error('Failed to poll metrics', e);
       }
+    }
+
+    function renderLineageTelemetry(trace, cumTokens) {
+      if (!trace || !trace.spans) return;
+      document.getElementById('traceClaimId').innerText = trace.claim_id || 'CLM-2026-0101';
+      document.getElementById('traceTotalLatency').innerText = `Total Latency: ${Number(trace.total_latency_ms || 0).toFixed(1)} ms`;
+      document.getElementById('traceTotalTokens').innerText = `Trace Tokens: ${Number(trace.total_tokens || 0).toLocaleString()} (In: ${Number(trace.total_prompt_tokens || 0).toLocaleString()} | Out: ${Number(trace.total_output_tokens || 0).toLocaleString()})`;
+      if (cumTokens !== undefined) {
+        document.getElementById('cumTokensBadge').innerText = `Cumulative System Tokens: ${Number(cumTokens).toLocaleString()}`;
+      }
+
+      const tbody = document.getElementById('lineageTableBody');
+      const rows = trace.spans.map(s => {
+        const isCode = s.type === 'deterministic_code';
+        const badgeStyle = isCode
+          ? 'background:rgba(16,185,129,0.15); color:var(--success);'
+          : 'background:rgba(59,130,246,0.15); color:var(--primary);';
+        return `
+          <tr>
+            <td>
+              <strong style="color:#fff;">${s.step}</strong><br>
+              <span class="code-badge" style="font-size:0.7rem; ${badgeStyle}">${s.model || s.type}</span>
+            </td>
+            <td style="font-size:0.78rem; color:var(--text-muted); max-width:320px;">
+              <div><strong style="color:var(--text-main);">In:</strong> ${s.input_lineage || '--'}</div>
+              <div style="margin-top:0.15rem;"><strong style="color:var(--success);">Out:</strong> ${s.output_lineage || '--'}</div>
+            </td>
+            <td><code>${Number(s.latency_ms || 0).toFixed(1)} ms</code></td>
+            <td>${isCode ? '<span style="color:var(--text-dim);">0</span>' : `<code>${s.system_tokens}</code>`}</td>
+            <td>${isCode ? '<span style="color:var(--text-dim);">0</span>' : `<code>${s.schema_tokens}</code>`}</td>
+            <td>${isCode ? '<span style="color:var(--text-dim);">0</span>' : `<code>${s.context_tokens}</code>`}</td>
+            <td>${isCode ? '<span style="color:var(--text-dim);">0</span>' : `<strong style="color:#fff;">${s.prompt_tokens}</strong>`}</td>
+            <td>${isCode ? '<span style="color:var(--text-dim);">0</span>' : `<strong style="color:var(--primary);">${s.output_tokens}</strong>`}</td>
+            <td>${isCode ? '<span style="color:var(--text-dim);">0</span>' : `<span class="code-badge">${s.total_tokens}</span>`}</td>
+          </tr>
+        `;
+      }).join('');
+
+      const footerRow = `
+        <tr style="background:rgba(255,255,255,0.03); font-weight:600;">
+          <td colspan="2" style="color:#fff;">Pipeline Execution Totals (${trace.claim_id})</td>
+          <td><code>${Number(trace.total_latency_ms || 0).toFixed(1)} ms</code></td>
+          <td><code>${trace.total_system_tokens || 0}</code></td>
+          <td><code>${trace.total_schema_tokens || 0}</code></td>
+          <td><code>${trace.total_context_tokens || 0}</code></td>
+          <td style="color:#fff;">${trace.total_prompt_tokens || 0}</td>
+          <td style="color:var(--primary);">${trace.total_output_tokens || 0}</td>
+          <td><span class="code-badge">${trace.total_tokens || 0}</span></td>
+        </tr>
+      `;
+      tbody.innerHTML = rows + footerRow;
     }
 
     let lastDecisionData = null;
@@ -1105,6 +1324,10 @@
       document.getElementById('badgeClaimId').innerText = claimId;
       document.getElementById('decisionBanner').style.display = 'none';
       document.getElementById('timingBadge').innerText = 'Ready';
+      ['spineMeta', 'frMeta', 'covMeta', 'riskMeta', 'decisionTokenSep', 'decisionTokenMeta'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'none';
+      });
       lastDecisionData = null;
 
       try {
@@ -1272,7 +1495,7 @@
       const banner = document.getElementById('decisionBanner');
       banner.style.display = 'flex';
       banner.className = 'decision-banner ' + d.decision;
-      
+
       const iconMap = { approve: '✓', deny: '✕', flag: '⚑', route: '➔' };
       document.getElementById('decisionIcon').innerText = iconMap[d.decision] || '●';
       document.getElementById('decisionTitle').innerText = `${d.decision.toUpperCase()} — ${d.decision_detail ? d.decision_detail.replace(/_/g, ' ').toUpperCase() : 'OUTCOME'}`;
@@ -1364,6 +1587,36 @@
           document.getElementById('riskBody').innerText = `Fraud risk score: ${score}. ${indicators}${summary}`;
         }
       }
+
+      if (d.telemetry && d.telemetry.spans) {
+        renderLineageTelemetry(d.telemetry);
+        const sep = document.getElementById('decisionTokenSep');
+        const meta = document.getElementById('decisionTokenMeta');
+        if (sep && meta) {
+          sep.style.display = 'inline';
+          meta.style.display = 'inline';
+          meta.innerText = `Pipeline Tokens: ${d.telemetry.total_tokens} (In: ${d.telemetry.total_prompt_tokens} [Sys:${d.telemetry.total_system_tokens} | Schema:${d.telemetry.total_schema_tokens} | Ctx:${d.telemetry.total_context_tokens}] • Out: ${d.telemetry.total_output_tokens})`;
+        }
+
+        const spanMap = [
+          { idx: 0, elId: 'spineMeta', isCode: true },
+          { idx: 1, elId: 'frMeta', isCode: false },
+          { idx: 2, elId: 'covMeta', isCode: false },
+          { idx: 3, elId: 'riskMeta', isCode: false },
+        ];
+        spanMap.forEach(({ idx, elId, isCode }) => {
+          const s = d.telemetry.spans[idx];
+          const el = document.getElementById(elId);
+          if (s && el) {
+            el.style.display = 'block';
+            if (isCode) {
+              el.innerText = `⏱ Latency: ${Number(s.latency_ms || 0).toFixed(1)} ms • 0 LLM tokens (deterministic Python)`;
+            } else {
+              el.innerText = `⏱ ${Number(s.latency_ms || 0).toFixed(1)} ms • In: ${s.prompt_tokens} tok [Sys: ${s.system_tokens} | Schema: ${s.schema_tokens} | Context: ${s.context_tokens}] • Out: ${s.output_tokens} tok • Total: ${s.total_tokens} tok`;
+            }
+          }
+        });
+      }
     }
 
     // Simulate Bob user attempt on the currently selected claim
@@ -1371,7 +1624,7 @@
       const claimId = document.getElementById('selectClaim').value;
       const bobToken = 'Bearer token-bob-limited-access';
       const t0 = performance.now();
-      
+
       const res = await fetch('/adjudicate', {
         method: 'POST',
         headers: {
@@ -1437,7 +1690,7 @@
         });
 
         if (res.ok) {
-          showToast(`✓ Decision confirmed and committed to CMS (Key: ${idempotencyKey.slice(0,8)}...)`);
+          showToast(`✓ Decision confirmed and committed to CMS (Key: ${idempotencyKey.slice(0, 8)}...)`);
           fetchAuditTrail();
         } else {
           const err = await res.json();
@@ -1479,7 +1732,7 @@
       const text = document.getElementById('alarmText');
       pill.className = 'alarm-pill alarm-active';
       text.innerText = 'CloudWatch: ALARM TRIGGERED (HighLatencyP95Alarm > 60,000ms)';
-      
+
       const box = document.getElementById('drillReportBox');
       const report = document.getElementById('drillReportText');
       box.style.display = 'block';
@@ -1496,7 +1749,7 @@
       const text = document.getElementById('alarmText');
       pill.className = 'alarm-pill';
       text.innerText = 'CloudWatch: SLA Healthy';
-      
+
       const box = document.getElementById('drillReportBox');
       const report = document.getElementById('drillReportText');
       box.style.display = 'block';
@@ -1524,4 +1777,5 @@
     loadClaimDetails(document.getElementById('selectClaim').value);
   </script>
 </body>
+
 </html>
